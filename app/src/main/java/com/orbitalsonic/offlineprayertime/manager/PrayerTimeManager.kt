@@ -9,6 +9,9 @@ import com.orbitalsonic.offlineprayertime.enums.TimeFormat
 import com.orbitalsonic.offlineprayertime.enums.TimeFrequency
 import com.orbitalsonic.offlineprayertime.models.PrayerTimesItem
 import com.orbitalsonic.offlineprayertime.models.FastingItem
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 /**
  * The `PrayerTimeManager` class is responsible for managing and providing prayer and fasting times.
@@ -95,9 +98,22 @@ class PrayerTimeManager {
     }
 
     // Private methods to fetch daily, monthly, and yearly prayer times.
-    private fun getDailyPrayerTimes() {}
-    private fun getMonthlyPrayerTimes() {}
-    private fun getYearlyPrayerTimes() {}
+    private fun getDailyPrayerTimes() {
+        CoroutineScope(Dispatchers.IO).launch {
+
+        }
+    }
+    private fun getMonthlyPrayerTimes() {
+        CoroutineScope(Dispatchers.IO).launch {
+            _prayerTimeMonthlyLiveData.postValue(emptyList())
+        }
+    }
+    private fun getYearlyPrayerTimes() {
+        CoroutineScope(Dispatchers.IO).launch {
+            _prayerTimeYearlyLiveData.postValue(emptyList())
+        }
+    }
+
 
     // Private methods to fetch daily, monthly, and yearly fasting times.
     private fun getDailyFastingTimes() {}
