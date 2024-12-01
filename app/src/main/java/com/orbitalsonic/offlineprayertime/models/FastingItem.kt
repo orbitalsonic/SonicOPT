@@ -6,7 +6,7 @@ package com.orbitalsonic.offlineprayertime.models
  * @property sehriTime The time for Sehri, equivalent to Fajr prayer time.
  * @property iftaarTime The time for Iftaar, equivalent to Maghrib prayer time.
  */
-data class SehriIftaarItem(
+data class FastingItem(
     val sehriTime: String,
     val iftaarTime: String
 )
