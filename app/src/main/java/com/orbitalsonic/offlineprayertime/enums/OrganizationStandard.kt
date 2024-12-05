@@ -7,32 +7,49 @@ package com.orbitalsonic.offlineprayertime.enums
 enum class OrganizationStandard {
 
     /**
-     * STANDARD: Commonly used in the Middle East and many Islamic countries.
-     * Assumes a Fajr angle of 18° and Isha angle of 18°.
+     * MAKKAH: Umm al-Qura method used in Saudi Arabia.
+     * Fajr angle is 18.5° and Isha is a fixed interval of 90 minutes.
      */
-    STANDARD,
+    MAKKAH,
 
     /**
-     * UMM_AL_QURA: Used primarily in Saudi Arabia, specifically Makkah.
-     * Assumes a Fajr angle of 18.5° and a fixed interval for Isha (90 minutes after Maghrib).
+     * EGYPT: Egyptian General Authority of Survey.
+     * Fajr angle is 19.5° and Isha angle is 17.5°.
      */
-    UMM_AL_QURA,
+    EGYPT,
 
     /**
-     * EGYPTIAN: Often used in Egypt and nearby regions.
-     * Assumes a Fajr angle of 19.5° and Isha angle of 17.5°.
+     * TEHRAN: Institute of Geophysics, University of Tehran.
+     * Fajr angle is 17.7° and Isha angle is 14°.
      */
-    EGYPTIAN,
+    TEHRAN,
 
     /**
-     * KARACHI: Used in Pakistan and nearby regions.
-     * Assumes a Fajr angle of 18° and Isha angle of 18°.
+     * JAFARI: Ithna Ashari method.
+     * Fajr angle is 16° and Isha angle is 14°.
+     */
+    JAFARI,
+
+    /**
+     * KARACHI: University of Islamic Sciences, Karachi.
+     * Fajr and Isha angles are both 18°.
      */
     KARACHI,
 
     /**
-     * ISNA: Used in North America by the Islamic Society of North America.
-     * Assumes a Fajr angle of 15° and Isha angle of 15°.
+     * ISNA: Islamic Society of North America.
+     * Fajr and Isha angles are both 15°.
      */
-    ISNA
+    ISNA,
+
+    /**
+     * MWL: Muslim World League.
+     * Fajr angle is 18° and Isha angle is 17°.
+     */
+    MWL,
+
+    /**
+     * CUSTOM: User-defined custom settings for angles or intervals.
+     */
+    CUSTOM
 }
