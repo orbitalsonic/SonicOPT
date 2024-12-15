@@ -1,3 +1,4 @@
+
 [![](https://jitpack.io/v/orbitalsonic/opt.svg)](https://jitpack.io/#orbitalsonic/opt)
 
 # OPT (Offline Prayer Time)
@@ -17,8 +18,9 @@ The library is designed to work offline and handle prayer time fetching and calc
 
 1. **Step 1**
 
-Add maven repository in project level build.gradle or in latest project setting.gradle file
-```
+Add maven repository in the project-level `build.gradle` or in the latest project `settings.gradle` file.
+
+```groovy
     repositories {
         google()
         mavenCentral()
@@ -26,10 +28,12 @@ Add maven repository in project level build.gradle or in latest project setting.
     }
 ```  
 
-1. **Step 2**
+2. **Step 2**
 
-Add SonicInApp dependencies in App level build.gradle. Replace x.x.x with the latest version [![](https://jitpack.io/v/orbitalsonic/opt.svg)](https://jitpack.io/#orbitalsonic/opt)
-```
+Add OPT dependency in the app-level `build.gradle`. Replace `x.x.x` with the latest version:  
+[![](https://jitpack.io/v/orbitalsonic/opt.svg)](https://jitpack.io/#orbitalsonic/opt)
+
+```groovy
     dependencies {
              implementation 'com.github.orbitalsonic:opt:x.x.x'
     }
@@ -45,6 +49,7 @@ Add SonicInApp dependencies in App level build.gradle. Replace x.x.x with the la
 To access prayer times, use the `PrayerTimeManager` class. Here's how you can fetch prayer times based on your location and preferences.
 
 #### Initialize `PrayerTimeManager`:
+
 ```kotlin
 val prayerTimeManager = PrayerTimeManager()
 ```
@@ -127,23 +132,33 @@ prayerTimeManager.prayerTimeYearlyLiveData.observe(this, Observer { yearlyPrayer
 
 ## Configuration Options
 
+The library provides several enums for customization. Developers can use these enums to adjust prayer time calculations according to their requirements.
+
 ### High Latitude Adjustment
-- **NONE**: No adjustments for high-latitude locations.
-- **ANGLE_15**: Adjustment for locations above 15° latitude.
-- **ANGLE_18**: Adjustment for locations above 18° latitude.
+- **NONE**: No adjustment applied for high latitudes.
+- **ANGLE_BASED**: Uses the angle of the sun below the horizon to define Fajr and Isha times.
+- **MID_NIGHT**: Divides the night into two equal halves for estimating Fajr and Isha times.
+- **ONE_SEVENTH**: Divides the night into seven parts, with Fajr at one-seventh and Isha at six-sevenths of the night.
 
 ### Juristic Method
-- **SHAFI**: Shafi'i method of calculation.
-- **HANAFI**: Hanafi method of calculation.
+- **SHAFII**: Shafi'i school of thought. Asr begins when the shadow of an object equals its height.
+- **HANAFI**: Hanafi school of thought. Asr begins when the shadow of an object is twice its height.
 
 ### Organization Standard
-- **ISNA**: Islamic Society of North America.
-- **MWL**: Muslim World League.
-- **KARACHI**: Karachi Standard.
+- **MAKKAH**: Umm al-Qura method used in Saudi Arabia. Fajr angle is 18.5° and Isha is a fixed interval of 90 minutes.
+- **EGYPT**: Egyptian General Authority of Survey. Fajr angle is 19.5° and Isha angle is 17.5°.
+- **TEHRAN**: Institute of Geophysics, University of Tehran. Fajr angle is 17.7° and Isha angle is 14°.
+- **JAFARI**: Ithna Ashari method. Fajr angle is 16° and Isha angle is 14°.
+- **KARACHI**: University of Islamic Sciences, Karachi. Fajr and Isha angles are both 18°.
+- **ISNA**: Islamic Society of North America. Fajr and Isha angles are both 15°.
+- **MWL**: Muslim World League. Fajr angle is 18° and Isha angle is 17°.
+- **CUSTOM**: User-defined custom settings for angles or intervals.
 
 ### Time Format
-- **HOUR_12**: 12-hour format (AM/PM).
-- **HOUR_24**: 24-hour format.
+- **HOUR_12**: 12-hour format with AM/PM suffix (e.g., 5:00 AM).
+- **HOUR_12_NS**: 12-hour format without AM/PM suffix (e.g., 5:00).
+- **HOUR_24**: 24-hour format (e.g., 17:00).
+- **FLOATING**: Floating-point representation of hours (e.g., 5.5 for 5:30).
 
 ### Time Frequency
 - **DAILY**: Get prayer times for the current day.
