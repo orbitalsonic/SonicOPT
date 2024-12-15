@@ -1,3 +1,5 @@
+[![](https://jitpack.io/v/orbitalsonic/opt.svg)](https://jitpack.io/#orbitalsonic/opt)
+
 # OPT (Offline Prayer Time)
 
 This library provides an easy way to get Islamic prayer times based on geographic location (latitude and longitude) for daily, monthly, and yearly time calculations. It handles prayer time calculations using popular methods such as **Juristic Method** and **High Latitude Adjustment**.
@@ -26,7 +28,7 @@ Add maven repository in project level build.gradle or in latest project setting.
 
 1. **Step 2**
 
-Add SonicInApp dependencies in App level build.gradle. Check Latest Version
+Add SonicInApp dependencies in App level build.gradle. Replace x.x.x with the latest version [![](https://jitpack.io/v/orbitalsonic/opt.svg)](https://jitpack.io/#orbitalsonic/opt)
 ```
     dependencies {
              implementation 'com.github.orbitalsonic:opt:x.x.x'
