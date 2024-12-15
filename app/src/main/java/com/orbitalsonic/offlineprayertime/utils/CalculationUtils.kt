@@ -45,9 +45,9 @@ import kotlin.math.abs
 }
 
 // Compute mid-day (Dhuhr or Zawal) time
-private fun calculateMidDay(offset: Double): Double {
+fun calculateMidDay(offset: Double,jDate: Double): Double {
     return try {
-        val equationOfTime = calculateEquationOfTime(getJDate() + offset)
+        val equationOfTime = calculateEquationOfTime(jDate + offset)
         normalizeHour(12.0 - equationOfTime)
     } catch (e: Exception) {
         Log.e("PrayerTime", "Error in calculateMidDay: $e", e)
@@ -56,11 +56,10 @@ private fun calculateMidDay(offset: Double): Double {
 }
 
 // Compute the time for a given angle G
- fun calculateTimeForAngle(angle: Double, offset: Double): Double {
+ fun calculateTimeForAngle(angle: Double, offset: Double,latitude: Double,jDate: Double): Double {
     return try {
-        val declination = calculateSunDeclination(getJDate() + offset)
-        val midDayTime = calculateMidDay(offset)
-        val latitude = getLat()
+        val declination = calculateSunDeclination(jDate + offset)
+        val midDayTime = calculateMidDay(offset,jDate)
 
         val numerator = -sinDegrees(angle) - sinDegrees(declination) * sinDegrees(latitude)
         val denominator = cosDegrees(declination) * cosDegrees(latitude)
@@ -74,12 +73,11 @@ private fun calculateMidDay(offset: Double): Double {
 }
 
 // Compute the time of Asr (Shafii: step=1, Hanafi: step=2)
- fun calculateAsrTime(asrStep: Double, offset: Double): Double {
+ fun calculateAsrTime(asrStep: Double, offset: Double,latitude: Double,jDate: Double): Double {
     return try {
-        val declination = calculateSunDeclination(getJDate() + offset)
-        val latitude = getLat()
+        val declination = calculateSunDeclination(jDate + offset)
         val angle = -arccotDegrees(asrStep + tanDegrees(abs(latitude - declination)))
-        calculateTimeForAngle(angle, offset)
+        calculateTimeForAngle(angle, offset,latitude,jDate)
     } catch (e: Exception) {
         Log.e("PrayerTime", "Error in calculateAsrTime: $e", e)
         0.0 // Default time in case of error

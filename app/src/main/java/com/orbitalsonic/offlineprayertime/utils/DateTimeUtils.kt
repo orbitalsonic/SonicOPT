@@ -104,7 +104,7 @@ fun calculateJulianDateFromEpoch(year: Int, month: Int, day: Int): Double {
 }
 
 // compute the difference between two times
-private fun calculateTimeDifference(time1: Double, time2: Double): Double {
+ fun calculateTimeDifference(time1: Double, time2: Double): Double {
     return normalizeHour(time2 - time1)
 }
 

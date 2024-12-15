@@ -8,8 +8,8 @@ package com.orbitalsonic.offlineprayertime.models
  * @property isCurrentPrayer Indicates whether this prayer is currently active.
  */
 data class PrayerTimesItem(
-    val prayerName: String,
-    val prayerTime: String,
-    val isCurrentPrayer: Boolean = false
+    var prayerName: String,
+    var prayerTime: String,
+    var isCurrentPrayer: Boolean = false
 )
 
