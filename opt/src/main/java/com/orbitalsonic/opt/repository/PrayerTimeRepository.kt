@@ -1,12 +1,22 @@
-package com.orbitalsonic.offlineprayertime.repository
+package com.orbitalsonic.opt.repository
 
-import com.orbitalsonic.offlineprayertime.enums.*
-import com.orbitalsonic.offlineprayertime.models.PrayerTimesItem
-import com.orbitalsonic.offlineprayertime.utils.*
-import java.util.*
+import com.orbitalsonic.opt.enums.HighLatitudeAdjustment
+import com.orbitalsonic.opt.enums.JuristicMethod
+import com.orbitalsonic.opt.enums.OrganizationStandard
+import com.orbitalsonic.opt.enums.TimeFormat
+import com.orbitalsonic.opt.models.PrayerTimesItem
+import com.orbitalsonic.opt.utils.calculateAsrTime
+import com.orbitalsonic.opt.utils.calculateMidDay
+import com.orbitalsonic.opt.utils.calculateTimeDifference
+import com.orbitalsonic.opt.utils.calculateTimeForAngle
+import com.orbitalsonic.opt.utils.convertTo12HourFormat
+import com.orbitalsonic.opt.utils.convertTo24HourFormat
+import java.util.Calendar
+import java.util.Date
+import java.util.TimeZone
 import kotlin.math.floor
 
-class PrayerTimeRepository {
+internal class PrayerTimeRepository {
 
     // Names for prayers and fasting
     private val prayerNames = listOf("Fajr", "Sunrise", "Zuhr", "Asr", "Sunset", "Maghrib", "Isha")

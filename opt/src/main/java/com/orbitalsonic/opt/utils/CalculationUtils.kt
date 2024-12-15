@@ -1,10 +1,10 @@
-package com.orbitalsonic.offlineprayertime.utils
+package com.orbitalsonic.opt.utils
 
 import android.util.Log
 import kotlin.math.abs
 
 // Compute declination angle of the sun and equation of time
- fun calculateSunPosition(julianDate: Double): DoubleArray {
+ internal fun calculateSunPosition(julianDate: Double): DoubleArray {
     return try {
         val daysSinceEpoch = julianDate - 2451545.0
         val meanAnomaly = normalizeAngle(357.529 + 0.98560028 * daysSinceEpoch)
@@ -35,17 +35,17 @@ import kotlin.math.abs
 }
 
 // Compute the equation of time
- fun calculateEquationOfTime(julianDate: Double): Double {
+internal fun calculateEquationOfTime(julianDate: Double): Double {
     return calculateSunPosition(julianDate)[1]
 }
 
 // Compute the declination angle of the sun
- fun calculateSunDeclination(julianDate: Double): Double {
+internal fun calculateSunDeclination(julianDate: Double): Double {
     return calculateSunPosition(julianDate)[0]
 }
 
 // Compute mid-day (Dhuhr or Zawal) time
-fun calculateMidDay(offset: Double,jDate: Double): Double {
+internal fun calculateMidDay(offset: Double,jDate: Double): Double {
     return try {
         val equationOfTime = calculateEquationOfTime(jDate + offset)
         normalizeHour(12.0 - equationOfTime)
@@ -56,7 +56,7 @@ fun calculateMidDay(offset: Double,jDate: Double): Double {
 }
 
 // Compute the time for a given angle G
- fun calculateTimeForAngle(angle: Double, offset: Double,latitude: Double,jDate: Double): Double {
+internal fun calculateTimeForAngle(angle: Double, offset: Double,latitude: Double,jDate: Double): Double {
     return try {
         val declination = calculateSunDeclination(jDate + offset)
         val midDayTime = calculateMidDay(offset,jDate)
@@ -73,7 +73,7 @@ fun calculateMidDay(offset: Double,jDate: Double): Double {
 }
 
 // Compute the time of Asr (Shafii: step=1, Hanafi: step=2)
- fun calculateAsrTime(asrStep: Double, offset: Double,latitude: Double,jDate: Double): Double {
+internal fun calculateAsrTime(asrStep: Double, offset: Double,latitude: Double,jDate: Double): Double {
     return try {
         val declination = calculateSunDeclination(jDate + offset)
         val angle = -arccotDegrees(asrStep + tanDegrees(abs(latitude - declination)))

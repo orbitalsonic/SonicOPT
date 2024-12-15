@@ -1,4 +1,4 @@
-package com.orbitalsonic.offlineprayertime.models
+package com.orbitalsonic.opt.models
 
 /**
  * Represents the Sehri (pre-dawn meal) and Iftaar (breaking fast) times for a specific day.

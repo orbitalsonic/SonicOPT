@@ -1,14 +1,14 @@
-package com.orbitalsonic.offlineprayertime.manager
+package com.orbitalsonic.opt.manager
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.orbitalsonic.offlineprayertime.enums.HighLatitudeAdjustment
-import com.orbitalsonic.offlineprayertime.enums.JuristicMethod
-import com.orbitalsonic.offlineprayertime.enums.OrganizationStandard
-import com.orbitalsonic.offlineprayertime.enums.TimeFormat
-import com.orbitalsonic.offlineprayertime.enums.TimeFrequency
-import com.orbitalsonic.offlineprayertime.models.PrayerTimesItem
-import com.orbitalsonic.offlineprayertime.repository.PrayerTimeRepository
+import com.orbitalsonic.opt.enums.HighLatitudeAdjustment
+import com.orbitalsonic.opt.enums.JuristicMethod
+import com.orbitalsonic.opt.enums.OrganizationStandard
+import com.orbitalsonic.opt.enums.TimeFormat
+import com.orbitalsonic.opt.enums.TimeFrequency
+import com.orbitalsonic.opt.models.PrayerTimesItem
+import com.orbitalsonic.opt.repository.PrayerTimeRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

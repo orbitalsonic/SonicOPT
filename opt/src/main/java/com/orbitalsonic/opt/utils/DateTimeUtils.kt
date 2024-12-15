@@ -1,4 +1,4 @@
-package com.orbitalsonic.offlineprayertime.utils
+package com.orbitalsonic.opt.utils
 
 import android.util.Log
 import java.util.Date
@@ -6,25 +6,25 @@ import java.util.TimeZone
 import kotlin.math.floor
 
 // Compute local time zone offset for the current date (in hours)
-fun getLocalTimeZone(): Double {
+internal fun getLocalTimeZone(): Double {
     val timeZone = TimeZone.getDefault()
     return timeZone.rawOffset / 3600000.0 // Convert milliseconds to hours
 }
 
 // Compute the base time zone offset of the system (in hours)
-fun getBaseTimeZone(): Double {
+internal fun getBaseTimeZone(): Double {
     val timeZone = TimeZone.getDefault()
     return timeZone.rawOffset / 3600000.0 // Convert milliseconds to hours
 }
 
 // Detect daylight saving time offset for the current date (in milliseconds)
-fun getDaylightSavingOffset(): Double {
+internal fun getDaylightSavingOffset(): Double {
     val timeZone = TimeZone.getDefault()
     return timeZone.dstSavings.toDouble()
 }
 
 // Calculate Julian date from a calendar date
-fun calculateJulianDate(year: Int, month: Int, day: Int): Double {
+internal fun calculateJulianDate(year: Int, month: Int, day: Int): Double {
     var adjustedYear = year
     var adjustedMonth = month
 
@@ -42,7 +42,7 @@ fun calculateJulianDate(year: Int, month: Int, day: Int): Double {
 }
 
 // Convert a calendar date to Julian date using epoch reference
-fun calculateJulianDateFromEpoch(year: Int, month: Int, day: Int): Double {
+internal fun calculateJulianDateFromEpoch(year: Int, month: Int, day: Int): Double {
     val J1970 = 2440587.5 // Julian date for Unix epoch (Jan 1, 1970)
     return try {
         val date = Date(year - 1900, month - 1, day) // Date(year offset by 1900, month 0-indexed)
@@ -56,7 +56,7 @@ fun calculateJulianDateFromEpoch(year: Int, month: Int, day: Int): Double {
 }
 
 // Convert double hours to 24-hour format
- fun convertTo24HourFormat(time: Double): String {
+internal fun convertTo24HourFormat(time: Double): String {
     return try {
         if (java.lang.Double.isNaN(time)) {
             return "Invalid Time"
@@ -75,7 +75,7 @@ fun calculateJulianDateFromEpoch(year: Int, month: Int, day: Int): Double {
 }
 
 // Convert double hours to 12-hour format with AM/PM
- fun convertTo12HourFormat(time: Double, noSuffix: Boolean = false): String {
+internal fun convertTo12HourFormat(time: Double, noSuffix: Boolean = false): String {
     return try {
         if (java.lang.Double.isNaN(time)) {
             return "Invalid Time"
@@ -99,12 +99,12 @@ fun calculateJulianDateFromEpoch(year: Int, month: Int, day: Int): Double {
 }
 
 // Convert double hours to 12-hour format without AM/PM suffix
- fun convertTo12HourFormatNoSuffix(time: Double): String {
+internal fun convertTo12HourFormatNoSuffix(time: Double): String {
     return convertTo12HourFormat(time, noSuffix = true)
 }
 
 // compute the difference between two times
- fun calculateTimeDifference(time1: Double, time2: Double): Double {
+internal fun calculateTimeDifference(time1: Double, time2: Double): Double {
     return normalizeHour(time2 - time1)
 }
 

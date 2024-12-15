@@ -2,18 +2,13 @@ package com.orbitalsonic.offlineprayertime
 
 import android.os.Bundle
 import android.util.Log
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import androidx.lifecycle.Observer
-import com.orbitalsonic.offlineprayertime.enums.HighLatitudeAdjustment
-import com.orbitalsonic.offlineprayertime.enums.JuristicMethod
-import com.orbitalsonic.offlineprayertime.enums.OrganizationStandard
-import com.orbitalsonic.offlineprayertime.enums.TimeFormat
-import com.orbitalsonic.offlineprayertime.enums.TimeFrequency
-import com.orbitalsonic.offlineprayertime.manager.PrayerTimeManager
-import kotlin.math.log
+import com.orbitalsonic.opt.enums.HighLatitudeAdjustment
+import com.orbitalsonic.opt.enums.JuristicMethod
+import com.orbitalsonic.opt.enums.OrganizationStandard
+import com.orbitalsonic.opt.enums.TimeFormat
+import com.orbitalsonic.opt.enums.TimeFrequency
+import com.orbitalsonic.opt.manager.PrayerTimeManager
 
 class MainActivity : AppCompatActivity() {
     val latitude:Double = 33.6995
