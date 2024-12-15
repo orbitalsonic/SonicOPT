@@ -1,5 +1,4 @@
-
-# Offline Prayer Time Library
+# OPT (Offline Prayer Time)
 
 This library provides an easy way to get Islamic prayer times based on geographic location (latitude and longitude) for daily, monthly, and yearly time calculations. It handles prayer time calculations using popular methods such as **Juristic Method** and **High Latitude Adjustment**.
 
@@ -14,16 +13,27 @@ The library is designed to work offline and handle prayer time fetching and calc
 
 ## Setup
 
-To include this library in your Android project, follow these steps:
+1. **Step 1**
 
-1. **Add Dependency**:
-   Add the following to your `build.gradle` dependencies:
+Add maven repository in project level build.gradle or in latest project setting.gradle file
+```
+    repositories {
+        google()
+        mavenCentral()
+        maven { url "https://jitpack.io" }
+    }
+```  
 
-   ```groovy
-   implementation 'com.orbitalsonic:offlineprayertime:1.0.0'
-   ```
+1. **Step 2**
 
-2. **Sync Gradle**:
+Add SonicInApp dependencies in App level build.gradle. Check Latest Version
+```
+    dependencies {
+             implementation 'com.github.orbitalsonic:opt:x.x.x'
+    }
+```  
+
+3. **Sync Gradle**:
    Sync the Gradle project to download the dependency.
 
 ## Usage
@@ -111,57 +121,6 @@ prayerTimeManager.prayerTimeMonthlyLiveData.observe(this, Observer { monthlyPray
 prayerTimeManager.prayerTimeYearlyLiveData.observe(this, Observer { yearlyPrayerTimes ->
     // Update UI with yearly prayer times
 })
-```
-
-### PrayerTimeRepository
-
-`PrayerTimeRepository` is responsible for calculating and fetching prayer times. It handles fetching prayer times from the server or local storage and supports different calculation methods. You can use it directly if you need custom data handling.
-
-#### Example (Repository):
-
-```kotlin
-class PrayerTimeRepository {
-
-    suspend fun getDailyPrayerTimes(
-        latitude: Double,
-        longitude: Double,
-        date: Date,
-        highLatitudeAdjustment: HighLatitudeAdjustment,
-        juristicMethod: JuristicMethod,
-        organizationStandard: OrganizationStandard,
-        timeFormat: TimeFormat
-    ): List<PrayerTimesItem> {
-        // Implement logic to get daily prayer times based on parameters
-        return listOf() // Return prayer times
-    }
-
-    suspend fun getMonthlyPrayerTimes(
-        latitude: Double,
-        longitude: Double,
-        month: Int,
-        year: Int,
-        highLatitudeAdjustment: HighLatitudeAdjustment,
-        juristicMethod: JuristicMethod,
-        organizationStandard: OrganizationStandard,
-        timeFormat: TimeFormat
-    ): List<List<PrayerTimesItem>> {
-        // Implement logic to get monthly prayer times
-        return listOf() // Return monthly prayer times
-    }
-
-    suspend fun getYearlyPrayerTimes(
-        latitude: Double,
-        longitude: Double,
-        year: Int,
-        highLatitudeAdjustment: HighLatitudeAdjustment,
-        juristicMethod: JuristicMethod,
-        organizationStandard: OrganizationStandard,
-        timeFormat: TimeFormat
-    ): List<List<PrayerTimesItem>> {
-        // Implement logic to get yearly prayer times
-        return listOf() // Return yearly prayer times
-    }
-}
 ```
 
 ## Configuration Options
