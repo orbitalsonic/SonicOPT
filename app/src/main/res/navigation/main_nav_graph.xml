@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_nav_graph"
+    app:startDestination="@id/homeFragment">
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.orbitalsonic.offlineprayertime.home.HomeFragment"
+        android:label="@string/app_name"
+        tools:layout="@layout/fragment_home">
+        <action
+            android:id="@+id/action_homeFragment_to_dailyFastingTimeFragment"
+            app:destination="@id/dailyFastingTimeFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_homeFragment_to_monthlyFastingTimeFragment"
+            app:destination="@id/monthlyFastingTimeFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_homeFragment_to_yearlyFastingTimeFragment"
+            app:destination="@id/yearlyFastingTimeFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_homeFragment_to_dailyPrayerTimeFragment"
+            app:destination="@id/dailyPrayerTimeFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_homeFragment_to_monthlyPrayerTimeFragment"
+            app:destination="@id/monthlyPrayerTimeFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_homeFragment_to_yearlyPrayerTimeFragment"
+            app:destination="@id/yearlyPrayerTimeFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+    <fragment
+        android:id="@+id/dailyFastingTimeFragment"
+        android:name="com.orbitalsonic.offlineprayertime.fasting.DailyFastingTimeFragment"
+        android:label="Daily Fasting Time"
+        tools:layout="@layout/fragment_daily_fasting_time"/>
+    <fragment
+        android:id="@+id/monthlyFastingTimeFragment"
+        android:name="com.orbitalsonic.offlineprayertime.fasting.MonthlyFastingTimeFragment"
+        android:label="Monthly Fasting Time"
+        tools:layout="@layout/fragment_monthly_fasting_time"/>
+    <fragment
+        android:id="@+id/yearlyFastingTimeFragment"
+        android:name="com.orbitalsonic.offlineprayertime.fasting.YearlyFastingTimeFragment"
+        android:label="Yearly Fasting Time"
+        tools:layout="@layout/fragment_yearly_fasting_time"/>
+    <fragment
+        android:id="@+id/dailyPrayerTimeFragment"
+        android:name="com.orbitalsonic.offlineprayertime.prayer.DailyPrayerTimeFragment"
+        android:label="Daily Prayer Time"
+        tools:layout="@layout/fragment_daily_prayer_time"/>
+    <fragment
+        android:id="@+id/monthlyPrayerTimeFragment"
+        android:name="com.orbitalsonic.offlineprayertime.prayer.MonthlyPrayerTimeFragment"
+        android:label="Monthly Prayer Time"
+        tools:layout="@layout/fragment_monthly_prayer_time"/>
+    <fragment
+        android:id="@+id/yearlyPrayerTimeFragment"
+        android:name="com.orbitalsonic.offlineprayertime.prayer.YearlyPrayerTimeFragment"
+        android:label="Yearly Prayer Time"
+        tools:layout="@layout/fragment_yearly_prayer_time"/>
+
+</navigation>
