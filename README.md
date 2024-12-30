@@ -23,18 +23,18 @@ Add the following to your project-level build script (`build.gradle` or `setting
 #### Groovy DSL
 ```groovy
 repositories {
-    google()
-    mavenCentral()
-    maven { url "https://jitpack.io" }
+   google()
+   mavenCentral()
+   maven { url "https://jitpack.io" }
 }
 ```
 
 #### Kotlin DSL
 ```kotlin
 repositories {
-    google()
-    mavenCentral()
-    maven { setUrl("https://jitpack.io") }
+   google()
+   mavenCentral()
+   maven { setUrl("https://jitpack.io") }
 }
 ```
 
@@ -43,12 +43,16 @@ Include the OPT library in your app-level build script (`build.gradle` or `build
 
 #### Groovy DSL
 ```groovy
-implementation 'com.github.orbitalsonic:opt:x.x.x'
+dependencies {
+    implementation 'com.github.orbitalsonic:opt:x.x.x'
+}
 ```
 
 #### Kotlin DSL
 ```kotlin
-implementation("com.github.orbitalsonic:opt:x.x.x")
+dependencies {
+    implementation("com.github.orbitalsonic:opt:x.x.x")
+}
 ```
 
 ### Step 3: Sync Gradle
@@ -71,39 +75,39 @@ val prayerTimeManager = PrayerTimeManager()
 ##### Fetch Daily Prayer Times
 ```kotlin
 prayerTimeManager.fetchingPrayerTimes(
-   latitude = 40.7128,
-   longitude = -74.0060,
-   highLatitudeAdjustment = HighLatitudeAdjustment.NONE,
-   juristicMethod = JuristicMethod.HANAFI,
-   organizationStandard = OrganizationStandard.KARACHI,
-   timeFormat = TimeFormat.HOUR_12,
-   timeFrequency = TimeFrequency.DAILY
+    latitude = 40.7128,
+    longitude = -74.0060,
+    highLatitudeAdjustment = HighLatitudeAdjustment.NONE,
+    juristicMethod = JuristicMethod.HANAFI,
+    organizationStandard = OrganizationStandard.KARACHI,
+    timeFormat = TimeFormat.HOUR_12,
+    timeFrequency = TimeFrequency.DAILY
 )
 ```
 
 ##### Fetch Monthly Prayer Times
 ```kotlin
 prayerTimeManager.fetchingPrayerTimes(
-   latitude = 40.7128,
-   longitude = -74.0060,
-   highLatitudeAdjustment = HighLatitudeAdjustment.NONE,
-   juristicMethod = JuristicMethod.HANAFI,
-   organizationStandard = OrganizationStandard.KARACHI,
-   timeFormat = TimeFormat.HOUR_12,
-   timeFrequency = TimeFrequency.MONTHLY
+    latitude = 40.7128,
+    longitude = -74.0060,
+    highLatitudeAdjustment = HighLatitudeAdjustment.NONE,
+    juristicMethod = JuristicMethod.HANAFI,
+    organizationStandard = OrganizationStandard.KARACHI,
+    timeFormat = TimeFormat.HOUR_12,
+    timeFrequency = TimeFrequency.MONTHLY
 )
 ```
 
 ##### Fetch Yearly Prayer Times
 ```kotlin
 prayerTimeManager.fetchingPrayerTimes(
-   latitude = 40.7128,
-   longitude = -74.0060,
-   highLatitudeAdjustment = HighLatitudeAdjustment.NONE,
-   juristicMethod = JuristicMethod.HANAFI,
-   organizationStandard = OrganizationStandard.KARACHI,
-   timeFormat = TimeFormat.HOUR_12,
-   timeFrequency = TimeFrequency.YEARLY
+    latitude = 40.7128,
+    longitude = -74.0060,
+    highLatitudeAdjustment = HighLatitudeAdjustment.NONE,
+    juristicMethod = JuristicMethod.HANAFI,
+    organizationStandard = OrganizationStandard.KARACHI,
+    timeFormat = TimeFormat.HOUR_12,
+    timeFrequency = TimeFrequency.YEARLY
 )
 ```
 
@@ -111,23 +115,41 @@ prayerTimeManager.fetchingPrayerTimes(
 
 ##### Observe Today's Prayer Times
 ```kotlin
-prayerTimeManager.prayerTimeTodayLiveData.observe(this, Observer { prayerTimes ->
-   // Update UI with today's prayer times
-})
+prayerTimeManager.prayerTimeTodayLiveData.observe(this) { prayerTimes ->
+    // Example Logs: You can change according to your UI
+    prayerTimes.forEach {
+        Log.d("PrayerTimeTag", "${it.prayerName}: ${it.prayerTime}")
+    }
+}
 ```
 
 ##### Observe Monthly Prayer Times
 ```kotlin
-prayerTimeManager.prayerTimeMonthlyLiveData.observe(this, Observer { monthlyPrayerTimes ->
-   // Update UI with monthly prayer times
-})
+prayerTimeManager.prayerTimeMonthlyLiveData.observe(this) { prayerTimes ->
+    // Example Logs: You can change according to your UI
+    prayerTimes.forEachIndexed { index, dailyPrayerList ->
+        Log.d("PrayerTimeTag", "----Day ${index+1}----")
+        dailyPrayerList.forEach {
+            Log.d("PrayerTimeTag", "${it.prayerName}: ${it.prayerTime}")
+        }
+    }
+}
 ```
 
 ##### Observe Yearly Prayer Times
 ```kotlin
-prayerTimeManager.prayerTimeYearlyLiveData.observe(this, Observer { yearlyPrayerTimes ->
-   // Update UI with yearly prayer times
-})
+prayerTimeManager.prayerTimeYearlyLiveData.observe(this) { prayerTimes ->
+    // Example Logs: You can change according to your UI
+    prayerTimes.forEachIndexed { index, monthlyPrayerList ->
+        Log.d("PrayerTimeTag", "--------Month ${index+1}--------")
+        monthlyPrayerList.forEachIndexed { index, dailyPrayerList ->
+            Log.d("PrayerTimeTag", "--------Day ${index+1}--------")
+            dailyPrayerList.forEach {
+                Log.d("PrayerTimeTag", "${it.prayerName}: ${it.prayerTime}")
+            }
+        }
+    }
+}
 ```
 
 ---
@@ -140,39 +162,39 @@ To fetch fasting times, use the `PrayerTimeManager` class in conjunction with fa
 ##### Fetch Daily Fasting Times
 ```kotlin
 prayerTimeManager.fetchingFastingTimes(
-   latitude = 40.7128,
-   longitude = -74.0060,
-   highLatitudeAdjustment = HighLatitudeAdjustment.NONE,
-   juristicMethod = JuristicMethod.HANAFI,
-   organizationStandard = OrganizationStandard.KARACHI,
-   timeFormat = TimeFormat.HOUR_12,
-   timeFrequency = TimeFrequency.DAILY
+    latitude = 40.7128,
+    longitude = -74.0060,
+    highLatitudeAdjustment = HighLatitudeAdjustment.NONE,
+    juristicMethod = JuristicMethod.HANAFI,
+    organizationStandard = OrganizationStandard.KARACHI,
+    timeFormat = TimeFormat.HOUR_12,
+    timeFrequency = TimeFrequency.DAILY
 )
 ```
 
 ##### Fetch Monthly Fasting Times
 ```kotlin
 prayerTimeManager.fetchingFastingTimes(
-   latitude = 40.7128,
-   longitude = -74.0060,
-   highLatitudeAdjustment = HighLatitudeAdjustment.NONE,
-   juristicMethod = JuristicMethod.HANAFI,
-   organizationStandard = OrganizationStandard.KARACHI,
-   timeFormat = TimeFormat.HOUR_12,
-   timeFrequency = TimeFrequency.MONTHLY
+    latitude = 40.7128,
+    longitude = -74.0060,
+    highLatitudeAdjustment = HighLatitudeAdjustment.NONE,
+    juristicMethod = JuristicMethod.HANAFI,
+    organizationStandard = OrganizationStandard.KARACHI,
+    timeFormat = TimeFormat.HOUR_12,
+    timeFrequency = TimeFrequency.MONTHLY
 )
 ```
 
 ##### Fetch Yearly Fasting Times
 ```kotlin
 prayerTimeManager.fetchingFastingTimes(
-   latitude = 40.7128,
-   longitude = -74.0060,
-   highLatitudeAdjustment = HighLatitudeAdjustment.NONE,
-   juristicMethod = JuristicMethod.HANAFI,
-   organizationStandard = OrganizationStandard.KARACHI,
-   timeFormat = TimeFormat.HOUR_12,
-   timeFrequency = TimeFrequency.YEARLY
+    latitude = 40.7128,
+    longitude = -74.0060,
+    highLatitudeAdjustment = HighLatitudeAdjustment.NONE,
+    juristicMethod = JuristicMethod.HANAFI,
+    organizationStandard = OrganizationStandard.KARACHI,
+    timeFormat = TimeFormat.HOUR_12,
+    timeFrequency = TimeFrequency.YEARLY
 )
 ```
 
@@ -180,23 +202,35 @@ prayerTimeManager.fetchingFastingTimes(
 
 ##### Observe Today's Fasting Times
 ```kotlin
-prayerTimeManager.fastingTimeTodayLiveData.observe(this, Observer { fastingTimes ->
-   // Update UI with today's fasting times
-})
+prayerTimeManager.fastingTimeTodayLiveData.observe(this) { fastingTimes ->
+    // Example Logs: You can change according to your UI
+    Log.d("FastingTimeTag", "${fastingTimes.startTime} to ${fastingTimes.endTime}")
+}
 ```
 
 ##### Observe Monthly Fasting Times
 ```kotlin
-prayerTimeManager.fastingTimeMonthlyLiveData.observe(this, Observer { monthlyFastingTimes ->
-   // Update UI with monthly fasting times
-})
+prayerTimeManager.fastingTimeMonthlyLiveData.observe(this) { monthlyFastingTimes ->
+    // Example Logs: You can change according to your UI
+    monthlyFastingTimes.forEachIndexed { index, fastingItem ->
+        Log.d("FastingTimeTag", "----Day ${index+1}----")
+        Log.d("FastingTimeTag", "${fastingItem.startTime} to ${fastingItem.endTime}")
+    }
+}
 ```
 
 ##### Observe Yearly Fasting Times
 ```kotlin
-prayerTimeManager.fastingTimeYearlyLiveData.observe(this, Observer { yearlyFastingTimes ->
-   // Update UI with yearly fasting times
-})
+prayerTimeManager.fastingTimeYearlyLiveData.observe(this) { yearlyFastingTimes ->
+    // Example Logs: You can change according to your UI
+    yearlyFastingTimes.forEachIndexed { index, monthlyFastingList ->
+        Log.d("FastingTimeTag", "--------Month ${index+1}--------")
+        monthlyFastingList.forEachIndexed { index, fastingItem ->
+            Log.d("FastingTimeTag", "----Day ${index+1}----")
+            Log.d("FastingTimeTag", "${fastingItem.startTime} to ${fastingItem.endTime}")
+        }
+    }
+}
 ```
 
 ---
