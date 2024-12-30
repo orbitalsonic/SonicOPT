@@ -75,86 +75,74 @@ The arguments passed for fetching prayer and fasting times are defaults. You mus
 val prayerTimeManager = PrayerTimeManager()
 ```
 
-##### Fetch Daily Prayer Times
+#### Fetch Daily Prayer Times
 ```kotlin
-prayerTimeManager.fetchingPrayerTimes(
+prayerTimeManager.fetchDailyPrayerTimes(
     latitude = 40.7128, // Example latitude (New York)
     longitude = -74.0060, // Example longitude (New York)
     highLatitudeAdjustment = HighLatitudeAdjustment.NONE,
     juristicMethod = JuristicMethod.HANAFI,
     organizationStandard = OrganizationStandard.KARACHI,
-    timeFormat = TimeFormat.HOUR_12,
-    timeFrequency = TimeFrequency.DAILY
-)
-```
-
-##### Fetch Monthly Prayer Times
-```kotlin
-prayerTimeManager.fetchingPrayerTimes(
-    latitude = 40.7128, // Example latitude (New York)
-    longitude = -74.0060, // Example longitude (New York)
-    highLatitudeAdjustment = HighLatitudeAdjustment.NONE,
-    juristicMethod = JuristicMethod.HANAFI,
-    organizationStandard = OrganizationStandard.KARACHI,
-    timeFormat = TimeFormat.HOUR_12,
-    timeFrequency = TimeFrequency.MONTHLY
-)
-```
-
-##### Fetch Yearly Prayer Times
-```kotlin
-prayerTimeManager.fetchingPrayerTimes(
-    latitude = 40.7128, // Example latitude (New York)
-    longitude = -74.0060, // Example longitude (New York)
-    highLatitudeAdjustment = HighLatitudeAdjustment.NONE,
-    juristicMethod = JuristicMethod.HANAFI,
-    organizationStandard = OrganizationStandard.KARACHI,
-    timeFormat = TimeFormat.HOUR_12,
-    timeFrequency = TimeFrequency.YEARLY
-)
-```
-
-#### Observing Prayer Times in Required Activity or Fragment
-
-##### Observe Today's Prayer Times
-```kotlin
-prayerTimeManager.prayerTimeTodayLiveData.observe(this) { prayerTimes ->
-    // Example Logs: You can change according to your UI
-    prayerTimes.forEach {
-        Log.d("PrayerTimeTag", "${it.prayerName}: ${it.prayerTime}")
-    }
-}
-```
-
-##### Observe Monthly Prayer Times
-```kotlin
-prayerTimeManager.prayerTimeMonthlyLiveData.observe(this) { prayerTimes ->
-    // Example Logs: You can change according to your UI
-    prayerTimes.forEachIndexed { index, dailyPrayerList ->
-        Log.d("PrayerTimeTag", "----Day ${index+1}----")
-        dailyPrayerList.forEach {
+    timeFormat = TimeFormat.HOUR_12
+) { result ->
+    result.onSuccess { prayerTimes ->
+        prayerTimes.forEach {
             Log.d("PrayerTimeTag", "${it.prayerName}: ${it.prayerTime}")
         }
+    }.onFailure { exception ->
+        Log.e("PrayerTimeTag", "Error fetching daily prayer times", exception)
     }
 }
 ```
 
-##### Observe Yearly Prayer Times
+#### Fetch Monthly Prayer Times
 ```kotlin
-prayerTimeManager.prayerTimeYearlyLiveData.observe(this) { prayerTimes ->
-    // Example Logs: You can change according to your UI
-    prayerTimes.forEachIndexed { index, monthlyPrayerList ->
-        Log.d("PrayerTimeTag", "--------Month ${index+1}--------")
-        monthlyPrayerList.forEachIndexed { index, dailyPrayerList ->
-            Log.d("PrayerTimeTag", "--------Day ${index+1}--------")
+prayerTimeManager.fetchMonthlyPrayerTimes(
+    latitude = 40.7128, // Example latitude (New York)
+    longitude = -74.0060, // Example longitude (New York)
+    highLatitudeAdjustment = HighLatitudeAdjustment.NONE,
+    juristicMethod = JuristicMethod.HANAFI,
+    organizationStandard = OrganizationStandard.KARACHI,
+    timeFormat = TimeFormat.HOUR_12
+) { result ->
+    result.onSuccess { prayerTimes ->
+        prayerTimes.forEachIndexed { index, dailyPrayerList ->
+            Log.d("PrayerTimeTag", "----Day ${index + 1}----")
             dailyPrayerList.forEach {
                 Log.d("PrayerTimeTag", "${it.prayerName}: ${it.prayerTime}")
             }
         }
+    }.onFailure { exception ->
+        Log.e("PrayerTimeTag", "Error fetching monthly prayer times", exception)
     }
 }
 ```
 
+#### Fetch Yearly Prayer Times
+```kotlin
+prayerTimeManager.fetchYearlyPrayerTimes(
+    latitude = 40.7128, // Example latitude (New York)
+    longitude = -74.0060, // Example longitude (New York)
+    highLatitudeAdjustment = HighLatitudeAdjustment.NONE,
+    juristicMethod = JuristicMethod.HANAFI,
+    organizationStandard = OrganizationStandard.KARACHI,
+    timeFormat = TimeFormat.HOUR_12
+) { result ->
+    result.onSuccess { prayerTimes ->
+        prayerTimes.forEachIndexed { monthIndex, monthlyPrayerList ->
+            Log.d("PrayerTimeTag", "--------Month ${monthIndex + 1}--------")
+            monthlyPrayerList.forEachIndexed { dayIndex, dailyPrayerList ->
+                Log.d("PrayerTimeTag", "--------Day ${dayIndex + 1}--------")
+                dailyPrayerList.forEach {
+                    Log.d("PrayerTimeTag", "${it.prayerName}: ${it.prayerTime}")
+                }
+            }
+        }
+    }.onFailure { exception ->
+        Log.e("PrayerTimeTag", "Error fetching yearly prayer times", exception)
+    }
+}
+```
 ---
 
 ### Fasting Time Manager
@@ -165,77 +153,66 @@ To fetch fasting times, use the `PrayerTimeManager` class in conjunction with fa
 ##### Note
 The arguments passed for fetching fasting and prayer times are defaults. You must update the latitude, longitude, and other parameters as per your specific requirements.
 
-##### Fetch Daily Fasting Times
+### Fetching Fasting Times
+
+#### Fetch Daily Fasting Times
 ```kotlin
-prayerTimeManager.fetchingFastingTimes(
+prayerTimeManager.fetchDailyFastingTimes(
     latitude = 40.7128, // Example latitude (New York)
     longitude = -74.0060, // Example longitude (New York)
     highLatitudeAdjustment = HighLatitudeAdjustment.NONE,
     juristicMethod = JuristicMethod.HANAFI,
     organizationStandard = OrganizationStandard.KARACHI,
-    timeFormat = TimeFormat.HOUR_12,
-    timeFrequency = TimeFrequency.DAILY
-)
-```
-
-##### Fetch Monthly Fasting Times
-```kotlin
-prayerTimeManager.fetchingFastingTimes(
-    latitude = 40.7128, // Example latitude (New York)
-    longitude = -74.0060, // Example longitude (New York)
-    highLatitudeAdjustment = HighLatitudeAdjustment.NONE,
-    juristicMethod = JuristicMethod.HANAFI,
-    organizationStandard = OrganizationStandard.KARACHI,
-    timeFormat = TimeFormat.HOUR_12,
-    timeFrequency = TimeFrequency.MONTHLY
-)
-```
-
-##### Fetch Yearly Fasting Times
-```kotlin
-prayerTimeManager.fetchingFastingTimes(
-    latitude = 40.7128, // Example latitude (New York)
-    longitude = -74.0060, // Example longitude (New York)
-    highLatitudeAdjustment = HighLatitudeAdjustment.NONE,
-    juristicMethod = JuristicMethod.HANAFI,
-    organizationStandard = OrganizationStandard.KARACHI,
-    timeFormat = TimeFormat.HOUR_12,
-    timeFrequency = TimeFrequency.YEARLY
-)
-```
-
-#### Observing Fasting Times in Required Activity or Fragment
-
-##### Observe Today's Fasting Times
-```kotlin
-prayerTimeManager.fastingTimeTodayLiveData.observe(this) { fastingTimes ->
-    // Example Logs: You can change according to your UI
-    Log.d("FastingTimeTag", "${fastingTimes.startTime} to ${fastingTimes.endTime}")
-}
-```
-
-##### Observe Monthly Fasting Times
-```kotlin
-prayerTimeManager.fastingTimeMonthlyLiveData.observe(this) { monthlyFastingTimes ->
-    // Example Logs: You can change according to your UI
-    monthlyFastingTimes.forEachIndexed { index, fastingItem ->
-        Log.d("FastingTimeTag", "----Day ${index+1}----")
-        Log.d("FastingTimeTag", "${fastingItem.startTime} to ${fastingItem.endTime}")
+    timeFormat = TimeFormat.HOUR_12
+) { result ->
+    result.onSuccess { fastingItem ->
+        Log.d("FastingTimeTag", "Sehri: ${fastingItem.sehriTime}, Iftar: ${fastingItem.iftaarTime}")
+    }.onFailure { exception ->
+        Log.e("FastingTimeTag", "Error fetching daily fasting times", exception)
     }
 }
 ```
 
-##### Observe Yearly Fasting Times
+#### Fetch Monthly Fasting Times
 ```kotlin
-prayerTimeManager.fastingTimeYearlyLiveData.observe(this) { yearlyFastingTimes ->
-    // Example Logs: You can change according to your UI
-    yearlyFastingTimes.forEachIndexed { index, monthlyFastingList ->
-        Log.d("FastingTimeTag", "--------Month ${index+1}--------")
-        monthlyFastingList.forEachIndexed { index, fastingItem ->
-            Log.d("FastingTimeTag", "----Day ${index+1}----")
-            Log.d("FastingTimeTag", "${fastingItem.startTime} to ${fastingItem.endTime}")
+prayerTimeManager.fetchMonthlyFastingTimes(
+    latitude = 40.7128, // Example latitude (New York)
+    longitude = -74.0060, // Example longitude (New York)
+    highLatitudeAdjustment = HighLatitudeAdjustment.NONE,
+    juristicMethod = JuristicMethod.HANAFI,
+    organizationStandard = OrganizationStandard.KARACHI,
+    timeFormat = TimeFormat.HOUR_12
+) { result ->
+    result.onSuccess { fastingTimes ->
+        fastingTimes.forEachIndexed { index, fastingItem ->
+            Log.d("FastingTimeTag", "Day ${index + 1} -> Sehri: ${fastingItem.sehriTime}, Iftar: ${fastingItem.iftaarTime}")
         }
+    }.onFailure { exception ->
+        Log.e("FastingTimeTag", "Error fetching monthly fasting times", exception)
     }
+}
+```
+
+#### Fetch Yearly Fasting Times
+```kotlin
+prayerTimeManager.fetchYearlyFastingTimes(
+   latitude = 40.7128, // Example latitude (New York)
+   longitude = -74.0060, // Example longitude (New York)
+   highLatitudeAdjustment = HighLatitudeAdjustment.NONE,
+   juristicMethod = JuristicMethod.HANAFI,
+   organizationStandard = OrganizationStandard.KARACHI,
+   timeFormat = TimeFormat.HOUR_12
+) { result ->
+   result.onSuccess { fastingTimes ->
+      fastingTimes.forEachIndexed { monthIndex, monthlyFastingList ->
+         Log.d("FastingTimeTag", "--------Month ${monthIndex + 1}--------")
+         monthlyFastingList.forEachIndexed { dayIndex, fastingItem ->
+            Log.d("FastingTimeTag", "Day ${dayIndex + 1} -> Sehri: ${fastingItem.sehriTime}, Iftar: ${fastingItem.iftaarTime}")
+         }
+      }
+   }.onFailure { exception ->
+      Log.e("FastingTimeTag", "Error fetching yearly fasting times", exception)
+   }
 }
 ```
 
@@ -282,14 +259,6 @@ Below is a categorized list of configuration options, their parent enums, and de
 | `HOUR_12_NS`   | 12-hour format without AM/PM suffix (e.g., 5:00).                                               |
 | `HOUR_24`      | 24-hour format (e.g., 17:00).                                                                   |
 | `FLOATING`     | Floating-point representation of hours (e.g., 5.5 for 5:30).                                    |
-
-### Time Frequency (`TimeFrequency`)
-
-| **Option**     | **Description**                                                                                  |
-|----------------|--------------------------------------------------------------------------------------------------|
-| `DAILY`        | Fetch prayer or fasting times for the current day.                                              |
-| `MONTHLY`      | Fetch prayer or fasting times for the current month.                                            |
-| `YEARLY`       | Fetch prayer or fasting times for the current year.                                             |
 
 ---
 

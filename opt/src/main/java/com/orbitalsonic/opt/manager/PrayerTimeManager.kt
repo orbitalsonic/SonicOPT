@@ -1,18 +1,16 @@
 package com.orbitalsonic.opt.manager
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import com.orbitalsonic.opt.enums.HighLatitudeAdjustment
 import com.orbitalsonic.opt.enums.JuristicMethod
 import com.orbitalsonic.opt.enums.OrganizationStandard
 import com.orbitalsonic.opt.enums.TimeFormat
-import com.orbitalsonic.opt.enums.TimeFrequency
 import com.orbitalsonic.opt.models.FastingItem
 import com.orbitalsonic.opt.models.PrayerTimesItem
 import com.orbitalsonic.opt.repository.PrayerTimeRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.util.Calendar
 import java.util.Date
 
@@ -22,169 +20,151 @@ import java.util.Date
  */
 class PrayerTimeManager {
 
-    // LiveData to hold today's prayer times.
-    private val _prayerTimeTodayLiveData = MutableLiveData<List<PrayerTimesItem>>()
-    val prayerTimeTodayLiveData: LiveData<List<PrayerTimesItem>> = _prayerTimeTodayLiveData
-
-    // LiveData to hold the prayer times for the current month.
-    private val _prayerTimeMonthlyLiveData = MutableLiveData<List<List<PrayerTimesItem>>>()
-    val prayerTimeMonthlyLiveData: LiveData<List<List<PrayerTimesItem>>> =
-        _prayerTimeMonthlyLiveData
-
-    // LiveData to hold the prayer times for the current year.
-    private val _prayerTimeYearlyLiveData = MutableLiveData<List<List<List<PrayerTimesItem>>>>()
-    val prayerTimeYearlyLiveData: LiveData<List<List<List<PrayerTimesItem>>>> = _prayerTimeYearlyLiveData
-
-    // LiveData to hold today's fasting times.
-    private val _fastingTimeTodayLiveData = MutableLiveData<FastingItem>()
-    val fastingTimeTodayLiveData: LiveData<FastingItem> = _fastingTimeTodayLiveData
-
-    // LiveData to hold the fasting times for the current month.
-    private val _fastingTimeMonthlyLiveData = MutableLiveData<List<FastingItem>>()
-    val fastingTimeMonthlyLiveData: LiveData<List<FastingItem>> = _fastingTimeMonthlyLiveData
-
-    // LiveData to hold the fasting times for the current year.
-    private val _fastingTimeYearlyLiveData = MutableLiveData<List<List<FastingItem>>>()
-    val fastingTimeYearlyLiveData: LiveData<List<List<FastingItem>>> = _fastingTimeYearlyLiveData
-
-
     /**
-     * Fetches prayer times based on the specified parameters and updates the corresponding LiveData.
-     *
-     * @param latitude The latitude of the location.
-     * @param longitude The longitude of the location.
-     * @param highLatitudeAdjustment Adjustment for high latitude locations.
-     * @param juristicMethod The method of calculation based on Islamic jurisprudence.
-     * @param organizationStandard The standard or organization used for calculations.
-     * @param timeFormat The desired time format (e.g., 24-hour or 12-hour).
-     * @param timeFrequency The frequency of the data to fetch (daily, monthly, or yearly).
+     * Fetch daily prayer times.
      */
-    fun fetchingPrayerTimes(
+    fun fetchDailyPrayerTimes(
         latitude: Double,
         longitude: Double,
         highLatitudeAdjustment: HighLatitudeAdjustment,
         juristicMethod: JuristicMethod,
         organizationStandard: OrganizationStandard,
         timeFormat: TimeFormat,
-        timeFrequency: TimeFrequency
+        callback: (Result<List<PrayerTimesItem>>) -> Unit
     ) {
-        when (timeFrequency) {
-            TimeFrequency.DAILY -> {
-                CoroutineScope(Dispatchers.IO).launch {
-                    val pTimes = getDailyPrayerTimes(
-                        latitude = latitude,
-                        longitude = longitude,
-                        highLatitudeAdjustment = highLatitudeAdjustment,
-                        juristicMethod = juristicMethod,
-                        organizationStandard = organizationStandard,
-                        timeFormat = timeFormat
-                    )
-
-                    _prayerTimeTodayLiveData.postValue(pTimes)
-                }
-            }
-            TimeFrequency.MONTHLY -> {
-                CoroutineScope(Dispatchers.IO).launch {
-                    val pTimes = getMonthlyPrayerTimes(
-                        latitude = latitude,
-                        longitude = longitude,
-                        highLatitudeAdjustment = highLatitudeAdjustment,
-                        juristicMethod = juristicMethod,
-                        organizationStandard = organizationStandard,
-                        timeFormat = timeFormat
-                    )
-
-                    _prayerTimeMonthlyLiveData.postValue(pTimes)
-                }
-            }
-            TimeFrequency.YEARLY -> {
-                CoroutineScope(Dispatchers.IO).launch {
-                    val pTimes = getYearlyPrayerTimes(
-                        latitude = latitude,
-                        longitude = longitude,
-                        highLatitudeAdjustment = highLatitudeAdjustment,
-                        juristicMethod = juristicMethod,
-                        organizationStandard = organizationStandard,
-                        timeFormat = timeFormat
-                    )
-
-                    _prayerTimeYearlyLiveData.postValue(pTimes)
-                }
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val result = getDailyPrayerTimes(
+                    latitude, longitude, highLatitudeAdjustment, juristicMethod, organizationStandard, timeFormat
+                )
+                withContext(Dispatchers.Main) { callback(Result.success(result)) }
+            } catch (e: Exception) {
+                withContext(Dispatchers.Main) { callback(Result.failure(e)) }
             }
         }
     }
 
     /**
-     * Fetches fasting times (Sehri and Iftar) based on the specified parameters and updates the corresponding LiveData.
-     *
-     * @param latitude The latitude of the location.
-     * @param longitude The longitude of the location.
-     * @param highLatitudeAdjustment Adjustment for high latitude locations.
-     * @param juristicMethod The method of calculation based on Islamic jurisprudence.
-     * @param organizationStandard The standard or organization used for calculations.
-     * @param timeFormat The desired time format (e.g., 24-hour or 12-hour).
-     * @param timeFrequency The frequency of the data to fetch (daily, monthly, or yearly).
+     * Fetch monthly prayer times.
      */
-    fun fetchingFastingTimes(
+    fun fetchMonthlyPrayerTimes(
         latitude: Double,
         longitude: Double,
         highLatitudeAdjustment: HighLatitudeAdjustment,
         juristicMethod: JuristicMethod,
         organizationStandard: OrganizationStandard,
         timeFormat: TimeFormat,
-        timeFrequency: TimeFrequency
+        callback: (Result<List<List<PrayerTimesItem>>>) -> Unit
     ) {
-        when (timeFrequency) {
-            TimeFrequency.DAILY -> {
-                CoroutineScope(Dispatchers.IO).launch {
-                    val prayerTimes = getDailyPrayerTimes(
-                        latitude = latitude,
-                        longitude = longitude,
-                        highLatitudeAdjustment = highLatitudeAdjustment,
-                        juristicMethod = juristicMethod,
-                        organizationStandard = organizationStandard,
-                        timeFormat = timeFormat
-                    )
-
-                    val fastingItem = extractFastingTimes(prayerTimes)
-                    _fastingTimeTodayLiveData.postValue(fastingItem)
-                }
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val result = getMonthlyPrayerTimes(
+                    latitude, longitude, highLatitudeAdjustment, juristicMethod, organizationStandard, timeFormat
+                )
+                withContext(Dispatchers.Main) { callback(Result.success(result)) }
+            } catch (e: Exception) {
+                withContext(Dispatchers.Main) { callback(Result.failure(e)) }
             }
-            TimeFrequency.MONTHLY -> {
-                CoroutineScope(Dispatchers.IO).launch {
-                    val prayerTimesList = getMonthlyPrayerTimes(
-                        latitude = latitude,
-                        longitude = longitude,
-                        highLatitudeAdjustment = highLatitudeAdjustment,
-                        juristicMethod = juristicMethod,
-                        organizationStandard = organizationStandard,
-                        timeFormat = timeFormat
-                    )
+        }
+    }
 
-                    val fastingList = prayerTimesList.map { dailyPrayerTimes ->
-                        extractFastingTimes(dailyPrayerTimes)
-                    }
-                    _fastingTimeMonthlyLiveData.postValue(fastingList)
-                }
+    /**
+     * Fetch yearly prayer times.
+     */
+    fun fetchYearlyPrayerTimes(
+        latitude: Double,
+        longitude: Double,
+        highLatitudeAdjustment: HighLatitudeAdjustment,
+        juristicMethod: JuristicMethod,
+        organizationStandard: OrganizationStandard,
+        timeFormat: TimeFormat,
+        callback: (Result<List<List<List<PrayerTimesItem>>>>) -> Unit
+    ) {
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val result = getYearlyPrayerTimes(
+                    latitude, longitude, highLatitudeAdjustment, juristicMethod, organizationStandard, timeFormat
+                )
+                withContext(Dispatchers.Main) { callback(Result.success(result)) }
+            } catch (e: Exception) {
+                withContext(Dispatchers.Main) { callback(Result.failure(e)) }
             }
-            TimeFrequency.YEARLY -> {
-                CoroutineScope(Dispatchers.IO).launch {
-                    val prayerTimesList = getYearlyPrayerTimes(
-                        latitude = latitude,
-                        longitude = longitude,
-                        highLatitudeAdjustment = highLatitudeAdjustment,
-                        juristicMethod = juristicMethod,
-                        organizationStandard = organizationStandard,
-                        timeFormat = timeFormat
-                    )
+        }
+    }
 
-                    val fastingList = prayerTimesList.map { monthlyPrayerTimes ->
-                        monthlyPrayerTimes.map { dailyPrayerTimes ->
-                            extractFastingTimes(dailyPrayerTimes)
-                        }
-                    }
-                    _fastingTimeYearlyLiveData.postValue(fastingList)
+    /**
+     * Fetch daily fasting times.
+     */
+    fun fetchDailyFastingTimes(
+        latitude: Double,
+        longitude: Double,
+        highLatitudeAdjustment: HighLatitudeAdjustment,
+        juristicMethod: JuristicMethod,
+        organizationStandard: OrganizationStandard,
+        timeFormat: TimeFormat,
+        callback: (Result<FastingItem>) -> Unit
+    ) {
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val prayerTimes = getDailyPrayerTimes(
+                    latitude, longitude, highLatitudeAdjustment, juristicMethod, organizationStandard, timeFormat
+                )
+                val fastingTimes = extractFastingTimes(prayerTimes)
+                withContext(Dispatchers.Main) { callback(Result.success(fastingTimes)) }
+            } catch (e: Exception) {
+                withContext(Dispatchers.Main) { callback(Result.failure(e)) }
+            }
+        }
+    }
+
+    /**
+     * Fetch monthly fasting times.
+     */
+    fun fetchMonthlyFastingTimes(
+        latitude: Double,
+        longitude: Double,
+        highLatitudeAdjustment: HighLatitudeAdjustment,
+        juristicMethod: JuristicMethod,
+        organizationStandard: OrganizationStandard,
+        timeFormat: TimeFormat,
+        callback: (Result<List<FastingItem>>) -> Unit
+    ) {
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val prayerTimesList = getMonthlyPrayerTimes(
+                    latitude, longitude, highLatitudeAdjustment, juristicMethod, organizationStandard, timeFormat
+                )
+                val fastingTimes = prayerTimesList.map { extractFastingTimes(it) }
+                withContext(Dispatchers.Main) { callback(Result.success(fastingTimes)) }
+            } catch (e: Exception) {
+                withContext(Dispatchers.Main) { callback(Result.failure(e)) }
+            }
+        }
+    }
+
+    /**
+     * Fetch yearly fasting times.
+     */
+    fun fetchYearlyFastingTimes(
+        latitude: Double,
+        longitude: Double,
+        highLatitudeAdjustment: HighLatitudeAdjustment,
+        juristicMethod: JuristicMethod,
+        organizationStandard: OrganizationStandard,
+        timeFormat: TimeFormat,
+        callback: (Result<List<List<FastingItem>>>) -> Unit
+    ) {
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val prayerTimesList = getYearlyPrayerTimes(
+                    latitude, longitude, highLatitudeAdjustment, juristicMethod, organizationStandard, timeFormat
+                )
+                val fastingTimes = prayerTimesList.map { monthlyPrayerTimes ->
+                    monthlyPrayerTimes.map { extractFastingTimes(it) }
                 }
+                withContext(Dispatchers.Main) { callback(Result.success(fastingTimes)) }
+            } catch (e: Exception) {
+                withContext(Dispatchers.Main) { callback(Result.failure(e)) }
             }
         }
     }
@@ -202,13 +182,7 @@ class PrayerTimeManager {
         calendar.time = now
 
         return PrayerTimeRepository().getDailyPrayerTimes(
-            latitude = latitude,
-            longitude = longitude,
-            date = calendar.time,
-            highLatitudeAdjustment = highLatitudeAdjustment,
-            juristicMethod = juristicMethod,
-            organizationStandard = organizationStandard,
-            timeFormat = timeFormat
+            latitude, longitude, calendar.time, highLatitudeAdjustment, juristicMethod, organizationStandard, timeFormat
         )
     }
 
@@ -224,14 +198,7 @@ class PrayerTimeManager {
         val currentYear = Calendar.getInstance().get(Calendar.YEAR)
 
         return PrayerTimeRepository().getMonthlyPrayerTimes(
-            latitude = latitude,
-            longitude = longitude,
-            month = currentMonth,
-            year = currentYear,
-            highLatitudeAdjustment = highLatitudeAdjustment,
-            juristicMethod = juristicMethod,
-            organizationStandard = organizationStandard,
-            timeFormat = timeFormat
+            latitude, longitude, currentMonth, currentYear, highLatitudeAdjustment, juristicMethod, organizationStandard, timeFormat
         )
     }
 
@@ -246,18 +213,12 @@ class PrayerTimeManager {
         val currentYear = Calendar.getInstance().get(Calendar.YEAR)
 
         return PrayerTimeRepository().getYearlyPrayerTimes(
-            latitude = latitude,
-            longitude = longitude,
-            year = currentYear,
-            highLatitudeAdjustment = highLatitudeAdjustment,
-            juristicMethod = juristicMethod,
-            organizationStandard = organizationStandard,
-            timeFormat = timeFormat
+            latitude, longitude, currentYear, highLatitudeAdjustment, juristicMethod, organizationStandard, timeFormat
         )
     }
 
     /**
-     * Extracts fasting times (Sehri and Iftaar) from the daily prayer times.
+     * Extracts fasting times (Sehri and Iftar) from the daily prayer times.
      */
     private fun extractFastingTimes(prayerTimes: List<PrayerTimesItem>): FastingItem {
         val fajrTime = prayerTimes.firstOrNull { it.prayerName == "Fajr" }?.prayerTime ?: "--:--"
@@ -269,3 +230,4 @@ class PrayerTimeManager {
         )
     }
 }
+
