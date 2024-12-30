@@ -20,7 +20,6 @@ internal class PrayerTimeRepository {
 
     // Names for prayers and fasting
     private val prayerNames = listOf("Fajr", "Sunrise", "Zuhr", "Asr", "Sunset", "Maghrib", "Isha")
-    private val fastingNames = listOf("Sehri", "Iftaar")
 
     // Calculation parameters
     private var highLatitudeAdjustment = HighLatitudeAdjustment.NONE
