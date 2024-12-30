@@ -114,7 +114,7 @@ prayerTimeManager.fetchingPrayerTimes(
 )
 ```
 
-#### Observing Prayer Times in `MainActivity`
+#### Observing Prayer Times in Required Activity or Fragment
 
 ##### Observe Today's Prayer Times
 ```kotlin
@@ -194,34 +194,34 @@ prayerTimeManager.fetchingFastingTimes(
 ##### Fetch Yearly Fasting Times
 ```kotlin
 prayerTimeManager.fetchingFastingTimes(
-   latitude = 40.7128, // Example latitude (New York)
-   longitude = -74.0060, // Example longitude (New York)
-   highLatitudeAdjustment = HighLatitudeAdjustment.NONE,
-   juristicMethod = JuristicMethod.HANAFI,
-   organizationStandard = OrganizationStandard.KARACHI,
-   timeFormat = TimeFormat.HOUR_12,
-   timeFrequency = TimeFrequency.YEARLY
+    latitude = 40.7128, // Example latitude (New York)
+    longitude = -74.0060, // Example longitude (New York)
+    highLatitudeAdjustment = HighLatitudeAdjustment.NONE,
+    juristicMethod = JuristicMethod.HANAFI,
+    organizationStandard = OrganizationStandard.KARACHI,
+    timeFormat = TimeFormat.HOUR_12,
+    timeFrequency = TimeFrequency.YEARLY
 )
 ```
 
-#### Observing Fasting Times in `MainActivity`
+#### Observing Fasting Times in Required Activity or Fragment
 
 ##### Observe Today's Fasting Times
 ```kotlin
 prayerTimeManager.fastingTimeTodayLiveData.observe(this) { fastingTimes ->
-   // Example Logs: You can change according to your UI
-   Log.d("FastingTimeTag", "${fastingTimes.startTime} to ${fastingTimes.endTime}")
+    // Example Logs: You can change according to your UI
+    Log.d("FastingTimeTag", "${fastingTimes.startTime} to ${fastingTimes.endTime}")
 }
 ```
 
 ##### Observe Monthly Fasting Times
 ```kotlin
 prayerTimeManager.fastingTimeMonthlyLiveData.observe(this) { monthlyFastingTimes ->
-   // Example Logs: You can change according to your UI
-   monthlyFastingTimes.forEachIndexed { index, fastingItem ->
-      Log.d("FastingTimeTag", "----Day ${index+1}----")
-      Log.d("FastingTimeTag", "${fastingItem.startTime} to ${fastingItem.endTime}")
-   }
+    // Example Logs: You can change according to your UI
+    monthlyFastingTimes.forEachIndexed { index, fastingItem ->
+        Log.d("FastingTimeTag", "----Day ${index+1}----")
+        Log.d("FastingTimeTag", "${fastingItem.startTime} to ${fastingItem.endTime}")
+    }
 }
 ```
 
