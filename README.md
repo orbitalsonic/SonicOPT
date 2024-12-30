@@ -228,14 +228,14 @@ prayerTimeManager.fastingTimeMonthlyLiveData.observe(this) { monthlyFastingTimes
 ##### Observe Yearly Fasting Times
 ```kotlin
 prayerTimeManager.fastingTimeYearlyLiveData.observe(this) { yearlyFastingTimes ->
-   // Example Logs: You can change according to your UI
-   yearlyFastingTimes.forEachIndexed { index, monthlyFastingList ->
-      Log.d("FastingTimeTag", "--------Month ${index+1}--------")
-      monthlyFastingList.forEachIndexed { index, fastingItem ->
-         Log.d("FastingTimeTag", "----Day ${index+1}----")
-         Log.d("FastingTimeTag", "${fastingItem.startTime} to ${fastingItem.endTime}")
-      }
-   }
+    // Example Logs: You can change according to your UI
+    yearlyFastingTimes.forEachIndexed { index, monthlyFastingList ->
+        Log.d("FastingTimeTag", "--------Month ${index+1}--------")
+        monthlyFastingList.forEachIndexed { index, fastingItem ->
+            Log.d("FastingTimeTag", "----Day ${index+1}----")
+            Log.d("FastingTimeTag", "${fastingItem.startTime} to ${fastingItem.endTime}")
+        }
+    }
 }
 ```
 
@@ -243,30 +243,53 @@ prayerTimeManager.fastingTimeYearlyLiveData.observe(this) { yearlyFastingTimes -
 
 ## Configuration Options
 
-### High Latitude Adjustment
-- **NONE**: No adjustment for high latitudes.
-- **ANGLE_BASED**: Defines Fajr and Isha times based on the sun's angle below the horizon.
-- **MID_NIGHT**: Divides the night into two halves for Fajr and Isha.
-- **ONE_SEVENTH**: Divides the night into seven parts.
+Below is a categorized list of configuration options, their parent enums, and descriptions:
 
-### Juristic Method
-- **SHAFII**: Asr begins when the shadow of an object equals its height.
-- **HANAFI**: Asr begins when the shadow of an object is twice its height.
+### High Latitude Adjustment (`HighLatitudeAdjustment`)
 
-### Organization Standard
-- **MAKKAH**: Umm al-Qura method (Saudi Arabia).
-- **EGYPT**: Egyptian General Authority of Survey.
-- **TEHRAN**: University of Tehran.
-- **KARACHI**: University of Islamic Sciences, Karachi.
-- **ISNA**: Islamic Society of North America.
-- **MWL**: Muslim World League.
-- **CUSTOM**: User-defined settings.
+| **Option**     | **Description**                                                                                  |
+|----------------|--------------------------------------------------------------------------------------------------|
+| `NONE`         | No adjustment applied for high latitudes.                                                      |
+| `ANGLE_BASED`  | Uses the angle of the sun below the horizon to define Fajr and Isha times.                     |
+| `MID_NIGHT`    | Divides the night into two equal halves for estimating Fajr and Isha times.                    |
+| `ONE_SEVENTH`  | Divides the night into seven parts, with Fajr at one-seventh and Isha at six-sevenths.          |
 
-### Time Format
-- **HOUR_12**: 12-hour format with AM/PM.
-- **HOUR_12_NS**: 12-hour format without AM/PM.
-- **HOUR_24**: 24-hour format.
-- **FLOATING**: Floating-point format (e.g., 5.5 for 5:30).
+### Juristic Method (`JuristicMethod`)
+
+| **Option**     | **Description**                                                                                  |
+|----------------|--------------------------------------------------------------------------------------------------|
+| `SHAFII`       | Asr begins when the shadow of an object equals its height (Shafi'i school of thought).          |
+| `HANAFI`       | Asr begins when the shadow of an object is twice its height (Hanafi school of thought).         |
+
+### Organization Standard (`OrganizationStandard`)
+
+| **Option**     | **Description**                                                                                  |
+|----------------|--------------------------------------------------------------------------------------------------|
+| `MAKKAH`       | Umm al-Qura method used in Saudi Arabia (Fajr: 18.5°, Isha: fixed 90 minutes).                  |
+| `EGYPT`        | Egyptian General Authority of Survey (Fajr: 19.5°, Isha: 17.5°).                                |
+| `TEHRAN`       | University of Tehran method (Fajr: 17.7°, Isha: 14°).                                           |
+| `JAFARI`       | Ithna Ashari method (Fajr: 16°, Isha: 14°).                                                     |
+| `KARACHI`      | University of Islamic Sciences, Karachi (Fajr/Isha: 18°).                                       |
+| `ISNA`         | Islamic Society of North America (Fajr/Isha: 15°).                                             |
+| `MWL`          | Muslim World League (Fajr: 18°, Isha: 17°).                                                    |
+| `CUSTOM`       | User-defined custom settings for angles or intervals.                                           |
+
+### Time Format (`TimeFormat`)
+
+| **Option**     | **Description**                                                                                  |
+|----------------|--------------------------------------------------------------------------------------------------|
+| `HOUR_12`      | 12-hour format with AM/PM suffix (e.g., 5:00 AM).                                               |
+| `HOUR_12_NS`   | 12-hour format without AM/PM suffix (e.g., 5:00).                                               |
+| `HOUR_24`      | 24-hour format (e.g., 17:00).                                                                   |
+| `FLOATING`     | Floating-point representation of hours (e.g., 5.5 for 5:30).                                    |
+
+### Time Frequency (`TimeFrequency`)
+
+| **Option**     | **Description**                                                                                  |
+|----------------|--------------------------------------------------------------------------------------------------|
+| `DAILY`        | Fetch prayer or fasting times for the current day.                                              |
+| `MONTHLY`      | Fetch prayer or fasting times for the current month.                                            |
+| `YEARLY`       | Fetch prayer or fasting times for the current year.                                             |
 
 ---
 
