@@ -32,9 +32,9 @@ repositories {
 #### Kotlin DSL
 ```kotlin
 repositories {
-   google()
-   mavenCentral()
-   maven { setUrl("https://jitpack.io") }
+    google()
+    mavenCentral()
+    maven { setUrl("https://jitpack.io") }
 }
 ```
 
@@ -67,6 +67,9 @@ To fetch prayer times, use the `PrayerTimeManager` class. The following examples
 
 #### Fetching Prayer Times
 
+##### Note
+The arguments passed for fetching prayer and fasting times are defaults. You must update the latitude, longitude, and other parameters as per your specific requirements.
+
 ##### Initialize `PrayerTimeManager`
 ```kotlin
 val prayerTimeManager = PrayerTimeManager()
@@ -75,8 +78,8 @@ val prayerTimeManager = PrayerTimeManager()
 ##### Fetch Daily Prayer Times
 ```kotlin
 prayerTimeManager.fetchingPrayerTimes(
-    latitude = 40.7128,
-    longitude = -74.0060,
+    latitude = 40.7128, // Example latitude (New York)
+    longitude = -74.0060, // Example longitude (New York)
     highLatitudeAdjustment = HighLatitudeAdjustment.NONE,
     juristicMethod = JuristicMethod.HANAFI,
     organizationStandard = OrganizationStandard.KARACHI,
@@ -88,8 +91,8 @@ prayerTimeManager.fetchingPrayerTimes(
 ##### Fetch Monthly Prayer Times
 ```kotlin
 prayerTimeManager.fetchingPrayerTimes(
-    latitude = 40.7128,
-    longitude = -74.0060,
+    latitude = 40.7128, // Example latitude (New York)
+    longitude = -74.0060, // Example longitude (New York)
     highLatitudeAdjustment = HighLatitudeAdjustment.NONE,
     juristicMethod = JuristicMethod.HANAFI,
     organizationStandard = OrganizationStandard.KARACHI,
@@ -101,8 +104,8 @@ prayerTimeManager.fetchingPrayerTimes(
 ##### Fetch Yearly Prayer Times
 ```kotlin
 prayerTimeManager.fetchingPrayerTimes(
-    latitude = 40.7128,
-    longitude = -74.0060,
+    latitude = 40.7128, // Example latitude (New York)
+    longitude = -74.0060, // Example longitude (New York)
     highLatitudeAdjustment = HighLatitudeAdjustment.NONE,
     juristicMethod = JuristicMethod.HANAFI,
     organizationStandard = OrganizationStandard.KARACHI,
@@ -159,11 +162,14 @@ To fetch fasting times, use the `PrayerTimeManager` class in conjunction with fa
 
 #### Fetching Fasting Times
 
+##### Note
+The arguments passed for fetching fasting and prayer times are defaults. You must update the latitude, longitude, and other parameters as per your specific requirements.
+
 ##### Fetch Daily Fasting Times
 ```kotlin
 prayerTimeManager.fetchingFastingTimes(
-    latitude = 40.7128,
-    longitude = -74.0060,
+    latitude = 40.7128, // Example latitude (New York)
+    longitude = -74.0060, // Example longitude (New York)
     highLatitudeAdjustment = HighLatitudeAdjustment.NONE,
     juristicMethod = JuristicMethod.HANAFI,
     organizationStandard = OrganizationStandard.KARACHI,
@@ -175,8 +181,8 @@ prayerTimeManager.fetchingFastingTimes(
 ##### Fetch Monthly Fasting Times
 ```kotlin
 prayerTimeManager.fetchingFastingTimes(
-    latitude = 40.7128,
-    longitude = -74.0060,
+    latitude = 40.7128, // Example latitude (New York)
+    longitude = -74.0060, // Example longitude (New York)
     highLatitudeAdjustment = HighLatitudeAdjustment.NONE,
     juristicMethod = JuristicMethod.HANAFI,
     organizationStandard = OrganizationStandard.KARACHI,
@@ -188,13 +194,13 @@ prayerTimeManager.fetchingFastingTimes(
 ##### Fetch Yearly Fasting Times
 ```kotlin
 prayerTimeManager.fetchingFastingTimes(
-    latitude = 40.7128,
-    longitude = -74.0060,
-    highLatitudeAdjustment = HighLatitudeAdjustment.NONE,
-    juristicMethod = JuristicMethod.HANAFI,
-    organizationStandard = OrganizationStandard.KARACHI,
-    timeFormat = TimeFormat.HOUR_12,
-    timeFrequency = TimeFrequency.YEARLY
+   latitude = 40.7128, // Example latitude (New York)
+   longitude = -74.0060, // Example longitude (New York)
+   highLatitudeAdjustment = HighLatitudeAdjustment.NONE,
+   juristicMethod = JuristicMethod.HANAFI,
+   organizationStandard = OrganizationStandard.KARACHI,
+   timeFormat = TimeFormat.HOUR_12,
+   timeFrequency = TimeFrequency.YEARLY
 )
 ```
 
@@ -203,33 +209,33 @@ prayerTimeManager.fetchingFastingTimes(
 ##### Observe Today's Fasting Times
 ```kotlin
 prayerTimeManager.fastingTimeTodayLiveData.observe(this) { fastingTimes ->
-    // Example Logs: You can change according to your UI
-    Log.d("FastingTimeTag", "${fastingTimes.startTime} to ${fastingTimes.endTime}")
+   // Example Logs: You can change according to your UI
+   Log.d("FastingTimeTag", "${fastingTimes.startTime} to ${fastingTimes.endTime}")
 }
 ```
 
 ##### Observe Monthly Fasting Times
 ```kotlin
 prayerTimeManager.fastingTimeMonthlyLiveData.observe(this) { monthlyFastingTimes ->
-    // Example Logs: You can change according to your UI
-    monthlyFastingTimes.forEachIndexed { index, fastingItem ->
-        Log.d("FastingTimeTag", "----Day ${index+1}----")
-        Log.d("FastingTimeTag", "${fastingItem.startTime} to ${fastingItem.endTime}")
-    }
+   // Example Logs: You can change according to your UI
+   monthlyFastingTimes.forEachIndexed { index, fastingItem ->
+      Log.d("FastingTimeTag", "----Day ${index+1}----")
+      Log.d("FastingTimeTag", "${fastingItem.startTime} to ${fastingItem.endTime}")
+   }
 }
 ```
 
 ##### Observe Yearly Fasting Times
 ```kotlin
 prayerTimeManager.fastingTimeYearlyLiveData.observe(this) { yearlyFastingTimes ->
-    // Example Logs: You can change according to your UI
-    yearlyFastingTimes.forEachIndexed { index, monthlyFastingList ->
-        Log.d("FastingTimeTag", "--------Month ${index+1}--------")
-        monthlyFastingList.forEachIndexed { index, fastingItem ->
-            Log.d("FastingTimeTag", "----Day ${index+1}----")
-            Log.d("FastingTimeTag", "${fastingItem.startTime} to ${fastingItem.endTime}")
-        }
-    }
+   // Example Logs: You can change according to your UI
+   yearlyFastingTimes.forEachIndexed { index, monthlyFastingList ->
+      Log.d("FastingTimeTag", "--------Month ${index+1}--------")
+      monthlyFastingList.forEachIndexed { index, fastingItem ->
+         Log.d("FastingTimeTag", "----Day ${index+1}----")
+         Log.d("FastingTimeTag", "${fastingItem.startTime} to ${fastingItem.endTime}")
+      }
+   }
 }
 ```
 
