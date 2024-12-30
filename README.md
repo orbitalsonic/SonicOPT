@@ -39,7 +39,7 @@ repositories {
 ```
 
 ### Step 2: Add Dependency
-Include the OPT library in your app-level build script (`build.gradle` or `build.gradle.kts`). Replace `x.x.x` with the latest version:
+Include the OPT library in your app-level build script (`build.gradle` or `build.gradle.kts`). Replace `x.x.x` with the latest version: [![](https://jitpack.io/v/orbitalsonic/opt.svg)](https://jitpack.io/#orbitalsonic/opt)
 
 #### Groovy DSL
 ```groovy
