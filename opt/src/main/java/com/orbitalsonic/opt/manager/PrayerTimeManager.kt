@@ -5,7 +5,8 @@ import com.orbitalsonic.opt.enums.JuristicMethod
 import com.orbitalsonic.opt.enums.OrganizationStandard
 import com.orbitalsonic.opt.enums.TimeFormat
 import com.orbitalsonic.opt.models.FastingItem
-import com.orbitalsonic.opt.models.PrayerTimesItem
+import com.orbitalsonic.opt.models.PrayerItem
+import com.orbitalsonic.opt.models.PrayerTimes
 import com.orbitalsonic.opt.repository.PrayerTimeRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -30,7 +31,7 @@ class PrayerTimeManager {
         juristicMethod: JuristicMethod,
         organizationStandard: OrganizationStandard,
         timeFormat: TimeFormat,
-        callback: (Result<List<PrayerTimesItem>>) -> Unit
+        callback: (Result<PrayerItem>) -> Unit
     ) {
         CoroutineScope(Dispatchers.IO).launch {
             try {
@@ -54,7 +55,7 @@ class PrayerTimeManager {
         juristicMethod: JuristicMethod,
         organizationStandard: OrganizationStandard,
         timeFormat: TimeFormat,
-        callback: (Result<List<List<PrayerTimesItem>>>) -> Unit
+        callback: (Result<List<PrayerItem>>) -> Unit
     ) {
         CoroutineScope(Dispatchers.IO).launch {
             try {
@@ -78,7 +79,7 @@ class PrayerTimeManager {
         juristicMethod: JuristicMethod,
         organizationStandard: OrganizationStandard,
         timeFormat: TimeFormat,
-        callback: (Result<List<List<List<PrayerTimesItem>>>>) -> Unit
+        callback: (Result<List<List<PrayerItem>>>) -> Unit
     ) {
         CoroutineScope(Dispatchers.IO).launch {
             try {
@@ -106,10 +107,10 @@ class PrayerTimeManager {
     ) {
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                val prayerTimes = getDailyPrayerTimes(
+                val prayerItem = getDailyPrayerTimes(
                     latitude, longitude, highLatitudeAdjustment, juristicMethod, organizationStandard, timeFormat
                 )
-                val fastingTimes = extractFastingTimes(prayerTimes)
+                val fastingTimes = extractFastingTimes(prayerItem)
                 withContext(Dispatchers.Main) { callback(Result.success(fastingTimes)) }
             } catch (e: Exception) {
                 withContext(Dispatchers.Main) { callback(Result.failure(e)) }
@@ -131,10 +132,10 @@ class PrayerTimeManager {
     ) {
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                val prayerTimesList = getMonthlyPrayerTimes(
+                val prayerItems = getMonthlyPrayerTimes(
                     latitude, longitude, highLatitudeAdjustment, juristicMethod, organizationStandard, timeFormat
                 )
-                val fastingTimes = prayerTimesList.map { extractFastingTimes(it) }
+                val fastingTimes = prayerItems.map { extractFastingTimes(it) }
                 withContext(Dispatchers.Main) { callback(Result.success(fastingTimes)) }
             } catch (e: Exception) {
                 withContext(Dispatchers.Main) { callback(Result.failure(e)) }
@@ -156,11 +157,11 @@ class PrayerTimeManager {
     ) {
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                val prayerTimesList = getYearlyPrayerTimes(
+                val prayerItems = getYearlyPrayerTimes(
                     latitude, longitude, highLatitudeAdjustment, juristicMethod, organizationStandard, timeFormat
                 )
-                val fastingTimes = prayerTimesList.map { monthlyPrayerTimes ->
-                    monthlyPrayerTimes.map { extractFastingTimes(it) }
+                val fastingTimes = prayerItems.map { monthlyPrayerItems ->
+                    monthlyPrayerItems.map { extractFastingTimes(it) }
                 }
                 withContext(Dispatchers.Main) { callback(Result.success(fastingTimes)) }
             } catch (e: Exception) {
@@ -176,9 +177,8 @@ class PrayerTimeManager {
         juristicMethod: JuristicMethod,
         organizationStandard: OrganizationStandard,
         timeFormat: TimeFormat
-    ): List<PrayerTimesItem> {
+    ): PrayerItem {
 
-        // Today Date
         val now = Date()
         val calendar = Calendar.getInstance()
         calendar.time = now
@@ -195,8 +195,7 @@ class PrayerTimeManager {
         juristicMethod: JuristicMethod,
         organizationStandard: OrganizationStandard,
         timeFormat: TimeFormat
-    ): List<List<PrayerTimesItem>> {
-        // current month & year
+    ): List<PrayerItem> {
         val currentMonth = Calendar.getInstance().get(Calendar.MONTH) + 1
         val currentYear = Calendar.getInstance().get(Calendar.YEAR)
 
@@ -212,8 +211,7 @@ class PrayerTimeManager {
         juristicMethod: JuristicMethod,
         organizationStandard: OrganizationStandard,
         timeFormat: TimeFormat
-    ): List<List<List<PrayerTimesItem>>> {
-        // current year
+    ): List<List<PrayerItem>> {
         val currentYear = Calendar.getInstance().get(Calendar.YEAR)
 
         return PrayerTimeRepository().getYearlyPrayerTimes(
@@ -224,14 +222,16 @@ class PrayerTimeManager {
     /**
      * Extracts fasting times (Sehri and Iftar) from the daily prayer times.
      */
-    private fun extractFastingTimes(prayerTimes: List<PrayerTimesItem>): FastingItem {
-        val fajrTime = prayerTimes.firstOrNull { it.prayerName == "Fajr" }?.prayerTime ?: "--:--"
-        val maghribTime = prayerTimes.firstOrNull { it.prayerName == "Maghrib" }?.prayerTime ?: "--:--"
+    private fun extractFastingTimes(prayerItem: PrayerItem): FastingItem {
+        val fajrTime = prayerItem.prayerList.firstOrNull { it.prayerName == "Fajr" }?.prayerTime ?: "--:--"
+        val maghribTime = prayerItem.prayerList.firstOrNull { it.prayerName == "Maghrib" }?.prayerTime ?: "--:--"
 
         return FastingItem(
+            date = prayerItem.date,
             sehriTime = fajrTime,
             iftaarTime = maghribTime
         )
     }
 }
+
 

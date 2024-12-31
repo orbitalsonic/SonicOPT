@@ -12,6 +12,9 @@ import com.orbitalsonic.opt.enums.JuristicMethod
 import com.orbitalsonic.opt.enums.OrganizationStandard
 import com.orbitalsonic.opt.enums.TimeFormat
 import com.orbitalsonic.opt.manager.PrayerTimeManager
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 class MonthlyPrayerTimeFragment : Fragment() {
 
@@ -25,6 +28,9 @@ class MonthlyPrayerTimeFragment : Fragment() {
     private val prayerTimeManager = PrayerTimeManager()
 
     private val logBuilder = StringBuilder()
+
+    // Initialize SimpleDateFormat globally to save memory
+    private val dateFormatter = SimpleDateFormat("dd MMM, yyyy", Locale.getDefault())
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -48,21 +54,20 @@ class MonthlyPrayerTimeFragment : Fragment() {
             organizationStandard = OrganizationStandard.KARACHI,
             timeFormat = TimeFormat.HOUR_12
         ) { result ->
-            result.onSuccess { prayerTimes ->
+            result.onSuccess { prayerItems ->
                 logBuilder.appendLine("----Monthly Prayer Times----")
                 logBuilder.appendLine("")
-                logBuilder.appendLine("")
-                prayerTimes.forEachIndexed { index, dailyPrayerList ->
-                    logBuilder.appendLine("Day ${index + 1}")
+
+                prayerItems.forEachIndexed { index, prayerItem ->
+                    val formattedDate = dateFormatter.format(Date(prayerItem.date))
+                    logBuilder.appendLine("Day ${index + 1} - Date: $formattedDate")
                     logBuilder.appendLine("")
-                    logBuilder.appendLine("")
-                    dailyPrayerList.forEach {
+                    prayerItem.prayerList.forEach {
                         logBuilder.appendLine("${it.prayerName}: ${it.prayerTime}")
                     }
                     logBuilder.appendLine("")
-                    logBuilder.appendLine("")
-
                 }
+
                 updateTextView()
             }.onFailure { exception ->
                 logBuilder.appendLine("Error fetching monthly prayer times: ${exception.message}")
@@ -81,3 +86,4 @@ class MonthlyPrayerTimeFragment : Fragment() {
         _binding = null
     }
 }
+

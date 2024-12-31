@@ -7,7 +7,7 @@ package com.orbitalsonic.opt.models
  * @property prayerTime The time of the prayer, formatted as per user settings.
  * @property isCurrentPrayer Indicates whether this prayer is currently active.
  */
-data class PrayerTimesItem(
+data class PrayerTimes(
     var prayerName: String,
     var prayerTime: String,
     var isCurrentPrayer: Boolean = false

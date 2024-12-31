@@ -12,6 +12,9 @@ import com.orbitalsonic.opt.enums.JuristicMethod
 import com.orbitalsonic.opt.enums.OrganizationStandard
 import com.orbitalsonic.opt.enums.TimeFormat
 import com.orbitalsonic.opt.manager.PrayerTimeManager
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 class YearlyPrayerTimeFragment : Fragment() {
 
@@ -25,6 +28,9 @@ class YearlyPrayerTimeFragment : Fragment() {
     private val prayerTimeManager = PrayerTimeManager()
 
     private val logBuilder = StringBuilder()
+
+    // Initialize SimpleDateFormat globally to save memory
+    private val dateFormatter = SimpleDateFormat("dd MMM, yyyy", Locale.getDefault())
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -48,27 +54,27 @@ class YearlyPrayerTimeFragment : Fragment() {
             organizationStandard = OrganizationStandard.KARACHI,
             timeFormat = TimeFormat.HOUR_12
         ) { result ->
-            result.onSuccess { prayerTimes ->
+            result.onSuccess { yearlyPrayerItems ->
                 logBuilder.appendLine("----Yearly Prayer Times----")
                 logBuilder.appendLine("")
-                logBuilder.appendLine("")
-                prayerTimes.forEachIndexed { monthIndex, monthlyPrayerList ->
+
+                yearlyPrayerItems.forEachIndexed { monthIndex, monthlyPrayerItems ->
                     logBuilder.appendLine("Month ${monthIndex + 1}")
                     logBuilder.appendLine("")
-                    logBuilder.appendLine("")
-                    monthlyPrayerList.forEachIndexed { dayIndex, dailyPrayerList ->
-                        logBuilder.appendLine("Day ${dayIndex + 1}")
+
+                    monthlyPrayerItems.forEachIndexed { dayIndex, prayerItem ->
+                        val formattedDate = dateFormatter.format(Date(prayerItem.date))
+                        logBuilder.appendLine("Day ${dayIndex + 1} - Date: $formattedDate")
                         logBuilder.appendLine("")
-                        logBuilder.appendLine("")
-                        dailyPrayerList.forEach {
+                        prayerItem.prayerList.forEach {
                             logBuilder.appendLine("${it.prayerName}: ${it.prayerTime}")
                         }
                         logBuilder.appendLine("")
-                        logBuilder.appendLine("")
                     }
-                    logBuilder.appendLine("")
+
                     logBuilder.appendLine("")
                 }
+
                 updateTextView()
             }.onFailure { exception ->
                 logBuilder.appendLine("Error fetching yearly prayer times: ${exception.message}")
@@ -87,3 +93,4 @@ class YearlyPrayerTimeFragment : Fragment() {
         _binding = null
     }
 }
+

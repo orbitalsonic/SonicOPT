@@ -67,9 +67,6 @@ To fetch prayer times, use the `PrayerTimeManager` class. The following examples
 
 #### Fetching Prayer Times
 
-##### Note
-The arguments passed for fetching prayer and fasting times are defaults. You must update the latitude, longitude, and other parameters as per your specific requirements.
-
 ##### Initialize `PrayerTimeManager`
 ```kotlin
 val prayerTimeManager = PrayerTimeManager()
@@ -85,8 +82,10 @@ prayerTimeManager.fetchTodayPrayerTimes(
     organizationStandard = OrganizationStandard.KARACHI,
     timeFormat = TimeFormat.HOUR_12
 ) { result ->
-    result.onSuccess { prayerTimes ->
-        prayerTimes.forEach {
+    result.onSuccess { prayerItem ->
+        val date = Date(prayerItem.date)
+        Log.d("PrayerTimeTag", "Date: $date")
+        prayerItem.prayerList.forEach {
             Log.d("PrayerTimeTag", "${it.prayerName}: ${it.prayerTime}")
         }
     }.onFailure { exception ->
@@ -105,10 +104,11 @@ prayerTimeManager.fetchCurrentMonthPrayerTimes(
     organizationStandard = OrganizationStandard.KARACHI,
     timeFormat = TimeFormat.HOUR_12
 ) { result ->
-    result.onSuccess { prayerTimes ->
-        prayerTimes.forEachIndexed { index, dailyPrayerList ->
-            Log.d("PrayerTimeTag", "----Day ${index + 1}----")
-            dailyPrayerList.forEach {
+    result.onSuccess { prayerItems ->
+        prayerItems.forEachIndexed { index, prayerItem ->
+            val date = Date(prayerItem.date)
+            Log.d("PrayerTimeTag", "Day ${index + 1} (${date}):")
+            prayerItem.prayerList.forEach {
                 Log.d("PrayerTimeTag", "${it.prayerName}: ${it.prayerTime}")
             }
         }
@@ -128,12 +128,13 @@ prayerTimeManager.fetchCurrentYearPrayerTimes(
     organizationStandard = OrganizationStandard.KARACHI,
     timeFormat = TimeFormat.HOUR_12
 ) { result ->
-    result.onSuccess { prayerTimes ->
-        prayerTimes.forEachIndexed { monthIndex, monthlyPrayerList ->
-            Log.d("PrayerTimeTag", "--------Month ${monthIndex + 1}--------")
-            monthlyPrayerList.forEachIndexed { dayIndex, dailyPrayerList ->
-                Log.d("PrayerTimeTag", "--------Day ${dayIndex + 1}--------")
-                dailyPrayerList.forEach {
+    result.onSuccess { prayerItems ->
+        prayerItems.forEachIndexed { monthIndex, monthlyPrayerItems ->
+            Log.d("PrayerTimeTag", "Month ${monthIndex + 1}:")
+            monthlyPrayerItems.forEachIndexed { dayIndex, prayerItem ->
+                val date = Date(prayerItem.date)
+                Log.d("PrayerTimeTag", "Day ${dayIndex + 1} (${date}):")
+                prayerItem.prayerList.forEach {
                     Log.d("PrayerTimeTag", "${it.prayerName}: ${it.prayerTime}")
                 }
             }
@@ -143,15 +144,11 @@ prayerTimeManager.fetchCurrentYearPrayerTimes(
     }
 }
 ```
+
 ---
 
-### Fasting Time Manager
-To fetch fasting times, use the `PrayerTimeManager` class in conjunction with fasting-related methods and LiveData. The following examples demonstrate its usage.
-
-#### Fetching Fasting Times
-
-##### Note
-The arguments passed for fetching fasting and prayer times are defaults. You must update the latitude, longitude, and other parameters as per your specific requirements.
+## Fasting Time Manager
+To fetch fasting times, use the `PrayerTimeManager` class in conjunction with fasting-related methods. The following examples demonstrate its usage.
 
 ### Fetching Fasting Times
 
@@ -166,6 +163,8 @@ prayerTimeManager.fetchTodayFastingTimes(
     timeFormat = TimeFormat.HOUR_12
 ) { result ->
     result.onSuccess { fastingItem ->
+        val date = Date(fastingItem.date)
+        Log.d("FastingTimeTag", "Date: $date")
         Log.d("FastingTimeTag", "Sehri: ${fastingItem.sehriTime}, Iftar: ${fastingItem.iftaarTime}")
     }.onFailure { exception ->
         Log.e("FastingTimeTag", "Error fetching daily fasting times", exception)
@@ -185,7 +184,8 @@ prayerTimeManager.fetchCurrentMonthFastingTimes(
 ) { result ->
     result.onSuccess { fastingTimes ->
         fastingTimes.forEachIndexed { index, fastingItem ->
-            Log.d("FastingTimeTag", "Day ${index + 1} -> Sehri: ${fastingItem.sehriTime}, Iftar: ${fastingItem.iftaarTime}")
+            val date = Date(fastingItem.date)
+            Log.d("FastingTimeTag", "Day ${index + 1} (${date}): Sehri: ${fastingItem.sehriTime}, Iftar: ${fastingItem.iftaarTime}")
         }
     }.onFailure { exception ->
         Log.e("FastingTimeTag", "Error fetching monthly fasting times", exception)
@@ -205,9 +205,10 @@ prayerTimeManager.fetchCurrentYearFastingTimes(
 ) { result ->
    result.onSuccess { fastingTimes ->
       fastingTimes.forEachIndexed { monthIndex, monthlyFastingList ->
-         Log.d("FastingTimeTag", "--------Month ${monthIndex + 1}--------")
+         Log.d("FastingTimeTag", "Month ${monthIndex + 1}:")
          monthlyFastingList.forEachIndexed { dayIndex, fastingItem ->
-            Log.d("FastingTimeTag", "Day ${dayIndex + 1} -> Sehri: ${fastingItem.sehriTime}, Iftar: ${fastingItem.iftaarTime}")
+            val date = Date(fastingItem.date)
+            Log.d("FastingTimeTag", "Day ${dayIndex + 1} (${date}): Sehri: ${fastingItem.sehriTime}, Iftar: ${fastingItem.iftaarTime}")
          }
       }
    }.onFailure { exception ->
@@ -218,9 +219,54 @@ prayerTimeManager.fetchCurrentYearFastingTimes(
 
 ---
 
-## Configuration Options
+### Models
 
-Below is a categorized list of configuration options, their parent enums, and descriptions:
+#### PrayerItem
+```kotlin
+/**
+ * Represents the prayer times for a specific day.
+ *
+ * @property date Date of the prayer times in milliseconds.
+ * @property prayerList List of individual prayers and their times.
+ */
+data class PrayerItem(
+    var date: Long,
+    var prayerList: List<PrayerTimes>
+)
+```
+#### PrayerTimes
+```kotlin
+/**
+ * Represents an individual prayer.
+ *
+ * @property prayerName Name of the prayer (e.g., Fajr, Dhuhr, etc.).
+ * @property prayerTime Formatted time of the prayer.
+ * @property isCurrentPrayer Indicates if this is the currently active prayer.
+ */
+data class PrayerTimes(
+    var prayerName: String,
+    var prayerTime: String,
+    var isCurrentPrayer: Boolean = false
+)
+```
+#### FastingItem
+```kotlin
+/**
+ * Represents fasting times for a specific day.
+ *
+ * @property date Date of the fasting times in milliseconds.
+ * @property sehriTime Time for Sehri (pre-dawn meal).
+ * @property iftaarTime Time for Iftar (breaking the fast).
+ */
+data class FastingItem(
+    var date: Long,
+    val sehriTime: String,
+    val iftaarTime: String
+)
+```
+---
+
+## Configuration Options
 
 ### High Latitude Adjustment (`HighLatitudeAdjustment`)
 
@@ -283,4 +329,3 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
-

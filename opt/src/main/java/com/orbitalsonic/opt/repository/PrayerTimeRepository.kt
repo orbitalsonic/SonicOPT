@@ -4,7 +4,8 @@ import com.orbitalsonic.opt.enums.HighLatitudeAdjustment
 import com.orbitalsonic.opt.enums.JuristicMethod
 import com.orbitalsonic.opt.enums.OrganizationStandard
 import com.orbitalsonic.opt.enums.TimeFormat
-import com.orbitalsonic.opt.models.PrayerTimesItem
+import com.orbitalsonic.opt.models.PrayerItem
+import com.orbitalsonic.opt.models.PrayerTimes
 import com.orbitalsonic.opt.utils.calculateAsrTime
 import com.orbitalsonic.opt.utils.calculateMidDay
 import com.orbitalsonic.opt.utils.calculateTimeDifference
@@ -18,10 +19,8 @@ import kotlin.math.floor
 
 internal class PrayerTimeRepository {
 
-    // Names for prayers and fasting
     private val prayerNames = listOf("Fajr", "Sunrise", "Zuhr", "Asr", "Sunset", "Maghrib", "Isha")
 
-    // Calculation parameters
     private var highLatitudeAdjustment = HighLatitudeAdjustment.NONE
     private var juristicMethod = JuristicMethod.HANAFI
     private var organizationStandard = OrganizationStandard.KARACHI
@@ -35,7 +34,6 @@ internal class PrayerTimeRepository {
 
     private val iterations = 1 // Number of iterations to compute times
 
-    // Organization-specific parameters
     private val standardValues = mapOf(
         OrganizationStandard.KARACHI to doubleArrayOf(18.0, 1.0, 0.0, 0.0, 18.0),
         OrganizationStandard.ISNA to doubleArrayOf(15.0, 1.0, 0.0, 0.0, 15.0),
@@ -47,7 +45,6 @@ internal class PrayerTimeRepository {
     )
     private var customValues = doubleArrayOf(18.0, 1.0, 0.0, 0.0, 17.0)
 
-    // Public function to fetch daily prayer times
     fun getDailyPrayerTimes(
         latitude: Double,
         longitude: Double,
@@ -56,12 +53,11 @@ internal class PrayerTimeRepository {
         juristicMethod: JuristicMethod,
         organizationStandard: OrganizationStandard,
         timeFormat: TimeFormat
-    ): List<PrayerTimesItem> {
+    ): PrayerItem {
         initializeParameters(latitude, longitude, highLatitudeAdjustment, juristicMethod, organizationStandard, timeFormat)
         return calculatePrayerTimesForDate(date)
     }
 
-    // Public function to fetch monthly prayer times
     fun getMonthlyPrayerTimes(
         latitude: Double,
         longitude: Double,
@@ -71,14 +67,13 @@ internal class PrayerTimeRepository {
         juristicMethod: JuristicMethod,
         organizationStandard: OrganizationStandard,
         timeFormat: TimeFormat
-    ): List<List<PrayerTimesItem>> {
+    ): List<PrayerItem> {
         initializeParameters(latitude, longitude, highLatitudeAdjustment, juristicMethod, organizationStandard, timeFormat)
         return (1..getDaysInMonth(year, month)).map { day ->
             calculatePrayerTimesForDate(Calendar.getInstance().apply { set(year, month - 1, day) }.time)
         }
     }
 
-    // Public function to fetch yearly prayer times
     fun getYearlyPrayerTimes(
         latitude: Double,
         longitude: Double,
@@ -87,13 +82,12 @@ internal class PrayerTimeRepository {
         juristicMethod: JuristicMethod,
         organizationStandard: OrganizationStandard,
         timeFormat: TimeFormat
-    ): List<List<List<PrayerTimesItem>>> {
+    ): List<List<PrayerItem>> {
         return (1..12).map { month ->
             getMonthlyPrayerTimes(latitude, longitude, month, year, highLatitudeAdjustment, juristicMethod, organizationStandard, timeFormat)
         }
     }
 
-    // Initialize parameters for calculations
     private fun initializeParameters(
         latitude: Double,
         longitude: Double,
@@ -109,14 +103,12 @@ internal class PrayerTimeRepository {
         this.organizationStandard = organizationStandard
         this.timeFormat = timeFormat
 
-        // Get the default time zone and calculate its offset in hours
         val defaultTimeZone = TimeZone.getDefault()
         val defaultTimeZoneOffsetHours = defaultTimeZone.getOffset(System.currentTimeMillis()).toDouble() / (1000 * 60 * 60)
         this.timeZone = defaultTimeZoneOffsetHours
     }
 
-    // Calculate prayer times for a specific date
-    private fun calculatePrayerTimesForDate(date: Date): List<PrayerTimesItem> {
+    private fun calculatePrayerTimesForDate(date: Date): PrayerItem {
         val calendar = Calendar.getInstance().apply { time = date }
         julianDate = calculateJulianDate(
             calendar[Calendar.YEAR],
@@ -126,12 +118,12 @@ internal class PrayerTimeRepository {
 
         val rawTimes = computeRawPrayerTimes()
         val adjustedTimes = adjustTimes(rawTimes)
-        return formatPrayerTimes(adjustedTimes)
+        val prayerTimesList = formatPrayerTimes(adjustedTimes)
+        return PrayerItem(date.time, prayerTimesList)
     }
 
-    // Compute raw prayer times
     private fun computeRawPrayerTimes(): DoubleArray {
-        var times = doubleArrayOf(5.0, 6.0, 12.0, 13.0, 18.0, 18.0, 18.0) // Approximate starting points
+        var times = doubleArrayOf(5.0, 6.0, 12.0, 13.0, 18.0, 18.0, 18.0)
         repeat(iterations) {
             times = computeTimes(times)
         }
@@ -142,13 +134,13 @@ internal class PrayerTimeRepository {
         val dayPortions = dayPortion(times)
         val standardParams = getCalculationParameters()
         return doubleArrayOf(
-            calculateTimeForAngle(180 - standardParams[0], dayPortions[0], latitude, julianDate), // Fajr
-            calculateTimeForAngle(180 - 0.833, dayPortions[1], latitude, julianDate),            // Sunrise
-            calculateMidDay(dayPortions[2], julianDate),                                         // Zuhr
-            calculateAsrTime((1 + getAsrJuristicStep(juristicMethod)).toDouble(), dayPortions[3], latitude, julianDate), // Asr
-            calculateTimeForAngle(0.833, dayPortions[4], latitude, julianDate),                 // Sunset
-            calculateTimeForAngle(standardParams[2], dayPortions[5], latitude, julianDate),     // Maghrib
-            calculateTimeForAngle(standardParams[4], dayPortions[6], latitude, julianDate)      // Isha
+            calculateTimeForAngle(180 - standardParams[0], dayPortions[0], latitude, julianDate),
+            calculateTimeForAngle(180 - 0.833, dayPortions[1], latitude, julianDate),
+            calculateMidDay(dayPortions[2], julianDate),
+            calculateAsrTime((1 + getAsrJuristicStep(juristicMethod)).toDouble(), dayPortions[3], latitude, julianDate),
+            calculateTimeForAngle(0.833, dayPortions[4], latitude, julianDate),
+            calculateTimeForAngle(standardParams[2], dayPortions[5], latitude, julianDate),
+            calculateTimeForAngle(standardParams[4], dayPortions[6], latitude, julianDate)
         )
     }
 
@@ -165,7 +157,7 @@ internal class PrayerTimeRepository {
     }
 
     private fun adjustHighLatitudeTimes(times: DoubleArray): DoubleArray {
-        val nightTime = calculateTimeDifference(times[4], times[1]) // Night duration
+        val nightTime = calculateTimeDifference(times[4], times[1])
         val fajrDiff = nightPortion(getCalculationParameters()[0]) * nightTime
         val ishaDiff = nightPortion(getCalculationParameters()[4]) * nightTime
 
@@ -178,9 +170,9 @@ internal class PrayerTimeRepository {
         return times
     }
 
-    private fun formatPrayerTimes(times: DoubleArray): List<PrayerTimesItem> {
+    private fun formatPrayerTimes(times: DoubleArray): List<PrayerTimes> {
         return prayerNames.mapIndexed { index, name ->
-            PrayerTimesItem(
+            PrayerTimes(
                 name,
                 when (timeFormat) {
                     TimeFormat.HOUR_12 -> convertTo12HourFormat(times[index])
@@ -233,3 +225,4 @@ internal class PrayerTimeRepository {
         ) + day + 1721013.5
     }
 }
+
