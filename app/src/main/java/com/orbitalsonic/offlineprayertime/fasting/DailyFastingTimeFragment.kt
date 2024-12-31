@@ -1,7 +1,6 @@
 package com.orbitalsonic.offlineprayertime.fasting
 
 import android.os.Bundle
-import android.text.method.ScrollingMovementMethod
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -41,7 +40,7 @@ class DailyFastingTimeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         // Fetch and display daily fasting times
-        prayerTimeManager.fetchDailyFastingTimes(
+        prayerTimeManager.fetchTodayFastingTimes(
             latitude = latitude,
             longitude = longitude,
             highLatitudeAdjustment = HighLatitudeAdjustment.NONE,

@@ -1,7 +1,6 @@
 package com.orbitalsonic.offlineprayertime.prayer
 
 import android.os.Bundle
-import android.text.method.ScrollingMovementMethod
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -41,7 +40,7 @@ class YearlyPrayerTimeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         // Fetch and display yearly prayer times
-        prayerTimeManager.fetchYearlyPrayerTimes(
+        prayerTimeManager.fetchCurrentYearPrayerTimes(
             latitude = latitude,
             longitude = longitude,
             highLatitudeAdjustment = HighLatitudeAdjustment.NONE,

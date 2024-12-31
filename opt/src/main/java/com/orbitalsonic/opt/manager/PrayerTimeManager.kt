@@ -21,9 +21,9 @@ import java.util.Date
 class PrayerTimeManager {
 
     /**
-     * Fetch daily prayer times.
+     * Fetch today prayer times.
      */
-    fun fetchDailyPrayerTimes(
+    fun fetchTodayPrayerTimes(
         latitude: Double,
         longitude: Double,
         highLatitudeAdjustment: HighLatitudeAdjustment,
@@ -45,9 +45,9 @@ class PrayerTimeManager {
     }
 
     /**
-     * Fetch monthly prayer times.
+     * Fetch current month prayer times.
      */
-    fun fetchMonthlyPrayerTimes(
+    fun fetchCurrentMonthPrayerTimes(
         latitude: Double,
         longitude: Double,
         highLatitudeAdjustment: HighLatitudeAdjustment,
@@ -69,9 +69,9 @@ class PrayerTimeManager {
     }
 
     /**
-     * Fetch yearly prayer times.
+     * Fetch current year prayer times.
      */
-    fun fetchYearlyPrayerTimes(
+    fun fetchCurrentYearPrayerTimes(
         latitude: Double,
         longitude: Double,
         highLatitudeAdjustment: HighLatitudeAdjustment,
@@ -93,9 +93,9 @@ class PrayerTimeManager {
     }
 
     /**
-     * Fetch daily fasting times.
+     * Fetch today fasting times.
      */
-    fun fetchDailyFastingTimes(
+    fun fetchTodayFastingTimes(
         latitude: Double,
         longitude: Double,
         highLatitudeAdjustment: HighLatitudeAdjustment,
@@ -118,9 +118,9 @@ class PrayerTimeManager {
     }
 
     /**
-     * Fetch monthly fasting times.
+     * Fetch current month fasting times.
      */
-    fun fetchMonthlyFastingTimes(
+    fun fetchCurrentMonthFastingTimes(
         latitude: Double,
         longitude: Double,
         highLatitudeAdjustment: HighLatitudeAdjustment,
@@ -143,9 +143,9 @@ class PrayerTimeManager {
     }
 
     /**
-     * Fetch yearly fasting times.
+     * Fetch current yearly fasting times.
      */
-    fun fetchYearlyFastingTimes(
+    fun fetchCurrentYearFastingTimes(
         latitude: Double,
         longitude: Double,
         highLatitudeAdjustment: HighLatitudeAdjustment,
@@ -177,6 +177,8 @@ class PrayerTimeManager {
         organizationStandard: OrganizationStandard,
         timeFormat: TimeFormat
     ): List<PrayerTimesItem> {
+
+        // Today Date
         val now = Date()
         val calendar = Calendar.getInstance()
         calendar.time = now
@@ -194,6 +196,7 @@ class PrayerTimeManager {
         organizationStandard: OrganizationStandard,
         timeFormat: TimeFormat
     ): List<List<PrayerTimesItem>> {
+        // current month & year
         val currentMonth = Calendar.getInstance().get(Calendar.MONTH) + 1
         val currentYear = Calendar.getInstance().get(Calendar.YEAR)
 
@@ -210,6 +213,7 @@ class PrayerTimeManager {
         organizationStandard: OrganizationStandard,
         timeFormat: TimeFormat
     ): List<List<List<PrayerTimesItem>>> {
+        // current year
         val currentYear = Calendar.getInstance().get(Calendar.YEAR)
 
         return PrayerTimeRepository().getYearlyPrayerTimes(

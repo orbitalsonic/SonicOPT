@@ -75,9 +75,9 @@ The arguments passed for fetching prayer and fasting times are defaults. You mus
 val prayerTimeManager = PrayerTimeManager()
 ```
 
-#### Fetch Daily Prayer Times
+#### Fetch Today Prayer Times
 ```kotlin
-prayerTimeManager.fetchDailyPrayerTimes(
+prayerTimeManager.fetchTodayPrayerTimes(
     latitude = 40.7128, // Example latitude (New York)
     longitude = -74.0060, // Example longitude (New York)
     highLatitudeAdjustment = HighLatitudeAdjustment.NONE,
@@ -95,9 +95,9 @@ prayerTimeManager.fetchDailyPrayerTimes(
 }
 ```
 
-#### Fetch Monthly Prayer Times
+#### Fetch Current Month Prayer Times
 ```kotlin
-prayerTimeManager.fetchMonthlyPrayerTimes(
+prayerTimeManager.fetchCurrentMonthPrayerTimes(
     latitude = 40.7128, // Example latitude (New York)
     longitude = -74.0060, // Example longitude (New York)
     highLatitudeAdjustment = HighLatitudeAdjustment.NONE,
@@ -118,9 +118,9 @@ prayerTimeManager.fetchMonthlyPrayerTimes(
 }
 ```
 
-#### Fetch Yearly Prayer Times
+#### Fetch Current Year Prayer Times
 ```kotlin
-prayerTimeManager.fetchYearlyPrayerTimes(
+prayerTimeManager.fetchCurrentYearPrayerTimes(
     latitude = 40.7128, // Example latitude (New York)
     longitude = -74.0060, // Example longitude (New York)
     highLatitudeAdjustment = HighLatitudeAdjustment.NONE,
@@ -155,9 +155,9 @@ The arguments passed for fetching fasting and prayer times are defaults. You mus
 
 ### Fetching Fasting Times
 
-#### Fetch Daily Fasting Times
+#### Fetch Today Fasting Times
 ```kotlin
-prayerTimeManager.fetchDailyFastingTimes(
+prayerTimeManager.fetchTodayFastingTimes(
     latitude = 40.7128, // Example latitude (New York)
     longitude = -74.0060, // Example longitude (New York)
     highLatitudeAdjustment = HighLatitudeAdjustment.NONE,
@@ -173,9 +173,9 @@ prayerTimeManager.fetchDailyFastingTimes(
 }
 ```
 
-#### Fetch Monthly Fasting Times
+#### Fetch Current Month Fasting Times
 ```kotlin
-prayerTimeManager.fetchMonthlyFastingTimes(
+prayerTimeManager.fetchCurrentMonthFastingTimes(
     latitude = 40.7128, // Example latitude (New York)
     longitude = -74.0060, // Example longitude (New York)
     highLatitudeAdjustment = HighLatitudeAdjustment.NONE,
@@ -193,9 +193,9 @@ prayerTimeManager.fetchMonthlyFastingTimes(
 }
 ```
 
-#### Fetch Yearly Fasting Times
+#### Fetch Current Year Fasting Times
 ```kotlin
-prayerTimeManager.fetchYearlyFastingTimes(
+prayerTimeManager.fetchCurrentYearFastingTimes(
    latitude = 40.7128, // Example latitude (New York)
    longitude = -74.0060, // Example longitude (New York)
    highLatitudeAdjustment = HighLatitudeAdjustment.NONE,
@@ -269,3 +269,18 @@ Contributions are welcome! Fork the repository, make changes, and submit a pull 
 
 ## License
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+
+Copyright OrbitalSonic
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
