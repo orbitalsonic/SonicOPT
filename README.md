@@ -1,7 +1,6 @@
-> **⚠️ WARNING:** This library is currently under testing. Use it with caution as it may contain bugs or incomplete features.
-
-
 [![](https://jitpack.io/v/orbitalsonic/opt.svg)](https://jitpack.io/#orbitalsonic/opt)
+
+> **⚠️ WARNING:** This library is currently under testing. Use it with caution as it may contain bugs or incomplete features.
 
 # OPT (Offline Prayer Time)
 
