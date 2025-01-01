@@ -22,8 +22,8 @@ class MonthlyFastingTimeFragment : Fragment() {
     private val binding get() = _binding!!
 
     // Sample Latitude & Longitude of Islamabad
-    private val latitude: Double = 33.6995
-    private val longitude: Double = 73.0363
+    private val latitude: Double = 33.4979105
+    private val longitude: Double = 73.0722461
 
     private val prayerTimeManager = PrayerTimeManager()
 
