@@ -139,7 +139,7 @@ internal class PrayerTimeRepository {
             calculateTimeForAngle(180 - standardParams[0], dayPortions[0], latitude, julianDate),
             calculateTimeForAngle(180 - 0.833, dayPortions[1], latitude, julianDate),
             calculateMidDay(dayPortions[2], julianDate),
-            calculateAsrTime((1 + getAsrJuristicStep(juristicMethod)).toDouble(), dayPortions[3], latitude, julianDate),
+            calculateAsrTime((getAsrJuristicStep(juristicMethod)).toDouble(), dayPortions[3], latitude, julianDate),
             calculateTimeForAngle(0.833, dayPortions[4], latitude, julianDate),
             calculateTimeForAngle(standardParams[2], dayPortions[5], latitude, julianDate),
             calculateTimeForAngle(standardParams[4], dayPortions[6], latitude, julianDate)
@@ -210,6 +210,7 @@ internal class PrayerTimeRepository {
         return calendar.getActualMaximum(Calendar.DAY_OF_MONTH)
     }
 
+    // Compute the time of Asr (Shafii: step=1, Hanafi: step=2)
     private fun getAsrJuristicStep(method: JuristicMethod): Int = if (method == JuristicMethod.HANAFI) 2 else 1
 
     private fun calculateJulianDate(year: Int, month: Int, day: Int): Double {
