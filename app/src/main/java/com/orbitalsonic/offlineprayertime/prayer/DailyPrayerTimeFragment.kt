@@ -52,7 +52,7 @@ class DailyPrayerTimeFragment : Fragment() {
             highLatitudeAdjustment = HighLatitudeAdjustment.NONE,
             juristicMethod = JuristicMethod.HANAFI,
             organizationStandard = OrganizationStandard.KARACHI,
-            timeFormat = TimeFormat.FLOATING
+            timeFormat = TimeFormat.HOUR_12
         ) { result ->
             result.onSuccess { prayerItem ->
                 val formattedDate = dateFormatter.format(Date(prayerItem.date))
