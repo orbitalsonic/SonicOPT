@@ -135,6 +135,7 @@ internal class PrayerTimeRepository {
     private fun computeTimes(times: DoubleArray): DoubleArray {
         val dayPortions = dayPortion(times)
         val standardParams = getCalculationParameters()
+        // Fajr, Sunrise, Zuhr, Asr, Sunset, Maghrib, Isha respectively
         return doubleArrayOf(
             calculateTimeForAngle(180 - standardParams[0], dayPortions[0], latitude, julianDate),
             calculateTimeForAngle(180 - 0.833, dayPortions[1], latitude, julianDate),
