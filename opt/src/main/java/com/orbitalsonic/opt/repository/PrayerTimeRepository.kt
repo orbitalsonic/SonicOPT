@@ -11,7 +11,9 @@ import com.orbitalsonic.opt.utils.calculateMidDay
 import com.orbitalsonic.opt.utils.calculateTimeDifference
 import com.orbitalsonic.opt.utils.calculateTimeForAngle
 import com.orbitalsonic.opt.utils.convertTo12HourFormat
+import com.orbitalsonic.opt.utils.convertTo12HourFormatNoSuffix
 import com.orbitalsonic.opt.utils.convertTo24HourFormat
+import com.orbitalsonic.opt.utils.convertToFloatingFormat
 import java.util.Calendar
 import java.util.Date
 import java.util.TimeZone
@@ -176,8 +178,9 @@ internal class PrayerTimeRepository {
                 name,
                 when (timeFormat) {
                     TimeFormat.HOUR_12 -> convertTo12HourFormat(times[index])
-                    TimeFormat.HOUR_12_NS -> convertTo12HourFormat(times[index], false)
-                    else -> convertTo24HourFormat(times[index])
+                    TimeFormat.HOUR_12_NS -> convertTo12HourFormatNoSuffix(times[index])
+                    TimeFormat.HOUR_24 -> convertTo24HourFormat(times[index])
+                    TimeFormat.FLOATING -> convertToFloatingFormat(times[index])
                 }
             )
         }

@@ -103,6 +103,30 @@ internal fun convertTo12HourFormatNoSuffix(time: Double): String {
     return convertTo12HourFormat(time, noSuffix = true)
 }
 
+// Convert time to floating-point representation (e.g., 5.5 for 5:30)
+internal fun convertToFloatingFormat(time: Double): String {
+    return try {
+        if (java.lang.Double.isNaN(time)) {
+            return "Invalid Time"
+        }
+
+        // Normalize the time and round to avoid floating-point precision issues
+        val adjustedTime = normalizeHour(time + 0.5 / 60.0) // Add 0.5 minutes to round
+        val hours = floor(adjustedTime)
+        val minutes = (adjustedTime - hours) * 60.0
+
+        // Calculate the floating-point representation
+        val floatingTime = hours + minutes / 60.0
+
+        // Format to 2 decimal places
+        String.format("%.2f", floatingTime)
+    } catch (e: Exception) {
+        Log.e("PrayerTime", "Error in convertToFloatingFormat: $e", e)
+        "Invalid Time"
+    }
+}
+
+
 // compute the difference between two times
 internal fun calculateTimeDifference(time1: Double, time2: Double): Double {
     return normalizeHour(time2 - time1)
