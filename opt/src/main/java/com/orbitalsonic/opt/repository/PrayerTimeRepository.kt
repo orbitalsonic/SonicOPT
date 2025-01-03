@@ -212,7 +212,10 @@ internal class PrayerTimeRepository {
     }
 
     // Compute the time of Asr (Shafii: step=1, Hanafi: step=2)
-    private fun getAsrJuristicStep(method: JuristicMethod): Int = if (method == JuristicMethod.HANAFI) 2 else 1
+    private fun getAsrJuristicStep(method: JuristicMethod): Int = when(method) {
+        JuristicMethod.SHAFII -> 1
+        JuristicMethod.HANAFI -> 2
+    }
 
     private fun calculateJulianDate(year: Int, month: Int, day: Int): Double {
         return if (month <= 2) {
