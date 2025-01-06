@@ -37,15 +37,15 @@ internal class PrayerTimeRepository {
     private val iterations = 1 // Number of iterations to compute times
 
     private val standardValues = mapOf(
-        OrganizationStandard.KARACHI to doubleArrayOf(18.0, 1.0, 0.0, 0.0, 18.0),
-        OrganizationStandard.ISNA to doubleArrayOf(15.0, 1.0, 0.0, 0.0, 15.0),
-        OrganizationStandard.MWL to doubleArrayOf(18.0, 1.0, 0.0, 0.0, 17.0),
+        OrganizationStandard.KARACHI to doubleArrayOf(18.0, 1.0, 0.0, 0.833, 18.0),
+        OrganizationStandard.ISNA to doubleArrayOf(15.0, 1.0, 0.0,0.833, 15.0),
+        OrganizationStandard.MWL to doubleArrayOf(18.0, 1.0, 0.0, 0.833, 17.0),
         OrganizationStandard.MAKKAH to doubleArrayOf(18.5, 1.0, 0.0, 1.0, 90.0),
-        OrganizationStandard.EGYPT to doubleArrayOf(19.5, 1.0, 0.0, 0.0, 17.5),
-        OrganizationStandard.TEHRAN to doubleArrayOf(17.7, 0.0, 4.5, 0.0, 14.0),
-        OrganizationStandard.JAFARI to doubleArrayOf(16.0, 0.0, 4.0, 0.0, 14.0)
+        OrganizationStandard.EGYPT to doubleArrayOf(19.5, 1.0, 0.0, 0.833, 17.5),
+        OrganizationStandard.TEHRAN to doubleArrayOf(17.7, 0.0, 4.5, 0.833, 14.0),
+        OrganizationStandard.JAFARI to doubleArrayOf(16.0, 0.0, 4.0, 0.833, 14.0)
     )
-    private var customValues = doubleArrayOf(18.0, 1.0, 0.0, 0.0, 17.0)
+    private var customValues = doubleArrayOf(18.0, 1.0, 0.0, 0.833, 17.0)
 
     fun getDailyPrayerTimes(
         latitude: Double,
@@ -142,7 +142,7 @@ internal class PrayerTimeRepository {
             calculateMidDay(dayPortions[2], julianDate),
             calculateAsrTime((getAsrJuristicStep(juristicMethod)).toDouble(), dayPortions[3], latitude, julianDate),
             calculateTimeForAngle(0.833, dayPortions[4], latitude, julianDate),
-            calculateTimeForAngle(standardParams[2], dayPortions[5], latitude, julianDate),
+            calculateTimeForAngle(standardParams[3], dayPortions[5], latitude, julianDate),
             calculateTimeForAngle(standardParams[4], dayPortions[6], latitude, julianDate)
         )
     }
