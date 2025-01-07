@@ -9,14 +9,14 @@ package com.orbitalsonic.sonicopt.models
  */
 
 /**
- * Represents the Sehri (pre-dawn meal) and Iftaar (breaking fast) times for a specific day.
+ * Represents fasting times for a specific day, including Sehri and Iftaar times.
  *
- * @property date in milli seconds.
- * @property sehriTime The time for Sehri, equivalent to Fajr prayer time.
- * @property iftaarTime The time for Iftaar, equivalent to Maghrib prayer time.
+ * @property date The date of the fasting times in milliseconds since epoch.
+ * @property sehriTime The time for Sehri (pre-dawn meal), equivalent to the Fajr prayer time.
+ * @property iftaarTime The time for Iftaar (breaking the fast), equivalent to the Maghrib prayer time.
  */
 data class FastingItem(
-    var date:Long,
-    val sehriTime: String,
-    val iftaarTime: String
+    var date: Long, // The date of the specific fasting day in milliseconds.
+    val sehriTime: String, // Time for Sehri, usually matches Fajr prayer time.
+    val iftaarTime: String // Time for Iftaar, usually matches Maghrib prayer time.
 )

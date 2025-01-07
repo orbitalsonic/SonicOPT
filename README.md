@@ -268,6 +268,7 @@ data class PrayerItem(
     var prayerList: List<PrayerTimes>
 )
 ```
+
 #### PrayerTimes
 ```kotlin
 /**
@@ -283,6 +284,47 @@ data class PrayerTimes(
     var isCurrentPrayer: Boolean = false
 )
 ```
+
+#### PrayerManualCorrection
+```kotlin
+/**
+ * Represents manual corrections to prayer times.
+ * 
+ * Each correction is specified in minutes and applied to adjust prayer times.
+ * Corrections are restricted to a range of -59 to +59 minutes.
+ * If a correction exceeds this range, it is reset to 0 (no correction).
+ *
+ * @property fajrMinute Manual adjustment for Fajr prayer.
+ * @property zuhrMinute Manual adjustment for Zuhr prayer.
+ * @property asrMinute Manual adjustment for Asr prayer.
+ * @property maghribMinute Manual adjustment for Maghrib prayer.
+ * @property ishaMinute Manual adjustment for Isha prayer.
+ */
+data class PrayerManualCorrection(
+    var fajrMinute: Int = 0,
+    var zuhrMinute: Int = 0,
+    var asrMinute: Int = 0,
+    var maghribMinute: Int = 0,
+    var ishaMinute: Int = 0
+)
+```
+
+#### PrayerCustomAngle
+```kotlin
+/**
+ * Represents custom angles for Fajr and Isha prayers.
+ * 
+ * These angles are used when the prayer time convention is set to CUSTOM.
+ *
+ * @property fajrAngle The custom angle for calculating Fajr prayer time.
+ * @property ishaAngle The custom angle for calculating Isha prayer time.
+ */
+data class PrayerCustomAngle(
+    val fajrAngle: Double = 9.0,
+    val ishaAngle: Double = 14.0
+)
+```
+
 #### FastingItem
 ```kotlin
 /**
@@ -299,6 +341,7 @@ data class FastingItem(
 )
 ```
 ---
+
 
 ## Configuration Options
 

@@ -9,15 +9,15 @@ package com.orbitalsonic.sonicopt.models
  */
 
 /**
- * Represents the prayer times for a specific day.
+ * Represents the details of an individual prayer time.
  *
- * @property prayerName The name of the prayer (e.g., Fajr, Dhuhr, etc.).
- * @property prayerTime The time of the prayer, formatted as per user settings.
- * @property isCurrentPrayer Indicates whether this prayer is currently active.
+ * @property prayerName The name of the prayer (e.g., Fajr, Dhuhr, Asr, Maghrib, Isha).
+ * @property prayerTime The time of the prayer as a string, formatted based on user preferences.
+ * @property isCurrentPrayer A flag indicating whether this prayer is currently active (true) or not (false).
  */
 data class PrayerTimes(
-    var prayerName: String,
-    var prayerTime: String,
-    var isCurrentPrayer: Boolean = false
+    var prayerName: String, // The name of the prayer.
+    var prayerTime: String, // The formatted prayer time.
+    var isCurrentPrayer: Boolean = false // Indicates if this is the currently active prayer.
 )
 

@@ -11,11 +11,11 @@ package com.orbitalsonic.sonicopt.models
 /**
  * Represents the prayer times for a specific day.
  *
- * @property date in milli seconds.
- * @property prayerList List of all five prayers and sunrise & sunset.
+ * @property date The date of the prayer times in milliseconds since epoch.
+ * @property prayerList A list containing the details of all five prayers, including sunrise and sunset times.
  */
 data class PrayerItem(
-    var date:Long,
-    var prayerList:List<PrayerTimes>
+    var date: Long, // The date of the specific day's prayer times in milliseconds.
+    var prayerList: List<PrayerTimes> // List of prayer times and additional details for the day.
 )
 

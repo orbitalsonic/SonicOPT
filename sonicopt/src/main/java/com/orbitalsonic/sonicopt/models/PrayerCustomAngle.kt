@@ -9,7 +9,15 @@ package com.orbitalsonic.sonicopt.models
  */
 
 
+/**
+ * Represents custom angles for Fajr and Isha prayers.
+ *
+ * These angles are used when the prayer time convention is set to CUSTOM.
+ *
+ * @property fajrAngle The custom angle for calculating Fajr prayer time.
+ * @property ishaAngle The custom angle for calculating Isha prayer time.
+ */
 data class PrayerCustomAngle(
-    val fajrAngle: Double = 9.0,
-    val ishaAngle: Double = 14.0
+    val fajrAngle: Double = 9.0, // Default angle for Fajr prayer.
+    val ishaAngle: Double = 14.0 // Default angle for Isha prayer.
 )
