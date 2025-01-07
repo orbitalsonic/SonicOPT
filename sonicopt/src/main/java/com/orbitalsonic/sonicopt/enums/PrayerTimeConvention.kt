@@ -1,4 +1,4 @@
-package com.orbitalsonic.opt.enums
+package com.orbitalsonic.sonicopt.enums
 
 /**
  * Represents different methods of calculating prayer times.

@@ -1,4 +1,4 @@
-package com.orbitalsonic.opt.models
+package com.orbitalsonic.sonicopt.models
 
 /**
  * Represents the prayer times for a specific day.

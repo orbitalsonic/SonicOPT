@@ -15,6 +15,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "OPT"
+rootProject.name = "OfflinePrayerTime"
 include ':app'
-include ':opt'
+include ':sonicopt'

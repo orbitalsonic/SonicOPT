@@ -46,6 +46,6 @@ dependencies {
     implementation("androidx.navigation:navigation-fragment-ktx:2.8.5")
     implementation("androidx.navigation:navigation-ui-ktx:2.8.5")
 
-    // OPT (Offline Prayer Time)
-    implementation project(path: ':opt')
+    // SonicOPT (Offline Prayer Time)
+    implementation project(path: ':sonicopt')
 }

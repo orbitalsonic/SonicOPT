@@ -1,4 +1,4 @@
-package com.orbitalsonic.opt.enums
+package com.orbitalsonic.sonicopt.enums
 
 /**
  * Represents the two juristic methods for calculating Asr prayer time.

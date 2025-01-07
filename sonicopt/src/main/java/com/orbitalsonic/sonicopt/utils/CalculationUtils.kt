@@ -1,4 +1,4 @@
-package com.orbitalsonic.opt.utils
+package com.orbitalsonic.sonicopt.utils
 
 import android.util.Log
 import kotlin.math.abs

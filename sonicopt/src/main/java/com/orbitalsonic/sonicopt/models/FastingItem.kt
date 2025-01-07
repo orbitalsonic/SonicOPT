@@ -1,4 +1,4 @@
-package com.orbitalsonic.opt.models
+package com.orbitalsonic.sonicopt.models
 
 /**
  * Represents the Sehri (pre-dawn meal) and Iftaar (breaking fast) times for a specific day.

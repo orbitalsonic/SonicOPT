@@ -1,4 +1,4 @@
-package com.orbitalsonic.opt.utils
+package com.orbitalsonic.sonicopt.utils
 
 import kotlin.math.acos
 import kotlin.math.asin

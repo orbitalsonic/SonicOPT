@@ -1,4 +1,4 @@
-package com.orbitalsonic.opt.enums
+package com.orbitalsonic.sonicopt.enums
 
 /**
  * Represents the format for displaying time.

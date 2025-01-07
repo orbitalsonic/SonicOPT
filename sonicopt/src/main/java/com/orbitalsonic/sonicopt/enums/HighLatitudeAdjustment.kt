@@ -1,4 +1,4 @@
-package com.orbitalsonic.opt.enums
+package com.orbitalsonic.sonicopt.enums
 
 /**
  * Represents methods for adjusting prayer times at high latitudes

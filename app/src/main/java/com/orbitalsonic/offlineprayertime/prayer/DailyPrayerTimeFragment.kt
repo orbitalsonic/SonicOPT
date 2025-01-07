@@ -7,11 +7,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.orbitalsonic.offlineprayertime.databinding.FragmentDailyPrayerTimeBinding
-import com.orbitalsonic.opt.enums.HighLatitudeAdjustment
-import com.orbitalsonic.opt.enums.AsrJuristicMethod
-import com.orbitalsonic.opt.enums.PrayerTimeConvention
-import com.orbitalsonic.opt.enums.TimeFormat
-import com.orbitalsonic.opt.manager.PrayerTimeManager
+import com.orbitalsonic.sonicopt.enums.HighLatitudeAdjustment
+import com.orbitalsonic.sonicopt.enums.AsrJuristicMethod
+import com.orbitalsonic.sonicopt.enums.PrayerTimeConvention
+import com.orbitalsonic.sonicopt.enums.TimeFormat
+import com.orbitalsonic.sonicopt.manager.PrayerTimeManager
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale

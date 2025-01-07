@@ -1,12 +1,12 @@
-package com.orbitalsonic.opt.manager
+package com.orbitalsonic.sonicopt.manager
 
-import com.orbitalsonic.opt.enums.HighLatitudeAdjustment
-import com.orbitalsonic.opt.enums.AsrJuristicMethod
-import com.orbitalsonic.opt.enums.PrayerTimeConvention
-import com.orbitalsonic.opt.enums.TimeFormat
-import com.orbitalsonic.opt.models.FastingItem
-import com.orbitalsonic.opt.models.PrayerItem
-import com.orbitalsonic.opt.repository.PrayerTimeRepository
+import com.orbitalsonic.sonicopt.enums.HighLatitudeAdjustment
+import com.orbitalsonic.sonicopt.enums.AsrJuristicMethod
+import com.orbitalsonic.sonicopt.enums.PrayerTimeConvention
+import com.orbitalsonic.sonicopt.enums.TimeFormat
+import com.orbitalsonic.sonicopt.models.FastingItem
+import com.orbitalsonic.sonicopt.models.PrayerItem
+import com.orbitalsonic.sonicopt.repository.PrayerTimeRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
