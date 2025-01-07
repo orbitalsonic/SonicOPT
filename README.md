@@ -3,7 +3,7 @@
 
 > **⚠️ WARNING:** This library is currently under testing. Use it with caution as it may contain bugs or calculation error
 
-# OPT (Offline Prayer Time)
+# SonicOPT (Offline Prayer Time)
 
 OPT is a powerful and offline library for calculating Islamic prayer and fasting times. It provides accurate prayer times for daily, monthly, and yearly durations based on location (latitude and longitude). The library supports multiple calculation methods, high-latitude adjustments, and customizable time formats, making it a versatile tool for developers.
 
