@@ -5,6 +5,7 @@ import com.orbitalsonic.sonicopt.enums.AsrJuristicMethod
 import com.orbitalsonic.sonicopt.enums.PrayerTimeConvention
 import com.orbitalsonic.sonicopt.enums.TimeFormat
 import com.orbitalsonic.sonicopt.models.FastingItem
+import com.orbitalsonic.sonicopt.models.PrayerCustomAngle
 import com.orbitalsonic.sonicopt.models.PrayerItem
 import com.orbitalsonic.sonicopt.models.PrayerManualCorrection
 import com.orbitalsonic.sonicopt.repository.PrayerTimeRepository
@@ -30,8 +31,17 @@ import java.util.Date
  */
 class PrayerTimeManager {
 
+
     /**
-     * Fetch today prayer times.
+     * Fetch Today prayer times.
+     *
+     * - **Manual Corrections**: For `PrayerManualCorrection`, only allow manual corrections within the range of -59 to 59 minutes.
+     *   If the correction is outside this range, it will default to 0 (no correction).
+     *
+     * - **Custom Angles**: If `PrayerTimeConvention` is set to CUSTOM, the method will use custom angles for Fajr and Isha prayers.
+     *   The default custom angles are:
+     *      - Fajr: 9.0°
+     *      - Isha: 14.0°
      */
     fun fetchTodayPrayerTimes(
         latitude: Double,
@@ -41,6 +51,7 @@ class PrayerTimeManager {
         prayerTimeConvention: PrayerTimeConvention = PrayerTimeConvention.KARACHI,
         timeFormat: TimeFormat = TimeFormat.HOUR_12,
         prayerManualCorrection: PrayerManualCorrection = PrayerManualCorrection(),
+        prayerCustomAngle: PrayerCustomAngle = PrayerCustomAngle(),
         callback: (Result<PrayerItem>) -> Unit
     ) {
         CoroutineScope(Dispatchers.IO).launch {
@@ -52,7 +63,8 @@ class PrayerTimeManager {
                     asrJuristicMethod,
                     prayerTimeConvention,
                     timeFormat,
-                    prayerManualCorrection
+                    prayerManualCorrection,
+                    prayerCustomAngle
                 )
                 withContext(Dispatchers.Main) { callback(Result.success(result)) }
             } catch (e: Exception) {
@@ -63,6 +75,14 @@ class PrayerTimeManager {
 
     /**
      * Fetch current month prayer times.
+     *
+     * - **Manual Corrections**: For `PrayerManualCorrection`, only allow manual corrections within the range of -59 to 59 minutes.
+     *   If the correction is outside this range, it will default to 0 (no correction).
+     *
+     * - **Custom Angles**: If `PrayerTimeConvention` is set to CUSTOM, the method will use custom angles for Fajr and Isha prayers.
+     *   The default custom angles are:
+     *      - Fajr: 9.0°
+     *      - Isha: 14.0°
      */
     fun fetchCurrentMonthPrayerTimes(
         latitude: Double,
@@ -72,6 +92,7 @@ class PrayerTimeManager {
         prayerTimeConvention: PrayerTimeConvention = PrayerTimeConvention.KARACHI,
         timeFormat: TimeFormat = TimeFormat.HOUR_12,
         prayerManualCorrection: PrayerManualCorrection = PrayerManualCorrection(),
+        prayerCustomAngle: PrayerCustomAngle = PrayerCustomAngle(),
         callback: (Result<List<PrayerItem>>) -> Unit
     ) {
         CoroutineScope(Dispatchers.IO).launch {
@@ -83,7 +104,8 @@ class PrayerTimeManager {
                     asrJuristicMethod,
                     prayerTimeConvention,
                     timeFormat,
-                    prayerManualCorrection
+                    prayerManualCorrection,
+                    prayerCustomAngle
                 )
                 withContext(Dispatchers.Main) { callback(Result.success(result)) }
             } catch (e: Exception) {
@@ -94,6 +116,14 @@ class PrayerTimeManager {
 
     /**
      * Fetch current year prayer times.
+     *
+     * - **Manual Corrections**: For `PrayerManualCorrection`, only allow manual corrections within the range of -59 to 59 minutes.
+     *   If the correction is outside this range, it will default to 0 (no correction).
+     *
+     * - **Custom Angles**: If `PrayerTimeConvention` is set to CUSTOM, the method will use custom angles for Fajr and Isha prayers.
+     *   The default custom angles are:
+     *      - Fajr: 9.0°
+     *      - Isha: 14.0°
      */
     fun fetchCurrentYearPrayerTimes(
         latitude: Double,
@@ -103,6 +133,7 @@ class PrayerTimeManager {
         prayerTimeConvention: PrayerTimeConvention = PrayerTimeConvention.KARACHI,
         timeFormat: TimeFormat = TimeFormat.HOUR_12,
         prayerManualCorrection: PrayerManualCorrection = PrayerManualCorrection(),
+        prayerCustomAngle: PrayerCustomAngle = PrayerCustomAngle(),
         callback: (Result<List<List<PrayerItem>>>) -> Unit
     ) {
         CoroutineScope(Dispatchers.IO).launch {
@@ -114,7 +145,8 @@ class PrayerTimeManager {
                     asrJuristicMethod,
                     prayerTimeConvention,
                     timeFormat,
-                    prayerManualCorrection
+                    prayerManualCorrection,
+                    prayerCustomAngle
                 )
                 withContext(Dispatchers.Main) { callback(Result.success(result)) }
             } catch (e: Exception) {
@@ -124,9 +156,19 @@ class PrayerTimeManager {
     }
 
     /**
-     * Fetch today fasting times.
-     * Fasting times are calculated based on Fajr and Maghrib prayers,
-     * Sehri ends at Fajr start time, and Iftar begins at Maghrib time.
+     * Fetch today's fasting times.
+     *
+     * - **Fasting Times**: Fasting times are derived from the Fajr and Maghrib prayer times.
+     *   - **Sehri (Pre-Dawn Meal)**: Ends at the start time of the Fajr prayer.
+     *   - **Iftar (Breaking Fast)**: Begins at the start time of the Maghrib prayer.
+     *
+     * - **Manual Corrections**: For `PrayerManualCorrection`, only allow manual corrections within the range of -59 to 59 minutes.
+     *   If the correction is outside this range, it will default to 0 (no correction).
+     *
+     * - **Custom Angles**: If `PrayerTimeConvention` is set to CUSTOM, the method will use custom angles for Fajr and Isha prayers.
+     *   The default custom angles are:
+     *      - Fajr: 9.0°
+     *      - Isha: 14.0°
      */
     fun fetchTodayFastingTimes(
         latitude: Double,
@@ -135,6 +177,7 @@ class PrayerTimeManager {
         prayerTimeConvention: PrayerTimeConvention = PrayerTimeConvention.KARACHI,
         timeFormat: TimeFormat = TimeFormat.HOUR_12,
         prayerManualCorrection: PrayerManualCorrection = PrayerManualCorrection(),
+        prayerCustomAngle: PrayerCustomAngle = PrayerCustomAngle(),
         callback: (Result<FastingItem>) -> Unit
     ) {
         CoroutineScope(Dispatchers.IO).launch {
@@ -146,7 +189,8 @@ class PrayerTimeManager {
                     AsrJuristicMethod.HANAFI,
                     prayerTimeConvention,
                     timeFormat,
-                    prayerManualCorrection
+                    prayerManualCorrection,
+                    prayerCustomAngle
                 )
                 val fastingTimes = extractFastingTimes(prayerItem)
                 withContext(Dispatchers.Main) { callback(Result.success(fastingTimes)) }
@@ -158,8 +202,18 @@ class PrayerTimeManager {
 
     /**
      * Fetch current month fasting times.
-     * Fasting times are calculated based on Fajr and Maghrib prayers,
-     * Sehri ends at Fajr start time, and Iftar begins at Maghrib time.
+     *
+     * - **Fasting Times**: Fasting times are derived from the Fajr and Maghrib prayer times.
+     *   - **Sehri (Pre-Dawn Meal)**: Ends at the start time of the Fajr prayer.
+     *   - **Iftar (Breaking Fast)**: Begins at the start time of the Maghrib prayer.
+     *
+     * - **Manual Corrections**: For `PrayerManualCorrection`, only allow manual corrections within the range of -59 to 59 minutes.
+     *   If the correction is outside this range, it will default to 0 (no correction).
+     *
+     * - **Custom Angles**: If `PrayerTimeConvention` is set to CUSTOM, the method will use custom angles for Fajr and Isha prayers.
+     *   The default custom angles are:
+     *      - Fajr: 9.0°
+     *      - Isha: 14.0°
      */
     fun fetchCurrentMonthFastingTimes(
         latitude: Double,
@@ -168,6 +222,7 @@ class PrayerTimeManager {
         prayerTimeConvention: PrayerTimeConvention = PrayerTimeConvention.KARACHI,
         timeFormat: TimeFormat = TimeFormat.HOUR_12,
         prayerManualCorrection: PrayerManualCorrection = PrayerManualCorrection(),
+        prayerCustomAngle: PrayerCustomAngle = PrayerCustomAngle(),
         callback: (Result<List<FastingItem>>) -> Unit
     ) {
         CoroutineScope(Dispatchers.IO).launch {
@@ -179,7 +234,8 @@ class PrayerTimeManager {
                     AsrJuristicMethod.HANAFI,
                     prayerTimeConvention,
                     timeFormat,
-                    prayerManualCorrection
+                    prayerManualCorrection,
+                    prayerCustomAngle
                 )
                 val fastingTimes = prayerItems.map { extractFastingTimes(it) }
                 withContext(Dispatchers.Main) { callback(Result.success(fastingTimes)) }
@@ -190,9 +246,19 @@ class PrayerTimeManager {
     }
 
     /**
-     * Fetch current yearly fasting times.
-     * Fasting times are calculated based on Fajr and Maghrib prayers,
-     * Sehri ends at Fajr start time, and Iftar begins at Maghrib time.
+     * Fetch current year fasting times.
+     *
+     * - **Fasting Times**: Fasting times are derived from the Fajr and Maghrib prayer times.
+     *   - **Sehri (Pre-Dawn Meal)**: Ends at the start time of the Fajr prayer.
+     *   - **Iftar (Breaking Fast)**: Begins at the start time of the Maghrib prayer.
+     *
+     * - **Manual Corrections**: For `PrayerManualCorrection`, only allow manual corrections within the range of -59 to 59 minutes.
+     *   If the correction is outside this range, it will default to 0 (no correction).
+     *
+     * - **Custom Angles**: If `PrayerTimeConvention` is set to CUSTOM, the method will use custom angles for Fajr and Isha prayers.
+     *   The default custom angles are:
+     *      - Fajr: 9.0°
+     *      - Isha: 14.0°
      */
     fun fetchCurrentYearFastingTimes(
         latitude: Double,
@@ -201,6 +267,7 @@ class PrayerTimeManager {
         prayerTimeConvention: PrayerTimeConvention = PrayerTimeConvention.KARACHI,
         timeFormat: TimeFormat = TimeFormat.HOUR_12,
         prayerManualCorrection: PrayerManualCorrection = PrayerManualCorrection(),
+        prayerCustomAngle: PrayerCustomAngle = PrayerCustomAngle(),
         callback: (Result<List<List<FastingItem>>>) -> Unit
     ) {
         CoroutineScope(Dispatchers.IO).launch {
@@ -212,7 +279,8 @@ class PrayerTimeManager {
                     AsrJuristicMethod.HANAFI,
                     prayerTimeConvention,
                     timeFormat,
-                    prayerManualCorrection
+                    prayerManualCorrection,
+                    prayerCustomAngle
                 )
                 val fastingTimes = prayerItems.map { monthlyPrayerItems ->
                     monthlyPrayerItems.map { extractFastingTimes(it) }
@@ -231,7 +299,8 @@ class PrayerTimeManager {
         asrJuristicMethod: AsrJuristicMethod,
         prayerTimeConvention: PrayerTimeConvention,
         timeFormat: TimeFormat,
-        prayerManualCorrection: PrayerManualCorrection
+        prayerManualCorrection: PrayerManualCorrection,
+        prayerCustomAngle: PrayerCustomAngle,
     ): PrayerItem {
 
         val now = Date()
@@ -246,7 +315,8 @@ class PrayerTimeManager {
             asrJuristicMethod,
             prayerTimeConvention,
             timeFormat,
-            prayerManualCorrection
+            prayerManualCorrection,
+            prayerCustomAngle
         )
     }
 
@@ -257,7 +327,8 @@ class PrayerTimeManager {
         asrJuristicMethod: AsrJuristicMethod,
         prayerTimeConvention: PrayerTimeConvention,
         timeFormat: TimeFormat,
-        prayerManualCorrection: PrayerManualCorrection
+        prayerManualCorrection: PrayerManualCorrection,
+        prayerCustomAngle: PrayerCustomAngle,
     ): List<PrayerItem> {
         val currentMonth = Calendar.getInstance().get(Calendar.MONTH) + 1
         val currentYear = Calendar.getInstance().get(Calendar.YEAR)
@@ -271,7 +342,8 @@ class PrayerTimeManager {
             asrJuristicMethod,
             prayerTimeConvention,
             timeFormat,
-            prayerManualCorrection
+            prayerManualCorrection,
+            prayerCustomAngle
         )
     }
 
@@ -282,7 +354,8 @@ class PrayerTimeManager {
         asrJuristicMethod: AsrJuristicMethod,
         prayerTimeConvention: PrayerTimeConvention,
         timeFormat: TimeFormat,
-        prayerManualCorrection: PrayerManualCorrection
+        prayerManualCorrection: PrayerManualCorrection,
+        prayerCustomAngle: PrayerCustomAngle,
     ): List<List<PrayerItem>> {
         val currentYear = Calendar.getInstance().get(Calendar.YEAR)
 
@@ -294,7 +367,8 @@ class PrayerTimeManager {
             asrJuristicMethod,
             prayerTimeConvention,
             timeFormat,
-            prayerManualCorrection
+            prayerManualCorrection,
+            prayerCustomAngle
         )
     }
 

@@ -12,6 +12,7 @@ import com.orbitalsonic.sonicopt.enums.HighLatitudeAdjustment
 import com.orbitalsonic.sonicopt.enums.AsrJuristicMethod
 import com.orbitalsonic.sonicopt.enums.PrayerTimeConvention
 import com.orbitalsonic.sonicopt.enums.TimeFormat
+import com.orbitalsonic.sonicopt.models.PrayerCustomAngle
 import com.orbitalsonic.sonicopt.models.PrayerItem
 import com.orbitalsonic.sonicopt.models.PrayerManualCorrection
 import com.orbitalsonic.sonicopt.models.PrayerTimes
@@ -37,6 +38,7 @@ internal class PrayerTimeRepository {
     private var prayerTimeConvention = PrayerTimeConvention.KARACHI
     private var timeFormat = TimeFormat.HOUR_12
     private var prayerManualCorrection = PrayerManualCorrection()
+    private var prayerCustomAngle = PrayerCustomAngle()
 
     private var latitude = 0.0
     private var longitude = 0.0
@@ -67,11 +69,8 @@ internal class PrayerTimeRepository {
         PrayerTimeConvention.GULF_REGION to Pair(19.5, -1.0),
         PrayerTimeConvention.FRANCE to Pair(12.0, 12.0),
         PrayerTimeConvention.TURKEY to Pair(18.0, 17.0),
-        PrayerTimeConvention.RUSSIA to Pair(16.0, 15.0),
-        PrayerTimeConvention.CUSTOM to Pair(9.0, 14.0)
+        PrayerTimeConvention.RUSSIA to Pair(16.0, 15.0)
     )
-
-    private var customValues = Pair(9.0, 14.0)
 
     fun getDailyPrayerTimes(
         mLatitude: Double,
@@ -81,7 +80,8 @@ internal class PrayerTimeRepository {
         mAsrJuristicMethod: AsrJuristicMethod,
         mPrayerTimeConvention: PrayerTimeConvention,
         mTimeFormat: TimeFormat,
-        mPrayerManualCorrection: PrayerManualCorrection
+        mPrayerManualCorrection: PrayerManualCorrection,
+        mPrayerCustomAngle:PrayerCustomAngle
     ): PrayerItem {
         initializeParameters(
             mLatitude = mLatitude,
@@ -90,7 +90,8 @@ internal class PrayerTimeRepository {
             mAsrJuristicMethod = mAsrJuristicMethod,
             mPrayerTimeConvention = mPrayerTimeConvention,
             mTimeFormat = mTimeFormat,
-            mPrayerManualCorrection = mPrayerManualCorrection
+            mPrayerManualCorrection = mPrayerManualCorrection,
+            mPrayerCustomAngle = mPrayerCustomAngle
         )
         return calculatePrayerTimesForDate(mDate)
     }
@@ -104,7 +105,8 @@ internal class PrayerTimeRepository {
         mAsrJuristicMethod: AsrJuristicMethod,
         mPrayerTimeConvention: PrayerTimeConvention,
         mTimeFormat: TimeFormat,
-        mPrayerManualCorrection: PrayerManualCorrection
+        mPrayerManualCorrection: PrayerManualCorrection,
+        mPrayerCustomAngle:PrayerCustomAngle
     ): List<PrayerItem> {
         initializeParameters(
             mLatitude = mLatitude,
@@ -113,7 +115,8 @@ internal class PrayerTimeRepository {
             mAsrJuristicMethod = mAsrJuristicMethod,
             mPrayerTimeConvention = mPrayerTimeConvention,
             mTimeFormat = mTimeFormat,
-            mPrayerManualCorrection = mPrayerManualCorrection
+            mPrayerManualCorrection = mPrayerManualCorrection,
+            mPrayerCustomAngle = mPrayerCustomAngle
         )
         return (1..getDaysInMonth(year, month)).map { day ->
             calculatePrayerTimesForDate(
@@ -130,7 +133,8 @@ internal class PrayerTimeRepository {
         mAsrJuristicMethod: AsrJuristicMethod,
         mPrayerTimeConvention: PrayerTimeConvention,
         mTimeFormat: TimeFormat,
-        mPrayerManualCorrection: PrayerManualCorrection
+        mPrayerManualCorrection: PrayerManualCorrection,
+        mPrayerCustomAngle:PrayerCustomAngle
     ): List<List<PrayerItem>> {
         return (1..12).map { month ->
             getMonthlyPrayerTimes(
@@ -142,7 +146,8 @@ internal class PrayerTimeRepository {
                 mAsrJuristicMethod,
                 mPrayerTimeConvention,
                 mTimeFormat,
-                mPrayerManualCorrection
+                mPrayerManualCorrection,
+                mPrayerCustomAngle
             )
         }
     }
@@ -154,7 +159,8 @@ internal class PrayerTimeRepository {
         mAsrJuristicMethod: AsrJuristicMethod,
         mPrayerTimeConvention: PrayerTimeConvention,
         mTimeFormat: TimeFormat,
-        mPrayerManualCorrection: PrayerManualCorrection
+        mPrayerManualCorrection: PrayerManualCorrection,
+        mPrayerCustomAngle:PrayerCustomAngle
     ) {
         this.latitude = mLatitude
         this.longitude = mLongitude
@@ -163,6 +169,7 @@ internal class PrayerTimeRepository {
         this.prayerTimeConvention = mPrayerTimeConvention
         this.timeFormat = mTimeFormat
         this.prayerManualCorrection = mPrayerManualCorrection
+        this.prayerCustomAngle = mPrayerCustomAngle
 
         val defaultTimeZone = TimeZone.getDefault()
         val defaultTimeZoneOffsetHours =
@@ -366,8 +373,15 @@ internal class PrayerTimeRepository {
         }
     }
 
+    /**
+     * if PrayerTimeConvention is CUSTOM then it will use Prayer Custom Angle
+     * for fajr and isha which is default are Fajr: 9.0°, Isha: 14.0°
+     */
     private fun getCalculationParameters(): Pair<Double, Double> {
-        return standardAngleValues[prayerTimeConvention] ?: customValues
+        return standardAngleValues[prayerTimeConvention] ?: Pair(
+            prayerCustomAngle.fajrAngle,
+            prayerCustomAngle.ishaAngle
+        )
     }
 
     private fun nightPortion(angle: Double): Double {

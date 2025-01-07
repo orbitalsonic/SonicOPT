@@ -77,7 +77,16 @@ val prayerTimeManager = PrayerTimeManager()
 ---
 
 ### Fetching Prayer Times
+
 Prayer times are calculated based on the provided latitude, longitude, high latitude adjustment, Asr juristic method, prayer time convention, and time format.
+
+- **Manual Corrections**: You can adjust prayer times manually within a range of -59 to +59 minutes. If the adjustment exceeds this range, it defaults to 0 (no correction).
+- **Custom Angles**: When the `PrayerTimeConvention` is set to CUSTOM, you can define specific angles for Fajr and Isha prayers. The default custom angles are:
+    - **Fajr**: 9.0°
+    - **Isha**: 14.0°
+
+By utilizing these features, you can calculate accurate and tailored prayer times for any location and customize them to meet your specific needs.
+
 
 #### Fetch Today Prayer Times
 ```kotlin
@@ -87,7 +96,9 @@ prayerTimeManager.fetchTodayPrayerTimes(
     highLatitudeAdjustment = HighLatitudeAdjustment.NO_ADJUSTMENT,
     asrJuristicMethod = AsrJuristicMethod.HANAFI,
     prayerTimeConvention = PrayerTimeConvention.KARACHI,
-    timeFormat = TimeFormat.HOUR_12
+    timeFormat = TimeFormat.HOUR_12,
+    prayerManualCorrection = PrayerManualCorrection(fajrMinute = 0, zuhrMinute = 0, asrMinute = 0, maghribMinute = 0, ishaMinute = 2),
+    prayerCustomAngle = PrayerCustomAngle(fajrAngle = 9.0, ishaAngle = 14.0)
 ) { result ->
     result.onSuccess { prayerItem ->
         val date = Date(prayerItem.date)
@@ -109,7 +120,9 @@ prayerTimeManager.fetchCurrentMonthPrayerTimes(
     highLatitudeAdjustment = HighLatitudeAdjustment.NO_ADJUSTMENT,
     asrJuristicMethod = AsrJuristicMethod.HANAFI,
     prayerTimeConvention = PrayerTimeConvention.KARACHI,
-    timeFormat = TimeFormat.HOUR_12
+    timeFormat = TimeFormat.HOUR_12,
+    prayerManualCorrection = PrayerManualCorrection(fajrMinute = 0, zuhrMinute = 0, asrMinute = 0, maghribMinute = 0, ishaMinute = 2),
+    prayerCustomAngle = PrayerCustomAngle(fajrAngle = 9.0, ishaAngle = 14.0)
 ) { result ->
     result.onSuccess { prayerItems ->
         prayerItems.forEachIndexed { index, prayerItem ->
@@ -133,7 +146,9 @@ prayerTimeManager.fetchCurrentYearPrayerTimes(
     highLatitudeAdjustment = HighLatitudeAdjustment.NO_ADJUSTMENT,
     asrJuristicMethod = AsrJuristicMethod.HANAFI,
     prayerTimeConvention = PrayerTimeConvention.KARACHI,
-    timeFormat = TimeFormat.HOUR_12
+    timeFormat = TimeFormat.HOUR_12,
+    prayerManualCorrection = PrayerManualCorrection(fajrMinute = 0, zuhrMinute = 0, asrMinute = 0, maghribMinute = 0, ishaMinute = 2),
+    prayerCustomAngle = PrayerCustomAngle(fajrAngle = 9.0, ishaAngle = 14.0)
 ) { result ->
     result.onSuccess { prayerItems ->
         prayerItems.forEachIndexed { monthIndex, monthlyPrayerItems ->
@@ -154,9 +169,19 @@ prayerTimeManager.fetchCurrentYearPrayerTimes(
 
 ---
 
-
 ## Fetching Fasting Times
-Fasting times are calculated based on Fajr and Maghrib prayers, Sehri ends at Fajr start time, and Iftar begins at Maghrib time. To calculate these times, provide the latitude, longitude, high latitude adjustment, and prayer time convention.
+
+Fasting times are calculated based on the Fajr and Maghrib prayer times. Sehri ends at the start time of the Fajr prayer, and Iftar begins at the start time of the Maghrib prayer. To calculate these times, provide the latitude, longitude, high latitude adjustment, and prayer time convention.
+
+- **Fasting Times**:
+    - **Sehri (Pre-Dawn Meal)**: Ends at the start time of the Fajr prayer.
+    - **Iftar (Breaking Fast)**: Begins at the start time of the Maghrib prayer.
+
+- **Manual Corrections**: Fasting times can be adjusted using manual corrections within a range of -59 to +59 minutes. If the adjustment exceeds this range, it defaults to 0 (no correction).
+
+- **Custom Angles**: When `PrayerTimeConvention` is set to CUSTOM, specific angles for Fajr and Isha prayers can be defined. The default custom angles are:
+    - **Fajr**: 9.0°
+    - **Isha**: 14.0°
 
 #### Fetch Today Fasting Times
 ```kotlin
@@ -165,7 +190,9 @@ prayerTimeManager.fetchTodayFastingTimes(
     longitude = 73.0722461, // Example longitude (Islamabad, Pakistan)
     highLatitudeAdjustment = HighLatitudeAdjustment.NO_ADJUSTMENT,
     prayerTimeConvention = PrayerTimeConvention.KARACHI,
-    timeFormat = TimeFormat.HOUR_12
+    timeFormat = TimeFormat.HOUR_12,
+    prayerManualCorrection = PrayerManualCorrection(fajrMinute = 0,maghribMinute = 0),
+    prayerCustomAngle = PrayerCustomAngle(fajrAngle = 9.0, ishaAngle = 14.0)
 ) { result ->
     result.onSuccess { fastingItem ->
         val date = Date(fastingItem.date)
@@ -184,7 +211,9 @@ prayerTimeManager.fetchCurrentMonthFastingTimes(
     longitude = 73.0722461, // Example longitude (Islamabad, Pakistan)
     highLatitudeAdjustment = HighLatitudeAdjustment.NO_ADJUSTMENT,
     prayerTimeConvention = PrayerTimeConvention.KARACHI,
-    timeFormat = TimeFormat.HOUR_12
+    timeFormat = TimeFormat.HOUR_12,
+    prayerManualCorrection = PrayerManualCorrection(fajrMinute = 0,maghribMinute = 0),
+    prayerCustomAngle = PrayerCustomAngle(fajrAngle = 9.0, ishaAngle = 14.0)
 ) { result ->
     result.onSuccess { fastingTimes ->
         fastingTimes.forEachIndexed { index, fastingItem ->
@@ -204,7 +233,9 @@ prayerTimeManager.fetchCurrentYearFastingTimes(
    longitude = 73.0722461, // Example longitude (Islamabad, Pakistan)
     highLatitudeAdjustment = HighLatitudeAdjustment.NO_ADJUSTMENT,
     prayerTimeConvention = PrayerTimeConvention.KARACHI,
-   timeFormat = TimeFormat.HOUR_12
+   timeFormat = TimeFormat.HOUR_12,
+    prayerManualCorrection = PrayerManualCorrection(fajrMinute = 0,maghribMinute = 0),
+    prayerCustomAngle = PrayerCustomAngle(fajrAngle = 9.0, ishaAngle = 14.0)
 ) { result ->
    result.onSuccess { fastingTimes ->
       fastingTimes.forEachIndexed { monthIndex, monthlyFastingList ->

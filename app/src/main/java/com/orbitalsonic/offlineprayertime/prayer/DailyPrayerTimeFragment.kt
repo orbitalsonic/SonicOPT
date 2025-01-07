@@ -12,6 +12,7 @@ import com.orbitalsonic.sonicopt.enums.AsrJuristicMethod
 import com.orbitalsonic.sonicopt.enums.PrayerTimeConvention
 import com.orbitalsonic.sonicopt.enums.TimeFormat
 import com.orbitalsonic.sonicopt.manager.PrayerTimeManager
+import com.orbitalsonic.sonicopt.models.PrayerCustomAngle
 import com.orbitalsonic.sonicopt.models.PrayerManualCorrection
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -48,9 +49,15 @@ class DailyPrayerTimeFragment : Fragment() {
 
 
         /**
-         * Fetch and display daily prayer times
-         * Only allow manual corrections within the range of -59 to 59 minutes.
-         * If the correction is outside this range, set it to 0 (no correction).
+         * Fetch Today prayer times.
+         *
+         * - **Manual Corrections**: For `PrayerManualCorrection`, only allow manual corrections within the range of -59 to 59 minutes.
+         *   If the correction is outside this range, it will default to 0 (no correction).
+         *
+         * - **Custom Angles**: If `PrayerTimeConvention` is set to CUSTOM, the method will use custom angles for Fajr and Isha prayers.
+         *   The default custom angles are:
+         *      - Fajr: 9.0°
+         *      - Isha: 14.0°
          */
         prayerTimeManager.fetchTodayPrayerTimes(
             latitude = latitude,
@@ -59,13 +66,8 @@ class DailyPrayerTimeFragment : Fragment() {
             asrJuristicMethod = AsrJuristicMethod.HANAFI,
             prayerTimeConvention = PrayerTimeConvention.KARACHI,
             timeFormat = TimeFormat.HOUR_12,
-            prayerManualCorrection = PrayerManualCorrection(
-                fajrMinute = 0,
-                zuhrMinute = 0,
-                asrMinute = 0,
-                maghribMinute = 0,
-                ishaMinute = 2
-            )
+            prayerManualCorrection = PrayerManualCorrection(fajrMinute = 0, zuhrMinute = 0, asrMinute = 0, maghribMinute = 0, ishaMinute = 2),
+            prayerCustomAngle = PrayerCustomAngle(fajrAngle = 9.0, ishaAngle = 14.0)
         ) { result ->
             result.onSuccess { prayerItem ->
                 val formattedDate = dateFormatter.format(Date(prayerItem.date))

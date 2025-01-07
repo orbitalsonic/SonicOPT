@@ -12,6 +12,7 @@ import com.orbitalsonic.sonicopt.enums.AsrJuristicMethod
 import com.orbitalsonic.sonicopt.enums.PrayerTimeConvention
 import com.orbitalsonic.sonicopt.enums.TimeFormat
 import com.orbitalsonic.sonicopt.manager.PrayerTimeManager
+import com.orbitalsonic.sonicopt.models.PrayerCustomAngle
 import com.orbitalsonic.sonicopt.models.PrayerManualCorrection
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -47,9 +48,19 @@ class DailyFastingTimeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         /**
-         * Fetch current yearly fasting times.
-         * Fasting times are calculated based on Fajr and Maghrib prayers,
-         * Sehri ends at Fajr start time, and Iftar begins at Maghrib time.
+         * Fetch today's fasting times.
+         *
+         * - **Fasting Times**: Fasting times are derived from the Fajr and Maghrib prayer times.
+         *   - **Sehri (Pre-Dawn Meal)**: Ends at the start time of the Fajr prayer.
+         *   - **Iftar (Breaking Fast)**: Begins at the start time of the Maghrib prayer.
+         *
+         * - **Manual Corrections**: For `PrayerManualCorrection`, only allow manual corrections within the range of -59 to 59 minutes.
+         *   If the correction is outside this range, it will default to 0 (no correction).
+         *
+         * - **Custom Angles**: If `PrayerTimeConvention` is set to CUSTOM, the method will use custom angles for Fajr and Isha prayers.
+         *   The default custom angles are:
+         *      - Fajr: 9.0°
+         *      - Isha: 14.0°
          */
         prayerTimeManager.fetchTodayFastingTimes(
             latitude = latitude,
@@ -57,7 +68,8 @@ class DailyFastingTimeFragment : Fragment() {
             highLatitudeAdjustment = HighLatitudeAdjustment.NO_ADJUSTMENT,
             prayerTimeConvention = PrayerTimeConvention.KARACHI,
             timeFormat = TimeFormat.HOUR_12,
-            prayerManualCorrection = PrayerManualCorrection(fajrMinute = 0,maghribMinute = 0)
+            prayerManualCorrection = PrayerManualCorrection(fajrMinute = 0,maghribMinute = 0),
+            prayerCustomAngle = PrayerCustomAngle(fajrAngle = 9.0, ishaAngle = 14.0)
         ) { result ->
             result.onSuccess { fastingItem ->
                 val formattedDate = dateFormatter.format(Date(fastingItem.date))

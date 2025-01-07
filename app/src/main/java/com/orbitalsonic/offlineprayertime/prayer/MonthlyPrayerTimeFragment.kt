@@ -12,6 +12,7 @@ import com.orbitalsonic.sonicopt.enums.AsrJuristicMethod
 import com.orbitalsonic.sonicopt.enums.PrayerTimeConvention
 import com.orbitalsonic.sonicopt.enums.TimeFormat
 import com.orbitalsonic.sonicopt.manager.PrayerTimeManager
+import com.orbitalsonic.sonicopt.models.PrayerCustomAngle
 import com.orbitalsonic.sonicopt.models.PrayerManualCorrection
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -46,7 +47,17 @@ class MonthlyPrayerTimeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Fetch and display monthly prayer times
+        /**
+         * Fetch current month prayer times.
+         *
+         * - **Manual Corrections**: For `PrayerManualCorrection`, only allow manual corrections within the range of -59 to 59 minutes.
+         *   If the correction is outside this range, it will default to 0 (no correction).
+         *
+         * - **Custom Angles**: If `PrayerTimeConvention` is set to CUSTOM, the method will use custom angles for Fajr and Isha prayers.
+         *   The default custom angles are:
+         *      - Fajr: 9.0°
+         *      - Isha: 14.0°
+         */
         prayerTimeManager.fetchCurrentMonthPrayerTimes(
             latitude = latitude,
             longitude = longitude,
@@ -60,7 +71,8 @@ class MonthlyPrayerTimeFragment : Fragment() {
                 asrMinute = 0,
                 maghribMinute = 0,
                 ishaMinute = 0
-            )
+            ),
+            prayerCustomAngle = PrayerCustomAngle(fajrAngle = 9.0, ishaAngle = 14.0)
         ) { result ->
             result.onSuccess { prayerItems ->
                 logBuilder.appendLine("----Monthly Prayer Times----")
