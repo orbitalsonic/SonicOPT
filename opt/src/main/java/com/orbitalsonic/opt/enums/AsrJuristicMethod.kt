@@ -4,13 +4,13 @@ package com.orbitalsonic.opt.enums
  * Represents the two juristic methods for calculating Asr prayer time.
  * These methods define the shadow ratio for determining Asr.
  */
-enum class JuristicMethod {
+enum class AsrJuristicMethod {
 
     /**
-     * SHAFII: Used in the Shafi'i school of thought.
+     * SHAFI: Used in the Shafi'i school of thought.
      * Asr begins when the shadow of an object equals its height.
      */
-    SHAFII,
+    SHAFI,
 
     /**
      * HANAFI: Used in the Hanafi school of thought.
@@ -18,3 +18,10 @@ enum class JuristicMethod {
      */
     HANAFI
 }
+
+/**
+--- Asr Time Calculation ---
+
+  1. Hanafi
+  2. Shafi
+ */

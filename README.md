@@ -80,9 +80,9 @@ val prayerTimeManager = PrayerTimeManager()
 prayerTimeManager.fetchTodayPrayerTimes(
     latitude = 40.7128, // Example latitude (New York)
     longitude = -74.0060, // Example longitude (New York)
-    highLatitudeAdjustment = HighLatitudeAdjustment.NONE,
-    juristicMethod = JuristicMethod.HANAFI,
-    organizationStandard = OrganizationStandard.KARACHI,
+    highLatitudeAdjustment = HighLatitudeAdjustment.NO_ADJUSTMENT,
+    asrJuristicMethod = AsrJuristicMethod.HANAFI,
+    prayerTimeConvention = PrayerTimeConvention.KARACHI,
     timeFormat = TimeFormat.HOUR_12
 ) { result ->
     result.onSuccess { prayerItem ->
@@ -102,9 +102,9 @@ prayerTimeManager.fetchTodayPrayerTimes(
 prayerTimeManager.fetchCurrentMonthPrayerTimes(
     latitude = 40.7128, // Example latitude (New York)
     longitude = -74.0060, // Example longitude (New York)
-    highLatitudeAdjustment = HighLatitudeAdjustment.NONE,
-    juristicMethod = JuristicMethod.HANAFI,
-    organizationStandard = OrganizationStandard.KARACHI,
+    highLatitudeAdjustment = HighLatitudeAdjustment.NO_ADJUSTMENT,
+    asrJuristicMethod = AsrJuristicMethod.HANAFI,
+    prayerTimeConvention = PrayerTimeConvention.KARACHI,
     timeFormat = TimeFormat.HOUR_12
 ) { result ->
     result.onSuccess { prayerItems ->
@@ -126,9 +126,9 @@ prayerTimeManager.fetchCurrentMonthPrayerTimes(
 prayerTimeManager.fetchCurrentYearPrayerTimes(
     latitude = 40.7128, // Example latitude (New York)
     longitude = -74.0060, // Example longitude (New York)
-    highLatitudeAdjustment = HighLatitudeAdjustment.NONE,
-    juristicMethod = JuristicMethod.HANAFI,
-    organizationStandard = OrganizationStandard.KARACHI,
+    highLatitudeAdjustment = HighLatitudeAdjustment.NO_ADJUSTMENT,
+    asrJuristicMethod = AsrJuristicMethod.HANAFI,
+    prayerTimeConvention = PrayerTimeConvention.KARACHI,
     timeFormat = TimeFormat.HOUR_12
 ) { result ->
     result.onSuccess { prayerItems ->
@@ -160,9 +160,9 @@ To fetch fasting times, use the `PrayerTimeManager` class in conjunction with fa
 prayerTimeManager.fetchTodayFastingTimes(
     latitude = 40.7128, // Example latitude (New York)
     longitude = -74.0060, // Example longitude (New York)
-    highLatitudeAdjustment = HighLatitudeAdjustment.NONE,
-    juristicMethod = JuristicMethod.HANAFI,
-    organizationStandard = OrganizationStandard.KARACHI,
+    highLatitudeAdjustment = HighLatitudeAdjustment.NO_ADJUSTMENT,
+    asrJuristicMethod = AsrJuristicMethod.HANAFI,
+    prayerTimeConvention = PrayerTimeConvention.KARACHI,
     timeFormat = TimeFormat.HOUR_12
 ) { result ->
     result.onSuccess { fastingItem ->
@@ -180,9 +180,9 @@ prayerTimeManager.fetchTodayFastingTimes(
 prayerTimeManager.fetchCurrentMonthFastingTimes(
     latitude = 40.7128, // Example latitude (New York)
     longitude = -74.0060, // Example longitude (New York)
-    highLatitudeAdjustment = HighLatitudeAdjustment.NONE,
-    juristicMethod = JuristicMethod.HANAFI,
-    organizationStandard = OrganizationStandard.KARACHI,
+    highLatitudeAdjustment = HighLatitudeAdjustment.NO_ADJUSTMENT,
+    asrJuristicMethod = AsrJuristicMethod.HANAFI,
+    prayerTimeConvention = PrayerTimeConvention.KARACHI,
     timeFormat = TimeFormat.HOUR_12
 ) { result ->
     result.onSuccess { fastingTimes ->
@@ -201,9 +201,9 @@ prayerTimeManager.fetchCurrentMonthFastingTimes(
 prayerTimeManager.fetchCurrentYearFastingTimes(
    latitude = 40.7128, // Example latitude (New York)
    longitude = -74.0060, // Example longitude (New York)
-   highLatitudeAdjustment = HighLatitudeAdjustment.NONE,
-   juristicMethod = JuristicMethod.HANAFI,
-   organizationStandard = OrganizationStandard.KARACHI,
+    highLatitudeAdjustment = HighLatitudeAdjustment.NO_ADJUSTMENT,
+    asrJuristicMethod = AsrJuristicMethod.HANAFI,
+    prayerTimeConvention = PrayerTimeConvention.KARACHI,
    timeFormat = TimeFormat.HOUR_12
 ) { result ->
    result.onSuccess { fastingTimes ->
@@ -273,41 +273,50 @@ data class FastingItem(
 
 ### High Latitude Adjustment (`HighLatitudeAdjustment`)
 
-| **Option**     | **Description**                                                                                  |
-|----------------|--------------------------------------------------------------------------------------------------|
-| `NONE`         | No adjustment applied for high latitudes.                                                      |
-| `ANGLE_BASED`  | Uses the angle of the sun below the horizon to define Fajr and Isha times.                     |
-| `MID_NIGHT`    | Divides the night into two equal halves for estimating Fajr and Isha times.                    |
-| `ONE_SEVENTH`  | Divides the night into seven parts, with Fajr at one-seventh and Isha at six-sevenths.          |
+| **Option**       | **Description**                                                                                 |
+|------------------|-------------------------------------------------------------------------------------------------|
+| `NO_ADJUSTMENT`  | No adjustment applied for high latitudes.                                                       |
+| `TWILIGHT_ANGLE` | Uses the angle of the sun below the horizon to define Fajr and Isha times.                      |
+| `MID_NIGHT`      | Divides the night into two equal halves for estimating Fajr and Isha times.                     |
+| `ONE_SEVENTH`    | Divides the night into seven parts, with Fajr at one-seventh and Isha at six-sevenths.          |
 
-### Juristic Method (`JuristicMethod`)
+### Asr Time Calculation (`AsrJuristicMethod`)
 
-| **Option**     | **Description**                                                                                  |
-|----------------|--------------------------------------------------------------------------------------------------|
-| `SHAFII`       | Asr begins when the shadow of an object equals its height (Shafi'i school of thought).          |
-| `HANAFI`       | Asr begins when the shadow of an object is twice its height (Hanafi school of thought).         |
+| **Option**      | **Description**                                                                                 |
+|-----------------|-------------------------------------------------------------------------------------------------|
+| `SHAFI`         | Asr begins when the shadow of an object equals its height (Shafi'i school of thought).          |
+| `HANAFI`        | Asr begins when the shadow of an object is twice its height (Hanafi school of thought).         |
 
-### Organization Standard (`OrganizationStandard`)
+### Prayer Time Convention (`PrayerTimeConvention`)
 
-| **Option**     | **Description**                                                                                  |
-|----------------|--------------------------------------------------------------------------------------------------|
-| `MAKKAH`       | Umm al-Qura method used in Saudi Arabia (Fajr: 18.5°, Isha: fixed 90 minutes).                  |
-| `EGYPT`        | Egyptian General Authority of Survey (Fajr: 19.5°, Isha: 17.5°).                                |
-| `TEHRAN`       | University of Tehran method (Fajr: 17.7°, Isha: 14°).                                           |
-| `JAFARI`       | Ithna Ashari method (Fajr: 16°, Isha: 14°).                                                     |
-| `KARACHI`      | University of Islamic Sciences, Karachi (Fajr/Isha: 18°).                                       |
-| `ISNA`         | Islamic Society of North America (Fajr/Isha: 15°).                                             |
-| `MWL`          | Muslim World League (Fajr: 18°, Isha: 17°).                                                    |
-| `CUSTOM`       | User-defined custom settings for angles or intervals.                                           |
+| **Option**               | **Description**                                                               |
+|--------------------------|-------------------------------------------------------------------------------|
+| `MWL`                    | Muslim World League (Fajr: 18°, Isha: 17°).                                   |
+| `EGYPT`                  | Egyptian General Authority of Survey (Fajr: 19.5°, Isha: 17.5°).              |
+| `KARACHI`                | University of Islamic Sciences, Karachi (Fajr/Isha: 18°).                     |
+| `MAKKAH`                 | Umm Al-Qura University, Makkah (Fajr: 18.5°, Isha: 90 minutes after Maghrib). |
+| `DUBAI`                  | Dubai (Fajr/Isha: 18.2°).                                                     |
+| `MOONSIGHTING_COMMITTEE` | Moonsighting Committee (Fajr/Isha: 18°).                                      |
+| `ISNA`                   | Islamic Society of North America (Fajr/Isha: 15°).                            |
+| `KUWAIT`                 | Kuwait (Fajr: 18°, Isha: 17.5°).                                              |
+| `QATAR`                  | Qatar (Fajr: 18°, Isha: 90 minutes after Maghrib).                            |
+| `SINGAPORE`              | Singapore (Fajr: 20°, Isha: 18°).                                             |
+| `TEHRAN`                 | Tehran (Fajr: 17.7°, Isha: 14°).                                              |
+| `JAFFARI`                | Jaffari (Fajr: 16°, Isha: 14°).                                               |
+| `GULF_REGION`            | Gulf Region (Fajr: 19.5°, Isha: 90 minutes after Maghrib).                    |
+| `FRANCE`                 | France (Fajr/Isha: 12°).                                                      |
+| `TURKEY`                 | Turkey (Fajr: 18°, Isha: 17°).                                                |
+| `RUSSIA`                 | Russia (Fajr: 16°, Isha: 15°).                                                |
+| `CUSTOM`                 | Custom angles (default Fajr: 9°, Isha: 14°).                                  |
 
 ### Time Format (`TimeFormat`)
 
-| **Option**     | **Description**                                                                                  |
-|----------------|--------------------------------------------------------------------------------------------------|
-| `HOUR_12`      | 12-hour format with AM/PM suffix (e.g., 5:00 AM).                                               |
-| `HOUR_12_NS`   | 12-hour format without AM/PM suffix (e.g., 5:00).                                               |
-| `HOUR_24`      | 24-hour format (e.g., 17:00).                                                                   |
-| `FLOATING`     | Floating-point representation of hours (e.g., 5.5 for 5:30).                                    |
+| **Option**     | **Description**                                                                                   |
+|----------------|---------------------------------------------------------------------------------------------------|
+| `HOUR_12`      | 12-hour format with AM/PM suffix (e.g., 5:00 AM).                                                 |
+| `HOUR_12_NS`   | 12-hour format without AM/PM suffix (e.g., 5:00).                                                 |
+| `HOUR_24`      | 24-hour format (e.g., 17:00).                                                                     |
+| `FLOATING`     | Floating-point representation of hours (e.g., 5.5 for 5:30).                                      |
 
 ---
 

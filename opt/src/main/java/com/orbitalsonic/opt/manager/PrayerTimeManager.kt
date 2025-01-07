@@ -1,12 +1,11 @@
 package com.orbitalsonic.opt.manager
 
 import com.orbitalsonic.opt.enums.HighLatitudeAdjustment
-import com.orbitalsonic.opt.enums.JuristicMethod
-import com.orbitalsonic.opt.enums.OrganizationStandard
+import com.orbitalsonic.opt.enums.AsrJuristicMethod
+import com.orbitalsonic.opt.enums.PrayerTimeConvention
 import com.orbitalsonic.opt.enums.TimeFormat
 import com.orbitalsonic.opt.models.FastingItem
 import com.orbitalsonic.opt.models.PrayerItem
-import com.orbitalsonic.opt.models.PrayerTimes
 import com.orbitalsonic.opt.repository.PrayerTimeRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -28,15 +27,15 @@ class PrayerTimeManager {
         latitude: Double,
         longitude: Double,
         highLatitudeAdjustment: HighLatitudeAdjustment,
-        juristicMethod: JuristicMethod,
-        organizationStandard: OrganizationStandard,
+        asrJuristicMethod: AsrJuristicMethod,
+        prayerTimeConvention: PrayerTimeConvention,
         timeFormat: TimeFormat,
         callback: (Result<PrayerItem>) -> Unit
     ) {
         CoroutineScope(Dispatchers.IO).launch {
             try {
                 val result = getDailyPrayerTimes(
-                    latitude, longitude, highLatitudeAdjustment, juristicMethod, organizationStandard, timeFormat
+                    latitude, longitude, highLatitudeAdjustment, asrJuristicMethod, prayerTimeConvention, timeFormat
                 )
                 withContext(Dispatchers.Main) { callback(Result.success(result)) }
             } catch (e: Exception) {
@@ -52,15 +51,15 @@ class PrayerTimeManager {
         latitude: Double,
         longitude: Double,
         highLatitudeAdjustment: HighLatitudeAdjustment,
-        juristicMethod: JuristicMethod,
-        organizationStandard: OrganizationStandard,
+        asrJuristicMethod: AsrJuristicMethod,
+        prayerTimeConvention: PrayerTimeConvention,
         timeFormat: TimeFormat,
         callback: (Result<List<PrayerItem>>) -> Unit
     ) {
         CoroutineScope(Dispatchers.IO).launch {
             try {
                 val result = getMonthlyPrayerTimes(
-                    latitude, longitude, highLatitudeAdjustment, juristicMethod, organizationStandard, timeFormat
+                    latitude, longitude, highLatitudeAdjustment, asrJuristicMethod, prayerTimeConvention, timeFormat
                 )
                 withContext(Dispatchers.Main) { callback(Result.success(result)) }
             } catch (e: Exception) {
@@ -76,15 +75,15 @@ class PrayerTimeManager {
         latitude: Double,
         longitude: Double,
         highLatitudeAdjustment: HighLatitudeAdjustment,
-        juristicMethod: JuristicMethod,
-        organizationStandard: OrganizationStandard,
+        asrJuristicMethod: AsrJuristicMethod,
+        prayerTimeConvention: PrayerTimeConvention,
         timeFormat: TimeFormat,
         callback: (Result<List<List<PrayerItem>>>) -> Unit
     ) {
         CoroutineScope(Dispatchers.IO).launch {
             try {
                 val result = getYearlyPrayerTimes(
-                    latitude, longitude, highLatitudeAdjustment, juristicMethod, organizationStandard, timeFormat
+                    latitude, longitude, highLatitudeAdjustment, asrJuristicMethod, prayerTimeConvention, timeFormat
                 )
                 withContext(Dispatchers.Main) { callback(Result.success(result)) }
             } catch (e: Exception) {
@@ -100,15 +99,15 @@ class PrayerTimeManager {
         latitude: Double,
         longitude: Double,
         highLatitudeAdjustment: HighLatitudeAdjustment,
-        juristicMethod: JuristicMethod,
-        organizationStandard: OrganizationStandard,
+        asrJuristicMethod: AsrJuristicMethod,
+        prayerTimeConvention: PrayerTimeConvention,
         timeFormat: TimeFormat,
         callback: (Result<FastingItem>) -> Unit
     ) {
         CoroutineScope(Dispatchers.IO).launch {
             try {
                 val prayerItem = getDailyPrayerTimes(
-                    latitude, longitude, highLatitudeAdjustment, juristicMethod, organizationStandard, timeFormat
+                    latitude, longitude, highLatitudeAdjustment, asrJuristicMethod, prayerTimeConvention, timeFormat
                 )
                 val fastingTimes = extractFastingTimes(prayerItem)
                 withContext(Dispatchers.Main) { callback(Result.success(fastingTimes)) }
@@ -125,15 +124,15 @@ class PrayerTimeManager {
         latitude: Double,
         longitude: Double,
         highLatitudeAdjustment: HighLatitudeAdjustment,
-        juristicMethod: JuristicMethod,
-        organizationStandard: OrganizationStandard,
+        asrJuristicMethod: AsrJuristicMethod,
+        prayerTimeConvention: PrayerTimeConvention,
         timeFormat: TimeFormat,
         callback: (Result<List<FastingItem>>) -> Unit
     ) {
         CoroutineScope(Dispatchers.IO).launch {
             try {
                 val prayerItems = getMonthlyPrayerTimes(
-                    latitude, longitude, highLatitudeAdjustment, juristicMethod, organizationStandard, timeFormat
+                    latitude, longitude, highLatitudeAdjustment, asrJuristicMethod, prayerTimeConvention, timeFormat
                 )
                 val fastingTimes = prayerItems.map { extractFastingTimes(it) }
                 withContext(Dispatchers.Main) { callback(Result.success(fastingTimes)) }
@@ -150,15 +149,15 @@ class PrayerTimeManager {
         latitude: Double,
         longitude: Double,
         highLatitudeAdjustment: HighLatitudeAdjustment,
-        juristicMethod: JuristicMethod,
-        organizationStandard: OrganizationStandard,
+        asrJuristicMethod: AsrJuristicMethod,
+        prayerTimeConvention: PrayerTimeConvention,
         timeFormat: TimeFormat,
         callback: (Result<List<List<FastingItem>>>) -> Unit
     ) {
         CoroutineScope(Dispatchers.IO).launch {
             try {
                 val prayerItems = getYearlyPrayerTimes(
-                    latitude, longitude, highLatitudeAdjustment, juristicMethod, organizationStandard, timeFormat
+                    latitude, longitude, highLatitudeAdjustment, asrJuristicMethod, prayerTimeConvention, timeFormat
                 )
                 val fastingTimes = prayerItems.map { monthlyPrayerItems ->
                     monthlyPrayerItems.map { extractFastingTimes(it) }
@@ -174,8 +173,8 @@ class PrayerTimeManager {
         latitude: Double,
         longitude: Double,
         highLatitudeAdjustment: HighLatitudeAdjustment,
-        juristicMethod: JuristicMethod,
-        organizationStandard: OrganizationStandard,
+        asrJuristicMethod: AsrJuristicMethod,
+        prayerTimeConvention: PrayerTimeConvention,
         timeFormat: TimeFormat
     ): PrayerItem {
 
@@ -184,7 +183,7 @@ class PrayerTimeManager {
         calendar.time = now
 
         return PrayerTimeRepository().getDailyPrayerTimes(
-            latitude, longitude, calendar.time, highLatitudeAdjustment, juristicMethod, organizationStandard, timeFormat
+            latitude, longitude, calendar.time, highLatitudeAdjustment, asrJuristicMethod, prayerTimeConvention, timeFormat
         )
     }
 
@@ -192,15 +191,15 @@ class PrayerTimeManager {
         latitude: Double,
         longitude: Double,
         highLatitudeAdjustment: HighLatitudeAdjustment,
-        juristicMethod: JuristicMethod,
-        organizationStandard: OrganizationStandard,
+        asrJuristicMethod: AsrJuristicMethod,
+        prayerTimeConvention: PrayerTimeConvention,
         timeFormat: TimeFormat
     ): List<PrayerItem> {
         val currentMonth = Calendar.getInstance().get(Calendar.MONTH) + 1
         val currentYear = Calendar.getInstance().get(Calendar.YEAR)
 
         return PrayerTimeRepository().getMonthlyPrayerTimes(
-            latitude, longitude, currentMonth, currentYear, highLatitudeAdjustment, juristicMethod, organizationStandard, timeFormat
+            latitude, longitude, currentMonth, currentYear, highLatitudeAdjustment, asrJuristicMethod, prayerTimeConvention, timeFormat
         )
     }
 
@@ -208,14 +207,14 @@ class PrayerTimeManager {
         latitude: Double,
         longitude: Double,
         highLatitudeAdjustment: HighLatitudeAdjustment,
-        juristicMethod: JuristicMethod,
-        organizationStandard: OrganizationStandard,
+        asrJuristicMethod: AsrJuristicMethod,
+        prayerTimeConvention: PrayerTimeConvention,
         timeFormat: TimeFormat
     ): List<List<PrayerItem>> {
         val currentYear = Calendar.getInstance().get(Calendar.YEAR)
 
         return PrayerTimeRepository().getYearlyPrayerTimes(
-            latitude, longitude, currentYear, highLatitudeAdjustment, juristicMethod, organizationStandard, timeFormat
+            latitude, longitude, currentYear, highLatitudeAdjustment, asrJuristicMethod, prayerTimeConvention, timeFormat
         )
     }
 

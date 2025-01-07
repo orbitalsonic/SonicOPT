@@ -8,8 +8,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.orbitalsonic.offlineprayertime.databinding.FragmentYearlyFastingTimeBinding
 import com.orbitalsonic.opt.enums.HighLatitudeAdjustment
-import com.orbitalsonic.opt.enums.JuristicMethod
-import com.orbitalsonic.opt.enums.OrganizationStandard
+import com.orbitalsonic.opt.enums.AsrJuristicMethod
+import com.orbitalsonic.opt.enums.PrayerTimeConvention
 import com.orbitalsonic.opt.enums.TimeFormat
 import com.orbitalsonic.opt.manager.PrayerTimeManager
 import java.text.SimpleDateFormat
@@ -49,9 +49,9 @@ class YearlyFastingTimeFragment : Fragment() {
         prayerTimeManager.fetchCurrentYearFastingTimes(
             latitude = latitude,
             longitude = longitude,
-            highLatitudeAdjustment = HighLatitudeAdjustment.NONE,
-            juristicMethod = JuristicMethod.HANAFI,
-            organizationStandard = OrganizationStandard.KARACHI,
+            highLatitudeAdjustment = HighLatitudeAdjustment.NO_ADJUSTMENT,
+            asrJuristicMethod = AsrJuristicMethod.HANAFI,
+            prayerTimeConvention = PrayerTimeConvention.KARACHI,
             timeFormat = TimeFormat.HOUR_12
         ) { result ->
             result.onSuccess { fastingTimes ->

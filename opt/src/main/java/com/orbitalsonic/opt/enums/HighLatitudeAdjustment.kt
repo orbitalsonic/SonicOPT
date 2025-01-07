@@ -6,25 +6,34 @@ package com.orbitalsonic.opt.enums
  */
 enum class HighLatitudeAdjustment {
     /**
-     * NONE: No adjustment applied for high latitudes.
+     * No Adjustment: No adjustment applied for high latitudes.
      */
-    NONE,
+    NO_ADJUSTMENT,
 
     /**
-     * ANGLE_BASED: Uses the angle of the sun below the horizon
-     * to define Fajr and Isha times.
-     */
-    ANGLE_BASED,
-
-    /**
-     * MID_NIGHT: Divides the night into two equal halves for
+     * Middle of the Night: Divides the night into two equal halves for
      * estimating Fajr and Isha times.
      */
     MID_NIGHT,
 
     /**
-     * ONE_SEVENTH: Divides the night into seven parts, with
+     * Seventh of the Night: Divides the night into seven parts, with
      * Fajr at one-seventh and Isha at six-sevenths of the night.
      */
-    ONE_SEVENTH
+    ONE_SEVENTH,
+
+    /**
+     * Twilight Angle: Uses the angle of the sun below the horizon
+     * to define Fajr and Isha times.
+     */
+    TWILIGHT_ANGLE
 }
+
+/**
+--- High Latitude Adjustment ---
+
+  1. No Adjustment
+  2. Middle of The Night
+  3. Seventh of The Night
+  4. Twilight Angle
+ */
