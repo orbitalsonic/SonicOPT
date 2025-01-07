@@ -198,7 +198,6 @@ internal class PrayerTimeRepository {
         val sunsetTime = calculateTimeForAngle(0.833, dayPortions[4], latitude, julianDate)
         val maghribTime = calculateTimeForAngle(0.833, dayPortions[5], latitude, julianDate)
 
-
         val ishaTime = if (standardAngleParams.second == -1.0){
            // Angle -1, it represents 90 minutes after Maghrib for Isha.
             maghribTime + 1.5
