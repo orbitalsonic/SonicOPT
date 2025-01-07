@@ -5,7 +5,7 @@
 
 # SonicOPT (Offline Prayer Time)
 
-OPT is a powerful and offline library for calculating Islamic prayer and fasting times. It provides accurate prayer times for daily, monthly, and yearly durations based on location (latitude and longitude). The library supports multiple calculation methods, high-latitude adjustments, and customizable time formats, making it a versatile tool for developers.
+SonicOPT is a robust offline library for calculating precise Islamic prayer and fasting times. It offers daily, monthly, and yearly calculations with support for multiple conventions, high-latitude adjustments, Asr time methods, and customizable time formats, making it an essential tool for accurate scheduling.
 
 ---
 
