@@ -51,7 +51,7 @@ class DailyPrayerTimeFragment : Fragment() {
             longitude = longitude,
             highLatitudeAdjustment = HighLatitudeAdjustment.NO_ADJUSTMENT,
             asrJuristicMethod = AsrJuristicMethod.HANAFI,
-            prayerTimeConvention = PrayerTimeConvention.MAKKAH,
+            prayerTimeConvention = PrayerTimeConvention.KARACHI,
             timeFormat = TimeFormat.HOUR_12
         ) { result ->
             result.onSuccess { prayerItem ->
