@@ -12,6 +12,7 @@ import com.orbitalsonic.sonicopt.enums.AsrJuristicMethod
 import com.orbitalsonic.sonicopt.enums.PrayerTimeConvention
 import com.orbitalsonic.sonicopt.enums.TimeFormat
 import com.orbitalsonic.sonicopt.manager.PrayerTimeManager
+import com.orbitalsonic.sonicopt.models.PrayerManualCorrection
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -45,14 +46,26 @@ class DailyPrayerTimeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Fetch and display daily prayer times
+
+        /**
+         * Fetch and display daily prayer times
+         * Only allow manual corrections within the range of -59 to 59 minutes.
+         * If the correction is outside this range, set it to 0 (no correction).
+         */
         prayerTimeManager.fetchTodayPrayerTimes(
             latitude = latitude,
             longitude = longitude,
             highLatitudeAdjustment = HighLatitudeAdjustment.NO_ADJUSTMENT,
             asrJuristicMethod = AsrJuristicMethod.HANAFI,
             prayerTimeConvention = PrayerTimeConvention.KARACHI,
-            timeFormat = TimeFormat.HOUR_12
+            timeFormat = TimeFormat.HOUR_12,
+            prayerManualCorrection = PrayerManualCorrection(
+                fajrMinute = 0,
+                zuhrMinute = 0,
+                asrMinute = 0,
+                maghribMinute = 0,
+                ishaMinute = 2
+            )
         ) { result ->
             result.onSuccess { prayerItem ->
                 val formattedDate = dateFormatter.format(Date(prayerItem.date))

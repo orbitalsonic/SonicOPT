@@ -6,11 +6,13 @@ import com.orbitalsonic.sonicopt.enums.PrayerTimeConvention
 import com.orbitalsonic.sonicopt.enums.TimeFormat
 import com.orbitalsonic.sonicopt.models.FastingItem
 import com.orbitalsonic.sonicopt.models.PrayerItem
+import com.orbitalsonic.sonicopt.models.PrayerManualCorrection
 import com.orbitalsonic.sonicopt.repository.PrayerTimeRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.sql.Time
 import java.util.Calendar
 import java.util.Date
 
@@ -34,16 +36,23 @@ class PrayerTimeManager {
     fun fetchTodayPrayerTimes(
         latitude: Double,
         longitude: Double,
-        highLatitudeAdjustment: HighLatitudeAdjustment,
-        asrJuristicMethod: AsrJuristicMethod,
-        prayerTimeConvention: PrayerTimeConvention,
-        timeFormat: TimeFormat,
+        highLatitudeAdjustment: HighLatitudeAdjustment = HighLatitudeAdjustment.NO_ADJUSTMENT,
+        asrJuristicMethod: AsrJuristicMethod = AsrJuristicMethod.HANAFI,
+        prayerTimeConvention: PrayerTimeConvention = PrayerTimeConvention.KARACHI,
+        timeFormat: TimeFormat = TimeFormat.HOUR_12,
+        prayerManualCorrection: PrayerManualCorrection = PrayerManualCorrection(),
         callback: (Result<PrayerItem>) -> Unit
     ) {
         CoroutineScope(Dispatchers.IO).launch {
             try {
                 val result = getDailyPrayerTimes(
-                    latitude, longitude, highLatitudeAdjustment, asrJuristicMethod, prayerTimeConvention, timeFormat
+                    latitude,
+                    longitude,
+                    highLatitudeAdjustment,
+                    asrJuristicMethod,
+                    prayerTimeConvention,
+                    timeFormat,
+                    prayerManualCorrection
                 )
                 withContext(Dispatchers.Main) { callback(Result.success(result)) }
             } catch (e: Exception) {
@@ -58,16 +67,23 @@ class PrayerTimeManager {
     fun fetchCurrentMonthPrayerTimes(
         latitude: Double,
         longitude: Double,
-        highLatitudeAdjustment: HighLatitudeAdjustment,
-        asrJuristicMethod: AsrJuristicMethod,
-        prayerTimeConvention: PrayerTimeConvention,
-        timeFormat: TimeFormat,
+        highLatitudeAdjustment: HighLatitudeAdjustment = HighLatitudeAdjustment.NO_ADJUSTMENT,
+        asrJuristicMethod: AsrJuristicMethod = AsrJuristicMethod.HANAFI,
+        prayerTimeConvention: PrayerTimeConvention = PrayerTimeConvention.KARACHI,
+        timeFormat: TimeFormat = TimeFormat.HOUR_12,
+        prayerManualCorrection: PrayerManualCorrection = PrayerManualCorrection(),
         callback: (Result<List<PrayerItem>>) -> Unit
     ) {
         CoroutineScope(Dispatchers.IO).launch {
             try {
                 val result = getMonthlyPrayerTimes(
-                    latitude, longitude, highLatitudeAdjustment, asrJuristicMethod, prayerTimeConvention, timeFormat
+                    latitude,
+                    longitude,
+                    highLatitudeAdjustment,
+                    asrJuristicMethod,
+                    prayerTimeConvention,
+                    timeFormat,
+                    prayerManualCorrection
                 )
                 withContext(Dispatchers.Main) { callback(Result.success(result)) }
             } catch (e: Exception) {
@@ -82,16 +98,23 @@ class PrayerTimeManager {
     fun fetchCurrentYearPrayerTimes(
         latitude: Double,
         longitude: Double,
-        highLatitudeAdjustment: HighLatitudeAdjustment,
-        asrJuristicMethod: AsrJuristicMethod,
-        prayerTimeConvention: PrayerTimeConvention,
-        timeFormat: TimeFormat,
+        highLatitudeAdjustment: HighLatitudeAdjustment = HighLatitudeAdjustment.NO_ADJUSTMENT,
+        asrJuristicMethod: AsrJuristicMethod = AsrJuristicMethod.HANAFI,
+        prayerTimeConvention: PrayerTimeConvention = PrayerTimeConvention.KARACHI,
+        timeFormat: TimeFormat = TimeFormat.HOUR_12,
+        prayerManualCorrection: PrayerManualCorrection = PrayerManualCorrection(),
         callback: (Result<List<List<PrayerItem>>>) -> Unit
     ) {
         CoroutineScope(Dispatchers.IO).launch {
             try {
                 val result = getYearlyPrayerTimes(
-                    latitude, longitude, highLatitudeAdjustment, asrJuristicMethod, prayerTimeConvention, timeFormat
+                    latitude,
+                    longitude,
+                    highLatitudeAdjustment,
+                    asrJuristicMethod,
+                    prayerTimeConvention,
+                    timeFormat,
+                    prayerManualCorrection
                 )
                 withContext(Dispatchers.Main) { callback(Result.success(result)) }
             } catch (e: Exception) {
@@ -108,15 +131,22 @@ class PrayerTimeManager {
     fun fetchTodayFastingTimes(
         latitude: Double,
         longitude: Double,
-        highLatitudeAdjustment: HighLatitudeAdjustment,
-        prayerTimeConvention: PrayerTimeConvention,
-        timeFormat: TimeFormat,
+        highLatitudeAdjustment: HighLatitudeAdjustment = HighLatitudeAdjustment.NO_ADJUSTMENT,
+        prayerTimeConvention: PrayerTimeConvention = PrayerTimeConvention.KARACHI,
+        timeFormat: TimeFormat = TimeFormat.HOUR_12,
+        prayerManualCorrection: PrayerManualCorrection = PrayerManualCorrection(),
         callback: (Result<FastingItem>) -> Unit
     ) {
         CoroutineScope(Dispatchers.IO).launch {
             try {
                 val prayerItem = getDailyPrayerTimes(
-                    latitude, longitude, highLatitudeAdjustment, AsrJuristicMethod.HANAFI, prayerTimeConvention, timeFormat
+                    latitude,
+                    longitude,
+                    highLatitudeAdjustment,
+                    AsrJuristicMethod.HANAFI,
+                    prayerTimeConvention,
+                    timeFormat,
+                    prayerManualCorrection
                 )
                 val fastingTimes = extractFastingTimes(prayerItem)
                 withContext(Dispatchers.Main) { callback(Result.success(fastingTimes)) }
@@ -134,15 +164,22 @@ class PrayerTimeManager {
     fun fetchCurrentMonthFastingTimes(
         latitude: Double,
         longitude: Double,
-        highLatitudeAdjustment: HighLatitudeAdjustment,
-        prayerTimeConvention: PrayerTimeConvention,
-        timeFormat: TimeFormat,
+        highLatitudeAdjustment: HighLatitudeAdjustment = HighLatitudeAdjustment.NO_ADJUSTMENT,
+        prayerTimeConvention: PrayerTimeConvention = PrayerTimeConvention.KARACHI,
+        timeFormat: TimeFormat = TimeFormat.HOUR_12,
+        prayerManualCorrection: PrayerManualCorrection = PrayerManualCorrection(),
         callback: (Result<List<FastingItem>>) -> Unit
     ) {
         CoroutineScope(Dispatchers.IO).launch {
             try {
                 val prayerItems = getMonthlyPrayerTimes(
-                    latitude, longitude, highLatitudeAdjustment, AsrJuristicMethod.HANAFI, prayerTimeConvention, timeFormat
+                    latitude,
+                    longitude,
+                    highLatitudeAdjustment,
+                    AsrJuristicMethod.HANAFI,
+                    prayerTimeConvention,
+                    timeFormat,
+                    prayerManualCorrection
                 )
                 val fastingTimes = prayerItems.map { extractFastingTimes(it) }
                 withContext(Dispatchers.Main) { callback(Result.success(fastingTimes)) }
@@ -160,15 +197,22 @@ class PrayerTimeManager {
     fun fetchCurrentYearFastingTimes(
         latitude: Double,
         longitude: Double,
-        highLatitudeAdjustment: HighLatitudeAdjustment,
-        prayerTimeConvention: PrayerTimeConvention,
-        timeFormat: TimeFormat,
+        highLatitudeAdjustment: HighLatitudeAdjustment = HighLatitudeAdjustment.NO_ADJUSTMENT,
+        prayerTimeConvention: PrayerTimeConvention = PrayerTimeConvention.KARACHI,
+        timeFormat: TimeFormat = TimeFormat.HOUR_12,
+        prayerManualCorrection: PrayerManualCorrection = PrayerManualCorrection(),
         callback: (Result<List<List<FastingItem>>>) -> Unit
     ) {
         CoroutineScope(Dispatchers.IO).launch {
             try {
                 val prayerItems = getYearlyPrayerTimes(
-                    latitude, longitude, highLatitudeAdjustment, AsrJuristicMethod.HANAFI, prayerTimeConvention, timeFormat
+                    latitude,
+                    longitude,
+                    highLatitudeAdjustment,
+                    AsrJuristicMethod.HANAFI,
+                    prayerTimeConvention,
+                    timeFormat,
+                    prayerManualCorrection
                 )
                 val fastingTimes = prayerItems.map { monthlyPrayerItems ->
                     monthlyPrayerItems.map { extractFastingTimes(it) }
@@ -186,7 +230,8 @@ class PrayerTimeManager {
         highLatitudeAdjustment: HighLatitudeAdjustment,
         asrJuristicMethod: AsrJuristicMethod,
         prayerTimeConvention: PrayerTimeConvention,
-        timeFormat: TimeFormat
+        timeFormat: TimeFormat,
+        prayerManualCorrection: PrayerManualCorrection
     ): PrayerItem {
 
         val now = Date()
@@ -194,7 +239,14 @@ class PrayerTimeManager {
         calendar.time = now
 
         return PrayerTimeRepository().getDailyPrayerTimes(
-            latitude, longitude, calendar.time, highLatitudeAdjustment, asrJuristicMethod, prayerTimeConvention, timeFormat
+            latitude,
+            longitude,
+            calendar.time,
+            highLatitudeAdjustment,
+            asrJuristicMethod,
+            prayerTimeConvention,
+            timeFormat,
+            prayerManualCorrection
         )
     }
 
@@ -204,13 +256,22 @@ class PrayerTimeManager {
         highLatitudeAdjustment: HighLatitudeAdjustment,
         asrJuristicMethod: AsrJuristicMethod,
         prayerTimeConvention: PrayerTimeConvention,
-        timeFormat: TimeFormat
+        timeFormat: TimeFormat,
+        prayerManualCorrection: PrayerManualCorrection
     ): List<PrayerItem> {
         val currentMonth = Calendar.getInstance().get(Calendar.MONTH) + 1
         val currentYear = Calendar.getInstance().get(Calendar.YEAR)
 
         return PrayerTimeRepository().getMonthlyPrayerTimes(
-            latitude, longitude, currentMonth, currentYear, highLatitudeAdjustment, asrJuristicMethod, prayerTimeConvention, timeFormat
+            latitude,
+            longitude,
+            currentMonth,
+            currentYear,
+            highLatitudeAdjustment,
+            asrJuristicMethod,
+            prayerTimeConvention,
+            timeFormat,
+            prayerManualCorrection
         )
     }
 
@@ -220,12 +281,20 @@ class PrayerTimeManager {
         highLatitudeAdjustment: HighLatitudeAdjustment,
         asrJuristicMethod: AsrJuristicMethod,
         prayerTimeConvention: PrayerTimeConvention,
-        timeFormat: TimeFormat
+        timeFormat: TimeFormat,
+        prayerManualCorrection: PrayerManualCorrection
     ): List<List<PrayerItem>> {
         val currentYear = Calendar.getInstance().get(Calendar.YEAR)
 
         return PrayerTimeRepository().getYearlyPrayerTimes(
-            latitude, longitude, currentYear, highLatitudeAdjustment, asrJuristicMethod, prayerTimeConvention, timeFormat
+            latitude,
+            longitude,
+            currentYear,
+            highLatitudeAdjustment,
+            asrJuristicMethod,
+            prayerTimeConvention,
+            timeFormat,
+            prayerManualCorrection
         )
     }
 
@@ -233,8 +302,10 @@ class PrayerTimeManager {
      * Extracts fasting times (Sehri and Iftar) from the daily prayer times.
      */
     private fun extractFastingTimes(prayerItem: PrayerItem): FastingItem {
-        val fajrTime = prayerItem.prayerList.firstOrNull { it.prayerName == "Fajr" }?.prayerTime ?: "--:--"
-        val maghribTime = prayerItem.prayerList.firstOrNull { it.prayerName == "Maghrib" }?.prayerTime ?: "--:--"
+        val fajrTime =
+            prayerItem.prayerList.firstOrNull { it.prayerName == "Fajr" }?.prayerTime ?: "--:--"
+        val maghribTime =
+            prayerItem.prayerList.firstOrNull { it.prayerName == "Maghrib" }?.prayerTime ?: "--:--"
 
         return FastingItem(
             date = prayerItem.date,

@@ -13,6 +13,7 @@ import com.orbitalsonic.sonicopt.enums.AsrJuristicMethod
 import com.orbitalsonic.sonicopt.enums.PrayerTimeConvention
 import com.orbitalsonic.sonicopt.enums.TimeFormat
 import com.orbitalsonic.sonicopt.models.PrayerItem
+import com.orbitalsonic.sonicopt.models.PrayerManualCorrection
 import com.orbitalsonic.sonicopt.models.PrayerTimes
 import com.orbitalsonic.sonicopt.utils.calculateAsrTime
 import com.orbitalsonic.sonicopt.utils.calculateMidDay
@@ -35,6 +36,7 @@ internal class PrayerTimeRepository {
     private var asrJuristicMethod = AsrJuristicMethod.HANAFI
     private var prayerTimeConvention = PrayerTimeConvention.KARACHI
     private var timeFormat = TimeFormat.HOUR_12
+    private var prayerManualCorrection = PrayerManualCorrection()
 
     private var latitude = 0.0
     private var longitude = 0.0
@@ -72,42 +74,46 @@ internal class PrayerTimeRepository {
     private var customValues = Pair(9.0, 14.0)
 
     fun getDailyPrayerTimes(
-        latitude: Double,
-        longitude: Double,
-        date: Date,
-        highLatitudeAdjustment: HighLatitudeAdjustment,
-        asrJuristicMethod: AsrJuristicMethod,
-        prayerTimeConvention: PrayerTimeConvention,
-        timeFormat: TimeFormat
+        mLatitude: Double,
+        mLongitude: Double,
+        mDate: Date,
+        mHighLatitudeAdjustment: HighLatitudeAdjustment,
+        mAsrJuristicMethod: AsrJuristicMethod,
+        mPrayerTimeConvention: PrayerTimeConvention,
+        mTimeFormat: TimeFormat,
+        mPrayerManualCorrection: PrayerManualCorrection
     ): PrayerItem {
         initializeParameters(
-            latitude,
-            longitude,
-            highLatitudeAdjustment,
-            asrJuristicMethod,
-            prayerTimeConvention,
-            timeFormat
+            mLatitude = mLatitude,
+            mLongitude = mLongitude,
+            mHighLatitudeAdjustment = mHighLatitudeAdjustment,
+            mAsrJuristicMethod = mAsrJuristicMethod,
+            mPrayerTimeConvention = mPrayerTimeConvention,
+            mTimeFormat = mTimeFormat,
+            mPrayerManualCorrection = mPrayerManualCorrection
         )
-        return calculatePrayerTimesForDate(date)
+        return calculatePrayerTimesForDate(mDate)
     }
 
     fun getMonthlyPrayerTimes(
-        latitude: Double,
-        longitude: Double,
+        mLatitude: Double,
+        mLongitude: Double,
         month: Int,
         year: Int,
-        highLatitudeAdjustment: HighLatitudeAdjustment,
-        asrJuristicMethod: AsrJuristicMethod,
-        prayerTimeConvention: PrayerTimeConvention,
-        timeFormat: TimeFormat
+        mHighLatitudeAdjustment: HighLatitudeAdjustment,
+        mAsrJuristicMethod: AsrJuristicMethod,
+        mPrayerTimeConvention: PrayerTimeConvention,
+        mTimeFormat: TimeFormat,
+        mPrayerManualCorrection: PrayerManualCorrection
     ): List<PrayerItem> {
         initializeParameters(
-            latitude,
-            longitude,
-            highLatitudeAdjustment,
-            asrJuristicMethod,
-            prayerTimeConvention,
-            timeFormat
+            mLatitude = mLatitude,
+            mLongitude = mLongitude,
+            mHighLatitudeAdjustment = mHighLatitudeAdjustment,
+            mAsrJuristicMethod = mAsrJuristicMethod,
+            mPrayerTimeConvention = mPrayerTimeConvention,
+            mTimeFormat = mTimeFormat,
+            mPrayerManualCorrection = mPrayerManualCorrection
         )
         return (1..getDaysInMonth(year, month)).map { day ->
             calculatePrayerTimesForDate(
@@ -117,42 +123,46 @@ internal class PrayerTimeRepository {
     }
 
     fun getYearlyPrayerTimes(
-        latitude: Double,
-        longitude: Double,
+        mLatitude: Double,
+        mLongitude: Double,
         year: Int,
-        highLatitudeAdjustment: HighLatitudeAdjustment,
-        asrJuristicMethod: AsrJuristicMethod,
-        prayerTimeConvention: PrayerTimeConvention,
-        timeFormat: TimeFormat
+        mHighLatitudeAdjustment: HighLatitudeAdjustment,
+        mAsrJuristicMethod: AsrJuristicMethod,
+        mPrayerTimeConvention: PrayerTimeConvention,
+        mTimeFormat: TimeFormat,
+        mPrayerManualCorrection: PrayerManualCorrection
     ): List<List<PrayerItem>> {
         return (1..12).map { month ->
             getMonthlyPrayerTimes(
-                latitude,
-                longitude,
+                mLatitude,
+                mLongitude,
                 month,
                 year,
-                highLatitudeAdjustment,
-                asrJuristicMethod,
-                prayerTimeConvention,
-                timeFormat
+                mHighLatitudeAdjustment,
+                mAsrJuristicMethod,
+                mPrayerTimeConvention,
+                mTimeFormat,
+                mPrayerManualCorrection
             )
         }
     }
 
     private fun initializeParameters(
-        latitude: Double,
-        longitude: Double,
-        highLatitudeAdjustment: HighLatitudeAdjustment,
-        asrJuristicMethod: AsrJuristicMethod,
-        prayerTimeConvention: PrayerTimeConvention,
-        timeFormat: TimeFormat
+        mLatitude: Double,
+        mLongitude: Double,
+        mHighLatitudeAdjustment: HighLatitudeAdjustment,
+        mAsrJuristicMethod: AsrJuristicMethod,
+        mPrayerTimeConvention: PrayerTimeConvention,
+        mTimeFormat: TimeFormat,
+        mPrayerManualCorrection: PrayerManualCorrection
     ) {
-        this.latitude = latitude
-        this.longitude = longitude
-        this.highLatitudeAdjustment = highLatitudeAdjustment
-        this.asrJuristicMethod = asrJuristicMethod
-        this.prayerTimeConvention = prayerTimeConvention
-        this.timeFormat = timeFormat
+        this.latitude = mLatitude
+        this.longitude = mLongitude
+        this.highLatitudeAdjustment = mHighLatitudeAdjustment
+        this.asrJuristicMethod = mAsrJuristicMethod
+        this.prayerTimeConvention = mPrayerTimeConvention
+        this.timeFormat = mTimeFormat
+        this.prayerManualCorrection = mPrayerManualCorrection
 
         val defaultTimeZone = TimeZone.getDefault()
         val defaultTimeZoneOffsetHours =
@@ -186,26 +196,125 @@ internal class PrayerTimeRepository {
         val dayPortions = dayPortion(times)
         val standardAngleParams = getCalculationParameters()
 
-        val fajrTime = calculateTimeForAngle(180 - standardAngleParams.first, dayPortions[0], latitude, julianDate)
+        /**
+         * Fajr Time Calculation
+         * Calculate the correction for Fajr prayer time in hours.
+         * Only allow manual corrections within the range of -59 to 59 minutes.
+         * If the correction is outside this range, set it to 0 (no correction).
+         */
+        val fajrCorrection = if (prayerManualCorrection.fajrMinute in -59..59) {
+            // Convert the manual correction from minutes to hours by dividing by 60.0.
+            prayerManualCorrection.fajrMinute / 60.0
+        } else {
+            // For out-of-bound corrections, default to 0.0 (no change).
+            0.0
+        }
+        val fajrTime = calculateTimeForAngle(
+            180 - standardAngleParams.first,
+            dayPortions[0],
+            latitude,
+            julianDate
+        ) + fajrCorrection
+
+        /**
+         * Sunrise Time Calculation
+         */
         val sunriseTime = calculateTimeForAngle(180 - 0.833, dayPortions[1], latitude, julianDate)
-        val zuhrTime = calculateMidDay(dayPortions[2], julianDate)
+
+        /**
+         * Zuhr Time Calculation
+         * Calculate the correction for Zuhr prayer time in hours.
+         * Only allow manual corrections within the range of -59 to 59 minutes.
+         * If the correction is outside this range, set it to 0 (no correction).
+         */
+
+        val zuhrCorrection = if (prayerManualCorrection.zuhrMinute in -59..59) {
+            // Convert the manual correction from minutes to hours by dividing by 60.0.
+            prayerManualCorrection.zuhrMinute / 60.0
+        } else {
+            // For out-of-bound corrections, default to 0.0 (no change).
+            0.0
+        }
+        val zuhrTime =
+            calculateMidDay(dayPortions[2], julianDate) + zuhrCorrection
+
+        /**
+         * Asr Time Calculation
+         * Calculate the correction for Asr prayer time in hours.
+         * Only allow manual corrections within the range of -59 to 59 minutes.
+         * If the correction is outside this range, set it to 0 (no correction).
+         */
+
+        val asrCorrection = if (prayerManualCorrection.asrMinute in -59..59) {
+            // Convert the manual correction from minutes to hours by dividing by 60.0.
+            prayerManualCorrection.asrMinute / 60.0
+        } else {
+            // For out-of-bound corrections, default to 0.0 (no change).
+            0.0
+        }
         val asrTime = calculateAsrTime(
             (getAsrJuristicStep(asrJuristicMethod)).toDouble(),
             dayPortions[3],
             latitude,
             julianDate
-        )
-        val sunsetTime = calculateTimeForAngle(0.833, dayPortions[4], latitude, julianDate)
-        val maghribTime = calculateTimeForAngle(0.833, dayPortions[5], latitude, julianDate)
+        ) + asrCorrection
 
-        val ishaTime = if (standardAngleParams.second == -1.0){
-           // Angle -1, it represents 90 minutes after Maghrib for Isha.
-            maghribTime + 1.5
-        }else{
-            calculateTimeForAngle(standardAngleParams.second, dayPortions[6], latitude, julianDate)
+        /**
+         * Sunset Time Calculation
+         */
+        val sunsetTime = calculateTimeForAngle(0.833, dayPortions[4], latitude, julianDate)
+
+        /**
+         * Maghrib Time Calculation
+         * Calculate the correction for Maghrib prayer time in hours.
+         * Only allow manual corrections within the range of -59 to 59 minutes.
+         * If the correction is outside this range, set it to 0 (no correction).
+         */
+
+        val maghribCorrection = if (prayerManualCorrection.maghribMinute in -59..59) {
+            // Convert the manual correction from minutes to hours by dividing by 60.0.
+            prayerManualCorrection.maghribMinute / 60.0
+        } else {
+            // For out-of-bound corrections, default to 0.0 (no change).
+            0.0
+        }
+        val maghribTime = calculateTimeForAngle(
+            0.833,
+            dayPortions[5],
+            latitude,
+            julianDate
+        ) + maghribCorrection
+
+        /**
+         * Isha Time Calculation
+         * Calculate the correction for Isha prayer time in hours.
+         * Only allow manual corrections within the range of -59 to 59 minutes.
+         * If the correction is outside this range, set it to 0 (no correction).
+         */
+
+        val ishaCorrection = if (prayerManualCorrection.ishaMinute in -59..59) {
+            // Convert the manual correction from minutes to hours by dividing by 60.0.
+            prayerManualCorrection.ishaMinute / 60.0
+        } else {
+            // For out-of-bound corrections, default to 0.0 (no change).
+            0.0
         }
 
-        // Fajr, Sunrise, Zuhr, Asr, Sunset, Maghrib, Isha respectively
+        val ishaTime = if (standardAngleParams.second == -1.0) {
+            // Angle -1, it represents 90 minutes after Maghrib for Isha.
+            maghribTime + 1.5 + ishaCorrection
+        } else {
+            calculateTimeForAngle(
+                standardAngleParams.second,
+                dayPortions[6],
+                latitude,
+                julianDate
+            ) + ishaCorrection
+        }
+
+        /**
+         * Return all time values in the order of Fajr, Sunrise, Zuhr, Asr, Sunset, Maghrib, Isha
+         */
         return doubleArrayOf(
             fajrTime,
             sunriseTime,

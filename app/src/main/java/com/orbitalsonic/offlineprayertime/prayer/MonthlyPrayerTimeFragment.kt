@@ -12,6 +12,7 @@ import com.orbitalsonic.sonicopt.enums.AsrJuristicMethod
 import com.orbitalsonic.sonicopt.enums.PrayerTimeConvention
 import com.orbitalsonic.sonicopt.enums.TimeFormat
 import com.orbitalsonic.sonicopt.manager.PrayerTimeManager
+import com.orbitalsonic.sonicopt.models.PrayerManualCorrection
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -52,7 +53,14 @@ class MonthlyPrayerTimeFragment : Fragment() {
             highLatitudeAdjustment = HighLatitudeAdjustment.NO_ADJUSTMENT,
             asrJuristicMethod = AsrJuristicMethod.HANAFI,
             prayerTimeConvention = PrayerTimeConvention.KARACHI,
-            timeFormat = TimeFormat.HOUR_12
+            timeFormat = TimeFormat.HOUR_12,
+            prayerManualCorrection = PrayerManualCorrection(
+                fajrMinute = 0,
+                zuhrMinute = 0,
+                asrMinute = 0,
+                maghribMinute = 0,
+                ishaMinute = 0
+            )
         ) { result ->
             result.onSuccess { prayerItems ->
                 logBuilder.appendLine("----Monthly Prayer Times----")
