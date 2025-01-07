@@ -75,10 +75,10 @@ The `PrayerTimeManager` class is designed to fetch and calculate prayer and fast
 val prayerTimeManager = PrayerTimeManager()
 ```
 
-### Fetching Prayer Times
+#### Fetching Prayer Times
 Prayer times are calculated based on the provided latitude, longitude, high latitude adjustment, Asr juristic method, prayer time convention, and time format.
 
-#### Fetch Today Prayer Times
+##### Fetch Today Prayer Times
 ```kotlin
 prayerTimeManager.fetchTodayPrayerTimes(
     latitude = 33.4979105, // Example latitude (Islamabad, Pakistan)
