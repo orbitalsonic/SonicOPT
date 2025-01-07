@@ -157,6 +157,7 @@ prayerTimeManager.fetchCurrentYearPrayerTimes(
 To fetch fasting times, use the `PrayerTimeManager` class in conjunction with fasting-related methods. The following examples demonstrate its usage.
 
 ### Fetching Fasting Times
+Fasting times are calculated based on Fajr and Maghrib prayers, Sehri ends at Fajr start time, and Iftar begins at Maghrib time.
 
 #### Fetch Today Fasting Times
 ```kotlin
