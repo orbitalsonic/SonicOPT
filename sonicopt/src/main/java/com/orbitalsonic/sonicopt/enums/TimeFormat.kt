@@ -1,6 +1,14 @@
 package com.orbitalsonic.sonicopt.enums
 
 /**
+ * @Author: Muhammad Yaqoob
+ * @Date: 01,Jan,2025.
+ * @Accounts
+ *      -> https://github.com/orbitalsonic
+ *      -> https://www.linkedin.com/in/myaqoob7
+ */
+
+/**
  * Represents the format for displaying time.
  */
 enum class TimeFormat {

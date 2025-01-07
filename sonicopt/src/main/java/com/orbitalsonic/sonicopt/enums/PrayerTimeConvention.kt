@@ -1,6 +1,14 @@
 package com.orbitalsonic.sonicopt.enums
 
 /**
+ * @Author: Muhammad Yaqoob
+ * @Date: 01,Jan,2025.
+ * @Accounts
+ *      -> https://github.com/orbitalsonic
+ *      -> https://www.linkedin.com/in/myaqoob7
+ */
+
+/**
  * Represents different methods of calculating prayer times.
  * These methods are based on various Islamic organizations and conventions.
  */

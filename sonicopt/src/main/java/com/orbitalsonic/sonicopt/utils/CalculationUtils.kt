@@ -3,6 +3,14 @@ package com.orbitalsonic.sonicopt.utils
 import android.util.Log
 import kotlin.math.abs
 
+/**
+ * @Author: Muhammad Yaqoob
+ * @Date: 01,Jan,2025.
+ * @Accounts
+ *      -> https://github.com/orbitalsonic
+ *      -> https://www.linkedin.com/in/myaqoob7
+ */
+
 // Compute declination angle of the sun and equation of time
  internal fun calculateSunPosition(julianDate: Double): DoubleArray {
     return try {

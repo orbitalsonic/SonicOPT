@@ -15,6 +15,14 @@ import java.util.Calendar
 import java.util.Date
 
 /**
+ * @Author: Muhammad Yaqoob
+ * @Date: 01,Jan,2025.
+ * @Accounts
+ *      -> https://github.com/orbitalsonic
+ *      -> https://www.linkedin.com/in/myaqoob7
+ */
+
+/**
  * The `PrayerTimeManager` class is responsible for managing and providing prayer times.
  * It supports fetching daily, monthly, and yearly data based on geographic location and various calculation methods.
  */

@@ -5,6 +5,14 @@ import java.util.Date
 import java.util.TimeZone
 import kotlin.math.floor
 
+/**
+ * @Author: Muhammad Yaqoob
+ * @Date: 01,Jan,2025.
+ * @Accounts
+ *      -> https://github.com/orbitalsonic
+ *      -> https://www.linkedin.com/in/myaqoob7
+ */
+
 // Compute local time zone offset for the current date (in hours)
 internal fun getLocalTimeZone(): Double {
     val timeZone = TimeZone.getDefault()

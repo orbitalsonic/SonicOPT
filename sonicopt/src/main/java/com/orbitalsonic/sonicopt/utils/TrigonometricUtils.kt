@@ -8,6 +8,14 @@ import kotlin.math.cos
 import kotlin.math.sin
 import kotlin.math.tan
 
+/**
+ * @Author: Muhammad Yaqoob
+ * @Date: 01,Jan,2025.
+ * @Accounts
+ *      -> https://github.com/orbitalsonic
+ *      -> https://www.linkedin.com/in/myaqoob7
+ */
+
 // Normalize an angle in degrees to the range [0, 360)
 internal fun normalizeAngle(angle: Double): Double {
     val normalized = angle % 360.0
