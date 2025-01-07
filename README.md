@@ -1,4 +1,4 @@
-[![](https://jitpack.io/v/orbitalsonic/opt.svg)](https://jitpack.io/#orbitalsonic/opt)
+[![](https://jitpack.io/v/orbitalsonic/SonicOPT.svg)](https://jitpack.io/#orbitalsonic/SonicOPT)
 
 
 > **⚠️ WARNING:** This library is currently under testing. Use it with caution as it may contain bugs or calculation error
@@ -45,7 +45,8 @@ repositories {
 ```
 
 ### Step 2: Add Dependency
-Include the OPT library in your app-level build script (`build.gradle` or `build.gradle.kts`). Replace `x.x.x` with the latest version: [![](https://jitpack.io/v/orbitalsonic/opt.svg)](https://jitpack.io/#orbitalsonic/opt)
+Include the OPT library in your app-level build script (`build.gradle` or `build.gradle.kts`). Replace `x.x.x` with the latest version: [![](https://jitpack.io/v/orbitalsonic/SonicOPT.svg)](https://jitpack.io/#orbitalsonic/SonicOPT)
+
 
 #### Groovy DSL
 ```groovy
