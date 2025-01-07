@@ -69,14 +69,14 @@ Sync your Gradle project to fetch the dependency.
 ## Usage
 
 ### Prayer Time Manager
-To fetch prayer times, use the `PrayerTimeManager` class. The following examples demonstrate its usage.
+The `PrayerTimeManager` class is designed to fetch and calculate prayer and fasting times efficiently. To use the `PrayerTimeManager` class, begin by initializing it:
 
-#### Fetching Prayer Times
-
-##### Initialize `PrayerTimeManager`
 ```kotlin
 val prayerTimeManager = PrayerTimeManager()
 ```
+
+### Fetching Prayer Times
+Prayer times are calculated based on the provided latitude, longitude, high latitude adjustment, Asr juristic method, prayer time convention, and time format.
 
 #### Fetch Today Prayer Times
 ```kotlin
@@ -153,10 +153,9 @@ prayerTimeManager.fetchCurrentYearPrayerTimes(
 
 ---
 
-## Fasting Time Manager
-To fetch fasting times, use the `PrayerTimeManager` class in conjunction with fasting-related methods. The following examples demonstrate its usage.
 
 ### Fetching Fasting Times
+Fasting times are calculated based on Fajr and Maghrib prayers, Sehri ends at Fajr start time, and Iftar begins at Maghrib time. To calculate these times, provide the latitude, longitude, high latitude adjustment, and prayer time convention.
 
 #### Fetch Today Fasting Times
 ```kotlin
@@ -164,7 +163,6 @@ prayerTimeManager.fetchTodayFastingTimes(
     latitude = 33.4979105, // Example latitude (Islamabad, Pakistan)
     longitude = 73.0722461, // Example longitude (Islamabad, Pakistan)
     highLatitudeAdjustment = HighLatitudeAdjustment.NO_ADJUSTMENT,
-    asrJuristicMethod = AsrJuristicMethod.HANAFI,
     prayerTimeConvention = PrayerTimeConvention.KARACHI,
     timeFormat = TimeFormat.HOUR_12
 ) { result ->
@@ -184,7 +182,6 @@ prayerTimeManager.fetchCurrentMonthFastingTimes(
     latitude = 33.4979105, // Example latitude (Islamabad, Pakistan)
     longitude = 73.0722461, // Example longitude (Islamabad, Pakistan)
     highLatitudeAdjustment = HighLatitudeAdjustment.NO_ADJUSTMENT,
-    asrJuristicMethod = AsrJuristicMethod.HANAFI,
     prayerTimeConvention = PrayerTimeConvention.KARACHI,
     timeFormat = TimeFormat.HOUR_12
 ) { result ->
@@ -205,7 +202,6 @@ prayerTimeManager.fetchCurrentYearFastingTimes(
    latitude = 33.4979105, // Example latitude (Islamabad, Pakistan)
    longitude = 73.0722461, // Example longitude (Islamabad, Pakistan)
     highLatitudeAdjustment = HighLatitudeAdjustment.NO_ADJUSTMENT,
-    asrJuristicMethod = AsrJuristicMethod.HANAFI,
     prayerTimeConvention = PrayerTimeConvention.KARACHI,
    timeFormat = TimeFormat.HOUR_12
 ) { result ->
