@@ -102,12 +102,13 @@ class PrayerTimeManager {
 
     /**
      * Fetch today fasting times.
+     * Fasting times are calculated based on Fajr and Maghrib prayers,
+     * Sehri ends at Fajr start time, and Iftar begins at Maghrib time.
      */
     fun fetchTodayFastingTimes(
         latitude: Double,
         longitude: Double,
         highLatitudeAdjustment: HighLatitudeAdjustment,
-        asrJuristicMethod: AsrJuristicMethod,
         prayerTimeConvention: PrayerTimeConvention,
         timeFormat: TimeFormat,
         callback: (Result<FastingItem>) -> Unit
@@ -115,7 +116,7 @@ class PrayerTimeManager {
         CoroutineScope(Dispatchers.IO).launch {
             try {
                 val prayerItem = getDailyPrayerTimes(
-                    latitude, longitude, highLatitudeAdjustment, asrJuristicMethod, prayerTimeConvention, timeFormat
+                    latitude, longitude, highLatitudeAdjustment, AsrJuristicMethod.HANAFI, prayerTimeConvention, timeFormat
                 )
                 val fastingTimes = extractFastingTimes(prayerItem)
                 withContext(Dispatchers.Main) { callback(Result.success(fastingTimes)) }
@@ -127,12 +128,13 @@ class PrayerTimeManager {
 
     /**
      * Fetch current month fasting times.
+     * Fasting times are calculated based on Fajr and Maghrib prayers,
+     * Sehri ends at Fajr start time, and Iftar begins at Maghrib time.
      */
     fun fetchCurrentMonthFastingTimes(
         latitude: Double,
         longitude: Double,
         highLatitudeAdjustment: HighLatitudeAdjustment,
-        asrJuristicMethod: AsrJuristicMethod,
         prayerTimeConvention: PrayerTimeConvention,
         timeFormat: TimeFormat,
         callback: (Result<List<FastingItem>>) -> Unit
@@ -140,7 +142,7 @@ class PrayerTimeManager {
         CoroutineScope(Dispatchers.IO).launch {
             try {
                 val prayerItems = getMonthlyPrayerTimes(
-                    latitude, longitude, highLatitudeAdjustment, asrJuristicMethod, prayerTimeConvention, timeFormat
+                    latitude, longitude, highLatitudeAdjustment, AsrJuristicMethod.HANAFI, prayerTimeConvention, timeFormat
                 )
                 val fastingTimes = prayerItems.map { extractFastingTimes(it) }
                 withContext(Dispatchers.Main) { callback(Result.success(fastingTimes)) }
@@ -152,12 +154,13 @@ class PrayerTimeManager {
 
     /**
      * Fetch current yearly fasting times.
+     * Fasting times are calculated based on Fajr and Maghrib prayers,
+     * Sehri ends at Fajr start time, and Iftar begins at Maghrib time.
      */
     fun fetchCurrentYearFastingTimes(
         latitude: Double,
         longitude: Double,
         highLatitudeAdjustment: HighLatitudeAdjustment,
-        asrJuristicMethod: AsrJuristicMethod,
         prayerTimeConvention: PrayerTimeConvention,
         timeFormat: TimeFormat,
         callback: (Result<List<List<FastingItem>>>) -> Unit
@@ -165,7 +168,7 @@ class PrayerTimeManager {
         CoroutineScope(Dispatchers.IO).launch {
             try {
                 val prayerItems = getYearlyPrayerTimes(
-                    latitude, longitude, highLatitudeAdjustment, asrJuristicMethod, prayerTimeConvention, timeFormat
+                    latitude, longitude, highLatitudeAdjustment, AsrJuristicMethod.HANAFI, prayerTimeConvention, timeFormat
                 )
                 val fastingTimes = prayerItems.map { monthlyPrayerItems ->
                     monthlyPrayerItems.map { extractFastingTimes(it) }
