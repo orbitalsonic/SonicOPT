@@ -50,14 +50,14 @@ Include the OPT library in your app-level build script (`build.gradle` or `build
 #### Groovy DSL
 ```groovy
 dependencies {
-    implementation 'com.github.orbitalsonic:opt:x.x.x'
+    implementation 'com.github.orbitalsonic:SonicOPT:x.x.x'
 }
 ```
 
 #### Kotlin DSL
 ```kotlin
 dependencies {
-    implementation("com.github.orbitalsonic:opt:x.x.x")
+    implementation("com.github.orbitalsonic:SonicOPT:x.x.x")
 }
 ```
 
