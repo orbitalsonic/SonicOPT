@@ -10,11 +10,14 @@ OPT is a powerful and offline library for calculating Islamic prayer and fasting
 ---
 
 ## Features
+- **Offline Functionality**: No internet connection is required.
 - **Daily, Monthly, and Yearly Prayer Times**: Calculate prayer times for any duration.
-- **Daily, Monthly, and Yearly Fasting Times**: Fetch fasting times based on prayer data.
-- **Customizable Calculations**: Supports juristic methods and high-latitude adjustments.
+- **Daily, Monthly, and Yearly Fasting Times**: Calculate fasting times for any duration.
+- **Prayer Time Conventions**: Supports multiple conventions including Muslim World League, Egyptian General Authority of Survey, Umm Al-Qura University, and more. Custom angles are also supported.
+- **High Latitude Adjustment**: Offers flexible adjustment methods, such as No Adjustment, Middle of the Night, Seventh of the Night, and Twilight Angle..
+- **Asr Time Calculation**: Supports both Hanafi and Shafi methods for Asr time calculation.
 - **Multiple Time Formats**: Choose between 12-hour, 24-hour, or floating-point representations.
-- **Offline Functionality**: No internet connection is required after initialization.
+
 
 ---
 
@@ -78,8 +81,8 @@ val prayerTimeManager = PrayerTimeManager()
 #### Fetch Today Prayer Times
 ```kotlin
 prayerTimeManager.fetchTodayPrayerTimes(
-    latitude = 40.7128, // Example latitude (New York)
-    longitude = -74.0060, // Example longitude (New York)
+    latitude = 33.4979105, // Example latitude (Islamabad, Pakistan)
+    longitude = 73.0722461, // Example longitude (Islamabad, Pakistan)
     highLatitudeAdjustment = HighLatitudeAdjustment.NO_ADJUSTMENT,
     asrJuristicMethod = AsrJuristicMethod.HANAFI,
     prayerTimeConvention = PrayerTimeConvention.KARACHI,
@@ -100,8 +103,8 @@ prayerTimeManager.fetchTodayPrayerTimes(
 #### Fetch Current Month Prayer Times
 ```kotlin
 prayerTimeManager.fetchCurrentMonthPrayerTimes(
-    latitude = 40.7128, // Example latitude (New York)
-    longitude = -74.0060, // Example longitude (New York)
+    latitude = 33.4979105, // Example latitude (Islamabad, Pakistan)
+    longitude = 73.0722461, // Example longitude (Islamabad, Pakistan)
     highLatitudeAdjustment = HighLatitudeAdjustment.NO_ADJUSTMENT,
     asrJuristicMethod = AsrJuristicMethod.HANAFI,
     prayerTimeConvention = PrayerTimeConvention.KARACHI,
@@ -124,8 +127,8 @@ prayerTimeManager.fetchCurrentMonthPrayerTimes(
 #### Fetch Current Year Prayer Times
 ```kotlin
 prayerTimeManager.fetchCurrentYearPrayerTimes(
-    latitude = 40.7128, // Example latitude (New York)
-    longitude = -74.0060, // Example longitude (New York)
+    latitude = 33.4979105, // Example latitude (Islamabad, Pakistan)
+    longitude = 73.0722461, // Example longitude (Islamabad, Pakistan)
     highLatitudeAdjustment = HighLatitudeAdjustment.NO_ADJUSTMENT,
     asrJuristicMethod = AsrJuristicMethod.HANAFI,
     prayerTimeConvention = PrayerTimeConvention.KARACHI,
@@ -158,8 +161,8 @@ To fetch fasting times, use the `PrayerTimeManager` class in conjunction with fa
 #### Fetch Today Fasting Times
 ```kotlin
 prayerTimeManager.fetchTodayFastingTimes(
-    latitude = 40.7128, // Example latitude (New York)
-    longitude = -74.0060, // Example longitude (New York)
+    latitude = 33.4979105, // Example latitude (Islamabad, Pakistan)
+    longitude = 73.0722461, // Example longitude (Islamabad, Pakistan)
     highLatitudeAdjustment = HighLatitudeAdjustment.NO_ADJUSTMENT,
     asrJuristicMethod = AsrJuristicMethod.HANAFI,
     prayerTimeConvention = PrayerTimeConvention.KARACHI,
@@ -178,8 +181,8 @@ prayerTimeManager.fetchTodayFastingTimes(
 #### Fetch Current Month Fasting Times
 ```kotlin
 prayerTimeManager.fetchCurrentMonthFastingTimes(
-    latitude = 40.7128, // Example latitude (New York)
-    longitude = -74.0060, // Example longitude (New York)
+    latitude = 33.4979105, // Example latitude (Islamabad, Pakistan)
+    longitude = 73.0722461, // Example longitude (Islamabad, Pakistan)
     highLatitudeAdjustment = HighLatitudeAdjustment.NO_ADJUSTMENT,
     asrJuristicMethod = AsrJuristicMethod.HANAFI,
     prayerTimeConvention = PrayerTimeConvention.KARACHI,
@@ -199,8 +202,8 @@ prayerTimeManager.fetchCurrentMonthFastingTimes(
 #### Fetch Current Year Fasting Times
 ```kotlin
 prayerTimeManager.fetchCurrentYearFastingTimes(
-   latitude = 40.7128, // Example latitude (New York)
-   longitude = -74.0060, // Example longitude (New York)
+   latitude = 33.4979105, // Example latitude (Islamabad, Pakistan)
+   longitude = 73.0722461, // Example longitude (Islamabad, Pakistan)
     highLatitudeAdjustment = HighLatitudeAdjustment.NO_ADJUSTMENT,
     asrJuristicMethod = AsrJuristicMethod.HANAFI,
     prayerTimeConvention = PrayerTimeConvention.KARACHI,
@@ -291,23 +294,23 @@ data class FastingItem(
 
 | **Option**               | **Description**                                                               |
 |--------------------------|-------------------------------------------------------------------------------|
-| `MWL`                    | Muslim World League (Fajr: 18°, Isha: 17°).                                   |
+| `MWL`                    | Muslim World League (Fajr: 18.0°, Isha: 17.0°).                               |
 | `EGYPT`                  | Egyptian General Authority of Survey (Fajr: 19.5°, Isha: 17.5°).              |
-| `KARACHI`                | University of Islamic Sciences, Karachi (Fajr/Isha: 18°).                     |
+| `KARACHI`                | University of Islamic Sciences, Karachi (Fajr 18.0°, Isha: 18.0°).            |
 | `MAKKAH`                 | Umm Al-Qura University, Makkah (Fajr: 18.5°, Isha: 90 minutes after Maghrib). |
-| `DUBAI`                  | Dubai (Fajr/Isha: 18.2°).                                                     |
-| `MOONSIGHTING_COMMITTEE` | Moonsighting Committee (Fajr/Isha: 18°).                                      |
-| `ISNA`                   | Islamic Society of North America (Fajr/Isha: 15°).                            |
-| `KUWAIT`                 | Kuwait (Fajr: 18°, Isha: 17.5°).                                              |
-| `QATAR`                  | Qatar (Fajr: 18°, Isha: 90 minutes after Maghrib).                            |
-| `SINGAPORE`              | Singapore (Fajr: 20°, Isha: 18°).                                             |
-| `TEHRAN`                 | Tehran (Fajr: 17.7°, Isha: 14°).                                              |
-| `JAFFARI`                | Jaffari (Fajr: 16°, Isha: 14°).                                               |
+| `DUBAI`                  | Dubai (Fajr: 18.2°, Isha: 18.2°).                                             |
+| `MOONSIGHTING_COMMITTEE` | Moonsighting Committee (Fajr: 18.0°, Isha: 18.0°).                            |
+| `ISNA`                   | Islamic Society of North America (Fajr: 15.0°, Isha: 15.0°).                  |
+| `KUWAIT`                 | Kuwait (Fajr: 18.0°, Isha: 17.5°).                                            |
+| `QATAR`                  | Qatar (Fajr: 18.0°, Isha: 90 minutes after Maghrib).                          |
+| `SINGAPORE`              | Singapore (Fajr: 20.0°, Isha: 18.0°).                                         |
+| `TEHRAN`                 | Tehran (Fajr: 17.7°, Isha: 14.0°).                                            |
+| `JAFFARI`                | Jaffari (Fajr: 16.0°, Isha: 14,0°).                                           |
 | `GULF_REGION`            | Gulf Region (Fajr: 19.5°, Isha: 90 minutes after Maghrib).                    |
-| `FRANCE`                 | France (Fajr/Isha: 12°).                                                      |
-| `TURKEY`                 | Turkey (Fajr: 18°, Isha: 17°).                                                |
-| `RUSSIA`                 | Russia (Fajr: 16°, Isha: 15°).                                                |
-| `CUSTOM`                 | Custom angles (default Fajr: 9°, Isha: 14°).                                  |
+| `FRANCE`                 | France (Fajr: 12.0°, Isha: 12.0°).                                            |
+| `TURKEY`                 | Turkey (Fajr: 18.0°, Isha: 17.0°).                                            |
+| `RUSSIA`                 | Russia (Fajr: 16.0°, Isha: 15.0°).                                            |
+| `CUSTOM`                 | Custom angles (default Fajr: 9.0°, Isha: 14.0°).                              |
 
 ### Time Format (`TimeFormat`)
 

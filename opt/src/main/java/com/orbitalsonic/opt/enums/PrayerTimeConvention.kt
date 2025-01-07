@@ -20,7 +20,7 @@ enum class PrayerTimeConvention {
 
     /**
      * University of Islamic Sciences, Karachi:
-     * Fajr and Isha angles are both 18.0°.
+     * Fajr angle is 18.0° and Isha angle is 18.0°.
      */
     KARACHI,
 
@@ -32,19 +32,19 @@ enum class PrayerTimeConvention {
 
     /**
      * Dubai:
-     * Fajr and Isha angles are both 18.2°.
+     * Fajr angle is 18.2° and Isha angle is 18.2°.
      */
     DUBAI,
 
     /**
      * Moonsighting Committee:
-     * Fajr and Isha angles are both 18.0°.
+     * Fajr angle is 18.0° and Isha angle is 18.0°.
      */
     MOONSIGHTING_COMMITTEE,
 
     /**
      * Islamic Society of North America (ISNA):
-     * Fajr and Isha angles are both 15.0°.
+     * Fajr angle is 15.0° and Isha angle is 15.0°.
      */
     ISNA,
 
@@ -86,7 +86,7 @@ enum class PrayerTimeConvention {
 
     /**
      * Union Organization islamic de France:
-     * Fajr and Isha angles are both 12.0°.
+     * Fajr angle is 12.0° and Isha angle is 12.0°.
      */
     FRANCE,
 
