@@ -103,8 +103,9 @@ prayerTimeManager.fetchTodayPrayerTimes(
     prayerCustomAngle = PrayerCustomAngle(fajrAngle = 9.0, ishaAngle = 14.0)
 ) { result ->
     result.onSuccess { prayerItem ->
-        val date = Date(prayerItem.date)
-        Log.d("PrayerTimeTag", "Date: $date")
+        val dateFormatter = SimpleDateFormat("dd MMM, yyyy", Locale.getDefault())
+        val formattedDate = dateFormatter.format(Date(prayerItem.date))
+        Log.d("PrayerTimeTag", "Date: $formattedDate")
         prayerItem.prayerList.forEach {
             Log.d("PrayerTimeTag", "${it.prayerName}: ${it.prayerTime}")
         }
@@ -127,9 +128,10 @@ prayerTimeManager.fetchCurrentMonthPrayerTimes(
     prayerCustomAngle = PrayerCustomAngle(fajrAngle = 9.0, ishaAngle = 14.0)
 ) { result ->
     result.onSuccess { prayerItems ->
+        val dateFormatter = SimpleDateFormat("dd MMM, yyyy", Locale.getDefault())
         prayerItems.forEachIndexed { index, prayerItem ->
-            val date = Date(prayerItem.date)
-            Log.d("PrayerTimeTag", "Day ${index + 1} (${date}):")
+            val formattedDate = dateFormatter.format(Date(prayerItem.date))
+            Log.d("PrayerTimeTag", "Day ${index + 1} (${formattedDate}):")
             prayerItem.prayerList.forEach {
                 Log.d("PrayerTimeTag", "${it.prayerName}: ${it.prayerTime}")
             }
@@ -153,11 +155,12 @@ prayerTimeManager.fetchCurrentYearPrayerTimes(
     prayerCustomAngle = PrayerCustomAngle(fajrAngle = 9.0, ishaAngle = 14.0)
 ) { result ->
     result.onSuccess { prayerItems ->
+      val dateFormatter = SimpleDateFormat("dd MMM, yyyy", Locale.getDefault())
         prayerItems.forEachIndexed { monthIndex, monthlyPrayerItems ->
             Log.d("PrayerTimeTag", "Month ${monthIndex + 1}:")
             monthlyPrayerItems.forEachIndexed { dayIndex, prayerItem ->
-                val date = Date(prayerItem.date)
-                Log.d("PrayerTimeTag", "Day ${dayIndex + 1} (${date}):")
+                val formattedDate = dateFormatter.format(Date(prayerItem.date))
+                Log.d("PrayerTimeTag", "Day ${dayIndex + 1} (${formattedDate}):")
                 prayerItem.prayerList.forEach {
                     Log.d("PrayerTimeTag", "${it.prayerName}: ${it.prayerTime}")
                 }
@@ -197,8 +200,9 @@ prayerTimeManager.fetchTodayFastingTimes(
     prayerCustomAngle = PrayerCustomAngle(fajrAngle = 9.0, ishaAngle = 14.0)
 ) { result ->
     result.onSuccess { fastingItem ->
-        val date = Date(fastingItem.date)
-        Log.d("FastingTimeTag", "Date: $date")
+        val dateFormatter = SimpleDateFormat("dd MMM, yyyy", Locale.getDefault())
+        val formattedDate = dateFormatter.format(Date(fastingItem.date))
+        Log.d("FastingTimeTag", "Date: $formattedDate")
         Log.d("FastingTimeTag", "Sehri: ${fastingItem.sehriTime}, Iftar: ${fastingItem.iftaarTime}")
     }.onFailure { exception ->
         Log.e("FastingTimeTag", "Error fetching daily fasting times", exception)
@@ -218,9 +222,10 @@ prayerTimeManager.fetchCurrentMonthFastingTimes(
     prayerCustomAngle = PrayerCustomAngle(fajrAngle = 9.0, ishaAngle = 14.0)
 ) { result ->
     result.onSuccess { fastingTimes ->
+        val dateFormatter = SimpleDateFormat("dd MMM, yyyy", Locale.getDefault())
         fastingTimes.forEachIndexed { index, fastingItem ->
-            val date = Date(fastingItem.date)
-            Log.d("FastingTimeTag", "Day ${index + 1} (${date}): Sehri: ${fastingItem.sehriTime}, Iftar: ${fastingItem.iftaarTime}")
+            val formattedDate = dateFormatter.format(Date(fastingItem.date))
+            Log.d("FastingTimeTag", "Day ${index + 1} (${formattedDate}): Sehri: ${fastingItem.sehriTime}, Iftar: ${fastingItem.iftaarTime}")
         }
     }.onFailure { exception ->
         Log.e("FastingTimeTag", "Error fetching monthly fasting times", exception)
@@ -240,11 +245,12 @@ prayerTimeManager.fetchCurrentYearFastingTimes(
    prayerCustomAngle = PrayerCustomAngle(fajrAngle = 9.0, ishaAngle = 14.0)
 ) { result ->
    result.onSuccess { fastingTimes ->
+      val dateFormatter = SimpleDateFormat("dd MMM, yyyy", Locale.getDefault())
       fastingTimes.forEachIndexed { monthIndex, monthlyFastingList ->
          Log.d("FastingTimeTag", "Month ${monthIndex + 1}:")
          monthlyFastingList.forEachIndexed { dayIndex, fastingItem ->
-            val date = Date(fastingItem.date)
-            Log.d("FastingTimeTag", "Day ${dayIndex + 1} (${date}): Sehri: ${fastingItem.sehriTime}, Iftar: ${fastingItem.iftaarTime}")
+            val formattedDate = dateFormatter.format(Date(fastingItem.date))
+            Log.d("FastingTimeTag", "Day ${dayIndex + 1} (${formattedDate}): Sehri: ${fastingItem.sehriTime}, Iftar: ${fastingItem.iftaarTime}")
          }
       }
    }.onFailure { exception ->
