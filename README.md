@@ -233,11 +233,11 @@ prayerTimeManager.fetchCurrentMonthFastingTimes(
 prayerTimeManager.fetchCurrentYearFastingTimes(
    latitude = 33.4979105, // Example latitude (Islamabad, Pakistan)
    longitude = 73.0722461, // Example longitude (Islamabad, Pakistan)
-    highLatitudeAdjustment = HighLatitudeAdjustment.NO_ADJUSTMENT,
-    prayerTimeConvention = PrayerTimeConvention.KARACHI,
+   highLatitudeAdjustment = HighLatitudeAdjustment.NO_ADJUSTMENT,
+   prayerTimeConvention = PrayerTimeConvention.KARACHI,
    timeFormat = TimeFormat.HOUR_12,
-    prayerManualCorrection = PrayerManualCorrection(fajrMinute = 0,maghribMinute = 0),
-    prayerCustomAngle = PrayerCustomAngle(fajrAngle = 9.0, ishaAngle = 14.0)
+   prayerManualCorrection = PrayerManualCorrection(fajrMinute = 0,maghribMinute = 0),
+   prayerCustomAngle = PrayerCustomAngle(fajrAngle = 9.0, ishaAngle = 14.0)
 ) { result ->
    result.onSuccess { fastingTimes ->
       fastingTimes.forEachIndexed { monthIndex, monthlyFastingList ->
