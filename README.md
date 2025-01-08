@@ -14,10 +14,11 @@ SonicOPT is a robust offline library for calculating precise Islamic prayer and 
 - **Daily, Monthly, and Yearly Prayer Times**: Calculate prayer times for any duration.
 - **Daily, Monthly, and Yearly Fasting Times**: Calculate fasting times for any duration.
 - **Multiple Time Formats**: Choose between 12-hour, 24-hour, or floating-point representations.
+- **Manual Time Adjustments**: Allow precise manual corrections to calculated times.
+- **Custom Prayer Angles**: Specify custom angles for prayer time calculations.
 - **Asr Time Calculation**: Supports both Hanafi and Shafi methods for Asr time calculation.
 - **High Latitude Adjustment**: Offers flexible adjustment methods, such as No Adjustment, Middle of the Night, Seventh of the Night, and Twilight Angle..
 - **Prayer Time Conventions**: Supports multiple conventions including Muslim World League, Egyptian General Authority of Survey, Umm Al-Qura University, and more. Custom angles are also supported.
-
 
 ---
 
