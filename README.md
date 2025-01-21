@@ -12,7 +12,9 @@ SonicOPT is a robust offline library for calculating precise Islamic prayer and 
 ## Features
 - **Offline Functionality**: No internet connection is required.
 - **Daily, Monthly, and Yearly Prayer Times**: Calculate prayer times for any duration.
+- **Specific Date or Date Range Prayer Times**: Fetch precise prayer times for a specific date or range of dates.
 - **Daily, Monthly, and Yearly Fasting Times**: Calculate fasting times for any duration.
+- **Specific Date or Date Range Fasting Time:**: Fetch precise fasting times for a specific date or range of dates.
 - **Multiple Time Formats**: Choose between 12-hour, 24-hour, or floating-point representations.
 - **Manual Time Adjustments**: Allow precise manual corrections to calculated times.
 - **Custom Prayer Angles**: Specify custom angles for prayer time calculations.
@@ -172,6 +174,81 @@ prayerTimeManager.fetchCurrentYearPrayerTimes(
 }
 ```
 
+#### Fetch Specific Date Prayer Time
+```kotlin
+
+// Create a Calendar instance and set it to June 5, 2025
+val calendar = GregorianCalendar(2025, Calendar.JUNE, 5)
+// Convert the Calendar instance to a Date object
+val date = calendar.time
+
+prayerTimeManager.fetchExactDatePrayerTimes(
+  latitude = 33.4979105,
+  longitude = 73.0722461,
+  date = date,
+  highLatitudeAdjustment = HighLatitudeAdjustment.NO_ADJUSTMENT,
+  asrJuristicMethod = AsrJuristicMethod.HANAFI,
+  prayerTimeConvention = PrayerTimeConvention.KARACHI,
+  timeFormat = TimeFormat.HOUR_12,
+  prayerManualCorrection = PrayerManualCorrection(),
+  prayerCustomAngle = PrayerCustomAngle()
+) { result ->
+  result.onSuccess { prayerItem ->
+    val dateFormatter = SimpleDateFormat("dd MMM, yyyy", Locale.getDefault())
+    val formattedDate = dateFormatter.format(Date(prayerItem.date))
+    Log.d("PrayerTimeTag", "Date: $formattedDate")
+    prayerItem.prayerList.forEach {
+      Log.d("PrayerTimeTag", "${it.prayerName}: ${it.prayerTime}")
+    }
+  }.onFailure { exception ->
+    Log.e("PrayerTimeTag", "Error fetching prayer times", exception)
+  }
+}
+
+```
+
+#### Fetch Date Range Prayer Time
+```kotlin
+
+// Create a Calendar instance and set it to June 5, 2025
+val startCalendar = GregorianCalendar(2025, Calendar.JUNE, 25)
+// Convert the Calendar instance to a Date object
+val startDate = startCalendar.time
+
+// Create a Calendar instance and set it to July 7, 2025
+val endCalendar = GregorianCalendar(2025, Calendar.JULY, 7)
+// Convert the Calendar instance to a Date object
+val endDate = endCalendar.time
+
+prayerTimeManager.fetchPrayerTimesForDateRange(
+  latitude = 33.4979105,
+  longitude = 73.0722461,
+  startDate = startDate,
+  endDate = endDate,
+  highLatitudeAdjustment = HighLatitudeAdjustment.NO_ADJUSTMENT,
+  asrJuristicMethod = AsrJuristicMethod.HANAFI,
+  prayerTimeConvention = PrayerTimeConvention.KARACHI,
+  timeFormat = TimeFormat.HOUR_12,
+  prayerManualCorrection = PrayerManualCorrection(),
+  prayerCustomAngle = PrayerCustomAngle()
+) { result ->
+  result.onSuccess { prayerItems ->
+    val dateFormatter = SimpleDateFormat("dd MMM, yyyy", Locale.getDefault())
+    prayerItems.forEach { prayerItem ->
+      val formattedDate = dateFormatter.format(Date(prayerItem.date))
+      Log.d("PrayerTimeTag", "Date: $formattedDate")
+      prayerItem.prayerList.forEach {
+        Log.d("PrayerTimeTag", "${it.prayerName}: ${it.prayerTime}")
+      }
+    }
+  }.onFailure { exception ->
+    Log.e("PrayerTimeTag", "Error fetching prayer times", exception)
+  }
+}
+
+
+```
+
 ---
 
 ## Fetching Fasting Times
@@ -257,6 +334,73 @@ prayerTimeManager.fetchCurrentYearFastingTimes(
       Log.e("FastingTimeTag", "Error fetching yearly fasting times", exception)
    }
 }
+```
+#### Fetch Specific Date Fasting Time
+```kotlin
+
+// Create a Calendar instance and set it to June 5, 2025
+val calendar = GregorianCalendar(2025, Calendar.JUNE, 5)
+// Convert the Calendar instance to a Date object
+val date = calendar.time
+
+prayerTimeManager.fetchFastingTimesForSpecificDate(
+  latitude = 33.4979105,
+  longitude = 73.0722461,
+  date = date,
+  highLatitudeAdjustment = HighLatitudeAdjustment.NO_ADJUSTMENT,
+  prayerTimeConvention = PrayerTimeConvention.KARACHI,
+  timeFormat = TimeFormat.HOUR_12,
+  prayerManualCorrection = PrayerManualCorrection(),
+  prayerCustomAngle = PrayerCustomAngle()
+) { result ->
+  result.onSuccess { fastingItem ->
+    val dateFormatter = SimpleDateFormat("dd MMM, yyyy", Locale.getDefault())
+    val formattedDate = dateFormatter.format(Date(fastingItem.date))
+    Log.d("FastingTimeTag", "Date: $formattedDate")
+    Log.d("FastingTimeTag", "Sehri: ${fastingItem.sehriTime}, Iftar: ${fastingItem.iftaarTime}")
+  }.onFailure { exception ->
+    Log.e("FastingTimeTag", "Error fetching fasting times", exception)
+  }
+}
+
+```
+
+#### Fetch Date Range Fasting Time
+```kotlin
+
+// Create a Calendar instance and set it to June 5, 2025
+val startCalendar = GregorianCalendar(2025, Calendar.JUNE, 25)
+// Convert the Calendar instance to a Date object
+val startDate = startCalendar.time
+
+// Create a Calendar instance and set it to July 7, 2025
+val endCalendar = GregorianCalendar(2025, Calendar.JULY, 7)
+// Convert the Calendar instance to a Date object
+val endDate = endCalendar.time
+
+prayerTimeManager.fetchFastingTimesForDateRange(
+  latitude = 33.4979105,
+  longitude = 73.0722461,
+  startDate = startDate,
+  endDate = endDate,
+  highLatitudeAdjustment = HighLatitudeAdjustment.NO_ADJUSTMENT,
+  prayerTimeConvention = PrayerTimeConvention.KARACHI,
+  timeFormat = TimeFormat.HOUR_12,
+  prayerManualCorrection = PrayerManualCorrection(),
+  prayerCustomAngle = PrayerCustomAngle()
+) { result ->
+  result.onSuccess { fastingItems ->
+    val dateFormatter = SimpleDateFormat("dd MMM, yyyy", Locale.getDefault())
+    fastingItems.forEach { fastingItem ->
+      val formattedDate = dateFormatter.format(Date(fastingItem.date))
+      Log.d("FastingTimeTag", "Date: $formattedDate")
+      Log.d("FastingTimeTag", "Sehri: ${fastingItem.sehriTime}, Iftar: ${fastingItem.iftaarTime}")
+    }
+  }.onFailure { exception ->
+    Log.e("FastingTimeTag", "Error fetching fasting times", exception)
+  }
+}
+
 ```
 
 ---

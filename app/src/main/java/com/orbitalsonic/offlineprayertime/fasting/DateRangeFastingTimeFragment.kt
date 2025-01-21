@@ -70,7 +70,7 @@ class DateRangeFastingTimeFragment : Fragment() {
         // Convert the Calendar instance to a Date object
         val startDate = startCalendar.time
 
-        // Create a Calendar instance and set it to August 7, 2025
+        // Create a Calendar instance and set it to July 7, 2025
         val endCalendar = GregorianCalendar(2025, Calendar.JULY, 7)
         // Convert the Calendar instance to a Date object
         val endDate = endCalendar.time

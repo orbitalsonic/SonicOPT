@@ -66,6 +66,7 @@ class DatePrayerTimeFragment : Fragment() {
         val calendar = GregorianCalendar(2025, Calendar.JUNE, 5)
         // Convert the Calendar instance to a Date object
         val date = calendar.time
+
         prayerTimeManager.fetchExactDatePrayerTimes(
             latitude = latitude,
             longitude = longitude,
