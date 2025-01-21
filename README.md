@@ -1,8 +1,5 @@
 [![](https://jitpack.io/v/orbitalsonic/SonicOPT.svg)](https://jitpack.io/#orbitalsonic/SonicOPT)
 
-
-> **⚠️ WARNING:** This library is currently under testing. Use it with caution as it may contain bugs or calculation error
-
 # SonicOPT (Offline Prayer Time)
 
 SonicOPT is a robust offline library for calculating precise Islamic prayer and fasting times. It offers daily, monthly, and yearly calculations with support for multiple conventions, high-latitude adjustments, Asr time methods, and customizable time formats, making it an essential tool for accurate scheduling.
