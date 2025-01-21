@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.orbitalsonic.offlineprayertime.databinding.FragmentDailyFastingTimeBinding
 import com.orbitalsonic.sonicopt.enums.HighLatitudeAdjustment
-import com.orbitalsonic.sonicopt.enums.AsrJuristicMethod
 import com.orbitalsonic.sonicopt.enums.PrayerTimeConvention
 import com.orbitalsonic.sonicopt.enums.TimeFormat
 import com.orbitalsonic.sonicopt.manager.PrayerTimeManager
@@ -69,7 +68,7 @@ class DateFastingTimeFragment : Fragment() {
         val calendar = GregorianCalendar(2025, Calendar.JUNE, 5)
         // Convert the Calendar instance to a Date object
         val date = calendar.time
-        prayerTimeManager.fetchExactDateFastingTimes(
+        prayerTimeManager.fetchSpecificDateFastingTimes(
             latitude = latitude,
             longitude = longitude,
             date = date,

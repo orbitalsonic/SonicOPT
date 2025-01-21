@@ -13,7 +13,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.sql.Time
 import java.util.Calendar
 import java.util.Date
 
@@ -183,7 +182,7 @@ class PrayerTimeManager {
      *   - `prayerCustomAngle`: Specifies custom angles for Fajr and Isha if the convention is CUSTOM.
      *   - `callback`: A callback to handle the success or failure of the operation.
      */
-    fun fetchExactDatePrayerTimes(
+    fun fetchSpecificDatePrayerTimes(
         latitude: Double,
         longitude: Double,
         date: Date,
@@ -450,7 +449,7 @@ class PrayerTimeManager {
      *   - `prayerCustomAngle`: Specifies custom angles for Fajr and Isha if the convention is CUSTOM.
      *   - `callback`: A callback to handle the success or failure of the operation.
      */
-    fun fetchExactDateFastingTimes(
+    fun fetchSpecificDateFastingTimes(
         latitude: Double,
         longitude: Double,
         date: Date,

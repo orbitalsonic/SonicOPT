@@ -67,7 +67,7 @@ class DatePrayerTimeFragment : Fragment() {
         // Convert the Calendar instance to a Date object
         val date = calendar.time
 
-        prayerTimeManager.fetchExactDatePrayerTimes(
+        prayerTimeManager.fetchSpecificDatePrayerTimes(
             latitude = latitude,
             longitude = longitude,
             date = date,
