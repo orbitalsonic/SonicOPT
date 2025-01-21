@@ -27,30 +27,49 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.btnDailyPrayerTime.setOnClickListener {
-            val action = HomeFragmentDirections.actionHomeFragmentToDailyPrayerTimeFragment()
-            navigateTo(R.id.homeFragment, action)
+        binding.apply {
+            btnDailyPrayerTime.setOnClickListener {
+                val action = HomeFragmentDirections.actionHomeFragmentToDailyPrayerTimeFragment()
+                navigateTo(R.id.homeFragment, action)
+            }
+            btnMonthlyPrayerTime.setOnClickListener {
+                val action = HomeFragmentDirections.actionHomeFragmentToMonthlyPrayerTimeFragment()
+                navigateTo(R.id.homeFragment, action)
+            }
+            btnYearlyPrayerTime.setOnClickListener {
+                val action = HomeFragmentDirections.actionHomeFragmentToYearlyPrayerTimeFragment()
+                navigateTo(R.id.homeFragment, action)
+            }
+            btnDatePrayerTime.setOnClickListener {
+                val action = HomeFragmentDirections.actionHomeFragmentToDatePrayerTimeFragment()
+                navigateTo(R.id.homeFragment, action)
+            }
+            btnDateRangePrayerTime.setOnClickListener {
+                val action = HomeFragmentDirections.actionHomeFragmentToDateRangePrayerTimeFragment()
+                navigateTo(R.id.homeFragment, action)
+            }
+            btnDailyFastingTime.setOnClickListener {
+                val action = HomeFragmentDirections.actionHomeFragmentToDailyFastingTimeFragment()
+                navigateTo(R.id.homeFragment, action)
+            }
+            btnMonthlyFastingTime.setOnClickListener {
+                val action = HomeFragmentDirections.actionHomeFragmentToMonthlyFastingTimeFragment()
+                navigateTo(R.id.homeFragment, action)
+            }
+            btnYearlyFastingTime.setOnClickListener {
+                val action = HomeFragmentDirections.actionHomeFragmentToYearlyFastingTimeFragment()
+                navigateTo(R.id.homeFragment, action)
+            }
+            btnDateFastingTime.setOnClickListener {
+                val action = HomeFragmentDirections.actionHomeFragmentToDateFastingTimeFragment()
+                navigateTo(R.id.homeFragment, action)
+            }
+            btnDateRangeFastingTime.setOnClickListener {
+                val action = HomeFragmentDirections.actionHomeFragmentToDateRangeFastingTimeFragment()
+                navigateTo(R.id.homeFragment, action)
+            }
         }
-        binding.btnMonthlyPrayerTime.setOnClickListener {
-            val action = HomeFragmentDirections.actionHomeFragmentToMonthlyPrayerTimeFragment()
-            navigateTo(R.id.homeFragment, action)
-        }
-        binding.btnYearlyPrayerTime.setOnClickListener {
-            val action = HomeFragmentDirections.actionHomeFragmentToYearlyPrayerTimeFragment()
-            navigateTo(R.id.homeFragment, action)
-        }
-        binding.btnDailyFastingTime.setOnClickListener {
-            val action = HomeFragmentDirections.actionHomeFragmentToDailyFastingTimeFragment()
-            navigateTo(R.id.homeFragment, action)
-        }
-        binding.btnMonthlyFastingTime.setOnClickListener {
-            val action = HomeFragmentDirections.actionHomeFragmentToMonthlyFastingTimeFragment()
-            navigateTo(R.id.homeFragment, action)
-        }
-        binding.btnYearlyFastingTime.setOnClickListener {
-            val action = HomeFragmentDirections.actionHomeFragmentToYearlyFastingTimeFragment()
-            navigateTo(R.id.homeFragment, action)
-        }
+
     }
 
     override fun onDestroyView() {

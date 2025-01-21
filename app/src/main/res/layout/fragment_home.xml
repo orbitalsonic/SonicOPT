@@ -29,6 +29,20 @@
         android:text="Yearly Prayer Time" />
 
     <Button
+        android:id="@+id/btn_date_prayer_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Exact Date Prayer Time" />
+
+    <Button
+        android:id="@+id/btn_date_range_prayer_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Date Range Prayer Time" />
+
+    <Button
         android:id="@+id/btn_daily_fasting_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -48,5 +62,19 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:text="Yearly Fasting Time" />
+
+    <Button
+        android:id="@+id/btn_date_fasting_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Exact Date Fasting Time" />
+
+    <Button
+        android:id="@+id/btn_date_range_fasting_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Date Range Fasting Time" />
 
 </LinearLayout>

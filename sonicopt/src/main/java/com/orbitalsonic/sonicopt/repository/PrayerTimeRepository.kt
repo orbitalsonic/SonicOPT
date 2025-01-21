@@ -152,6 +152,39 @@ internal class PrayerTimeRepository {
         }
     }
 
+    fun getDateRangePrayerTimes(
+        latitude: Double,
+        longitude: Double,
+        startDate: Date,
+        endDate: Date,
+        highLatitudeAdjustment: HighLatitudeAdjustment,
+        asrJuristicMethod: AsrJuristicMethod,
+        prayerTimeConvention: PrayerTimeConvention,
+        timeFormat: TimeFormat,
+        prayerManualCorrection: PrayerManualCorrection,
+        prayerCustomAngle: PrayerCustomAngle
+    ): List<PrayerItem> {
+        initializeParameters(
+            latitude,
+            longitude,
+            highLatitudeAdjustment,
+            asrJuristicMethod,
+            prayerTimeConvention,
+            timeFormat,
+            prayerManualCorrection,
+            prayerCustomAngle
+        )
+        val calendar = Calendar.getInstance()
+        calendar.time = startDate
+        val result = mutableListOf<PrayerItem>()
+
+        while (!calendar.time.after(endDate)) {
+            result.add(calculatePrayerTimesForDate(calendar.time))
+            calendar.add(Calendar.DATE, 1)
+        }
+        return result
+    }
+
     private fun initializeParameters(
         mLatitude: Double,
         mLongitude: Double,

@@ -31,6 +31,22 @@
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
+
+        <action
+            android:id="@+id/action_homeFragment_to_dateFastingTimeFragment"
+            app:destination="@id/dateFastingTimeFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+
+        <action
+            android:id="@+id/action_homeFragment_to_dateRangeFastingTimeFragment"
+            app:destination="@id/dateRangeFastingTimeFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
         <action
             android:id="@+id/action_homeFragment_to_dailyPrayerTimeFragment"
             app:destination="@id/dailyPrayerTimeFragment"
@@ -52,6 +68,22 @@
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
+
+        <action
+            android:id="@+id/action_homeFragment_to_datePrayerTimeFragment"
+            app:destination="@id/datePrayerTimeFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+
+        <action
+            android:id="@+id/action_homeFragment_to_dateRangePrayerTimeFragment"
+            app:destination="@id/dateRangePrayerTimeFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
     <fragment
         android:id="@+id/dailyFastingTimeFragment"
@@ -69,6 +101,16 @@
         android:label="Yearly Fasting Time"
         tools:layout="@layout/fragment_yearly_fasting_time"/>
     <fragment
+        android:id="@+id/dateFastingTimeFragment"
+        android:name="com.orbitalsonic.offlineprayertime.fasting.DateFastingTimeFragment"
+        android:label="Exact Date Fasting Time"
+        tools:layout="@layout/fragment_date_fasting_time"/>
+    <fragment
+        android:id="@+id/dateRangeFastingTimeFragment"
+        android:name="com.orbitalsonic.offlineprayertime.fasting.DateRangeFastingTimeFragment"
+        android:label="Date Range Fasting Time"
+        tools:layout="@layout/fragment_date_range_fasting_time"/>
+    <fragment
         android:id="@+id/dailyPrayerTimeFragment"
         android:name="com.orbitalsonic.offlineprayertime.prayer.DailyPrayerTimeFragment"
         android:label="Daily Prayer Time"
@@ -83,5 +125,17 @@
         android:name="com.orbitalsonic.offlineprayertime.prayer.YearlyPrayerTimeFragment"
         android:label="Yearly Prayer Time"
         tools:layout="@layout/fragment_yearly_prayer_time"/>
+
+    <fragment
+        android:id="@+id/datePrayerTimeFragment"
+        android:name="com.orbitalsonic.offlineprayertime.prayer.DatePrayerTimeFragment"
+        android:label="Date Prayer Time"
+        tools:layout="@layout/fragment_date_prayer_time"/>
+
+    <fragment
+        android:id="@+id/dateRangePrayerTimeFragment"
+        android:name="com.orbitalsonic.offlineprayertime.prayer.DateRangePrayerTimeFragment"
+        android:label="Date Range Prayer Time"
+        tools:layout="@layout/fragment_date_range_prayer_time"/>
 
 </navigation>
