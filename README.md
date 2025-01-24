@@ -425,12 +425,10 @@ data class PrayerItem(
  *
  * @property prayerName Name of the prayer (e.g., Fajr, Dhuhr, etc.).
  * @property prayerTime Formatted time of the prayer.
- * @property isCurrentPrayer Indicates if this is the currently active prayer.
  */
 data class PrayerTimes(
     var prayerName: String,
     var prayerTime: String,
-    var isCurrentPrayer: Boolean = false
 )
 ```
 
