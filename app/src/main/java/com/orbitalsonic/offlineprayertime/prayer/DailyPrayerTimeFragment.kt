@@ -66,7 +66,7 @@ class DailyPrayerTimeFragment : Fragment() {
             asrJuristicMethod = AsrJuristicMethod.HANAFI,
             prayerTimeConvention = PrayerTimeConvention.KARACHI,
             timeFormat = TimeFormat.HOUR_12,
-            prayerManualCorrection = PrayerManualCorrection(fajrMinute = 0, zuhrMinute = 0, asrMinute = 0, maghribMinute = 0, ishaMinute = 2),
+            prayerManualCorrection = PrayerManualCorrection(fajrMinute = 0, zuhrMinute = 0, asrMinute = 0, maghribMinute = 0, ishaMinute = 0),
             prayerCustomAngle = PrayerCustomAngle(fajrAngle = 9.0, ishaAngle = 14.0)
         ) { result ->
             result.onSuccess { prayerItem ->
