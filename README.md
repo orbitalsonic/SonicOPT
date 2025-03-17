@@ -421,14 +421,16 @@ data class PrayerItem(
 #### PrayerTimes
 ```kotlin
 /**
- * Represents an individual prayer.
+ * Represents the details of an individual prayer time.
  *
- * @property prayerName Name of the prayer (e.g., Fajr, Dhuhr, etc.).
- * @property prayerTime Formatted time of the prayer.
+ * @property prayerName The name of the prayer (e.g., Fajr, Dhuhr, Asr, Maghrib, Isha).
+ * @property prayerTime The time of the prayer as a string, formatted based on user preferences.
+ * @property prayerTimeMillis The time of the prayer in milliseconds.
  */
 data class PrayerTimes(
-    var prayerName: String,
-    var prayerTime: String,
+  var prayerName: String,
+  var prayerTime: String,
+  var prayerTimeMillis: Long
 )
 ```
 
@@ -475,16 +477,20 @@ data class PrayerCustomAngle(
 #### FastingItem
 ```kotlin
 /**
- * Represents fasting times for a specific day.
+ * Represents fasting times for a specific day, including Sehri and Iftaar times.
  *
- * @property date Date of the fasting times in milliseconds.
- * @property sehriTime Time for Sehri (pre-dawn meal).
- * @property iftaarTime Time for Iftar (breaking the fast).
+ * @property date The date of the fasting times in milliseconds since epoch.
+ * @property sehriTime The time for Sehri (pre-dawn meal), equivalent to the Fajr prayer time.
+ * @property sehriTimeMillis The time for Sehri (pre-dawn meal), equivalent to the Fajr prayer time.
+ * @property iftaarTime The time for Iftaar (breaking the fast), equivalent to the Maghrib prayer time.
+ * @property iftaarTimeMillis The time for Iftaar (breaking the fast), equivalent to the Maghrib prayer time.
  */
 data class FastingItem(
-    var date: Long,
-    val sehriTime: String,
-    val iftaarTime: String
+  var date: Long,
+  val sehriTime: String,
+  val sehriTimeMillis: Long,
+  val iftaarTime: String,
+  val iftaarTimeMillis: Long
 )
 ```
 ---

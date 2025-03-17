@@ -657,15 +657,19 @@ class PrayerTimeManager {
      * - **Iftar**: Corresponds to the Maghrib prayer time.
      */
     private fun extractFastingTimes(prayerItem: PrayerItem): FastingItem {
-        val fajrTime =
-            prayerItem.prayerList.firstOrNull { it.prayerName == "Fajr" }?.prayerTime ?: "--:--"
-        val maghribTime =
-            prayerItem.prayerList.firstOrNull { it.prayerName == "Maghrib" }?.prayerTime ?: "--:--"
+        val fajrTime = prayerItem.prayerList.firstOrNull { it.prayerName == "Fajr" }?.prayerTime ?: "--:--"
+        val fajrTimeMillis: Long = prayerItem.prayerList.firstOrNull { it.prayerName == "Fajr" }?.prayerTimeMillis ?: -1L
+
+        val maghribTime = prayerItem.prayerList.firstOrNull { it.prayerName == "Maghrib" }?.prayerTime ?: "--:--"
+        val maghribTimeMillis: Long = prayerItem.prayerList.firstOrNull { it.prayerName == "Maghrib" }?.prayerTimeMillis ?: -1L
+
 
         return FastingItem(
             date = prayerItem.date,
             sehriTime = fajrTime,
-            iftaarTime = maghribTime
+            sehriTimeMillis = fajrTimeMillis,
+            iftaarTime = maghribTime,
+            iftaarTimeMillis = maghribTimeMillis
         )
     }
 }

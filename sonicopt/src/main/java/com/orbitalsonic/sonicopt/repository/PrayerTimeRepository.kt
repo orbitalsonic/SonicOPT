@@ -20,6 +20,7 @@ import com.orbitalsonic.sonicopt.utils.calculateAsrTime
 import com.orbitalsonic.sonicopt.utils.calculateMidDay
 import com.orbitalsonic.sonicopt.utils.calculateTimeDifference
 import com.orbitalsonic.sonicopt.utils.calculateTimeForAngle
+import com.orbitalsonic.sonicopt.utils.convertDecimalHourToMillis
 import com.orbitalsonic.sonicopt.utils.convertTo12HourFormat
 import com.orbitalsonic.sonicopt.utils.convertTo12HourFormatNoSuffix
 import com.orbitalsonic.sonicopt.utils.convertTo24HourFormat
@@ -394,14 +395,17 @@ internal class PrayerTimeRepository {
 
     private fun formatPrayerTimes(times: DoubleArray): List<PrayerTimes> {
         return prayerNames.mapIndexed { index, name ->
+            val decimalHour = times[index]
+            val millis = convertDecimalHourToMillis(decimalHour)
             PrayerTimes(
-                name,
-                when (timeFormat) {
-                    TimeFormat.HOUR_12 -> convertTo12HourFormat(times[index])
-                    TimeFormat.HOUR_12_NS -> convertTo12HourFormatNoSuffix(times[index])
-                    TimeFormat.HOUR_24 -> convertTo24HourFormat(times[index])
-                    TimeFormat.FLOATING -> convertToFloatingFormat(times[index])
-                }
+                prayerName = name,
+                prayerTime = when (timeFormat) {
+                    TimeFormat.HOUR_12 -> convertTo12HourFormat(decimalHour)
+                    TimeFormat.HOUR_12_NS -> convertTo12HourFormatNoSuffix(decimalHour)
+                    TimeFormat.HOUR_24 -> convertTo24HourFormat(decimalHour)
+                    TimeFormat.FLOATING -> convertToFloatingFormat(decimalHour)
+                },
+                prayerTimeMillis = millis
             )
         }
     }

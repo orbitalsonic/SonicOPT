@@ -1,6 +1,7 @@
 package com.orbitalsonic.sonicopt.utils
 
 import android.util.Log
+import java.util.Calendar
 import java.util.Date
 import java.util.TimeZone
 import kotlin.math.floor
@@ -132,6 +133,20 @@ internal fun convertToFloatingFormat(time: Double): String {
         Log.e("PrayerTime", "Error in convertToFloatingFormat: $e", e)
         "Invalid Time"
     }
+}
+ fun convertDecimalHourToMillis(decimalHour: Double): Long {
+    val hour = decimalHour.toInt()
+    val minute = ((decimalHour - hour) * 60).toInt()
+    val second = (((decimalHour - hour) * 60 - minute) * 60).toInt()
+
+    val calendar = Calendar.getInstance().apply {
+        set(Calendar.HOUR_OF_DAY, hour)
+        set(Calendar.MINUTE, minute)
+        set(Calendar.SECOND, second)
+        set(Calendar.MILLISECOND, 0)
+    }
+
+    return calendar.timeInMillis
 }
 
 
